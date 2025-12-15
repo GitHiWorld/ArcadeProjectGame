@@ -5,3 +5,4 @@ import random
 
 class Game(arcade.Window):
     pass
+
