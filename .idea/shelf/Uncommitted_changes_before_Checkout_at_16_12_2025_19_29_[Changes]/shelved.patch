@@ -1,0 +1,299 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1765902523632)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch	(date 1765902523632)
+@@ -0,0 +1,119 @@
++Index: main.py
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>import arcade\r\nimport math\r\nimport random\r\n\r\n\r\nWIDTH = 1300\r\nHEIGHT = 900\r\nTITLE = 'Wyvern: The Path to the Crown of Heaven'\r\n\r\n\r\nclass Start_menu(arcade.Window):\r\n    def __init__(self, width, height, title):\r\n        size = arcade.get_display_size()\r\n\r\n        if isinstance(size, tuple):\r\n            self.w = size[0]\r\n            self.h = size[1]\r\n\r\n        super().__init__(width, height, title, fullscreen=True)\r\n\r\n        self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')\r\n        arcade.load_font('C:/Users/User/PycharmProjects/project_game/fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')\r\n        self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')\r\n\r\n        arcade.play_sound(self.background_sound, loop=True, volume=0.6)\r\n\r\n        self.parcticles = []\r\n        for i in range(350):\r\n            self.parcticles.append({\r\n                'x': random.uniform(0, self.w),\r\n                'y': random.uniform(0, self.h),\r\n                'size': random.uniform(2, 8),\r\n                'speed': random.uniform(5.5, 10.5),\r\n                'color': random.choice([\r\n                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)\r\n                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый\r\n                    (255, 160, 122, random.randint(60, 200)),  # Светло-коралловый\r\n                    (255, 218, 185, random.randint(60, 200)),  # Персиковый\r\n                    (240, 230, 140, random.randint(60, 200))\r\n                ]),\r\n                'side_speed': random.uniform(-4, 4),\r\n                'rotation': random.uniform(0,360),\r\n                'rot_speed': random.uniform(-10, 10)\r\n            }\r\n            )\r\n\r\n        self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8, arcade.color.APRICOT,\r\n                         font_size=46, font_name=\"Comic Sans MS pixel rus eng\", anchor_x='center', anchor_y='top')\r\n\r\n    def on_update(self, delta_time):\r\n        for i in self.parcticles:\r\n            i['y'] -= i['speed'] * delta_time\r\n            i['x'] += i['side_speed'] * delta_time\r\n            i['rotation'] += i['rot_speed'] * delta_time\r\n\r\n            if i['y'] <= 0:\r\n                i['y'] = self.h + 10\r\n            if i['x'] <= -10:\r\n                i['x'] = self.w + 10\r\n            elif i['x'] >= self.w + 10:\r\n                i['x'] = -10\r\n\r\n    def on_draw(self):\r\n        arcade.draw_texture_rect(self.texture, arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))\r\n        # arcade.draw_texture_rect(self.texture_title, arcade.XYWH(self.w // 2, self.h - 30, self.w // 1.1, self.h // 3.2))\r\n\r\n        self.text_main.draw()\r\n\r\n        for i in self.parcticles:\r\n            arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])\r\n\r\n\r\n\r\ndef main():\r\n    game = Start_menu(WIDTH, HEIGHT, TITLE)\r\n    arcade.run()\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/main.py b/main.py
++--- a/main.py	(revision abf55ba21c22cde7b681e35119931c931c61fb5a)
+++++ b/main.py	(date 1765894773819)
++@@ -6,20 +6,20 @@
++ WIDTH = 1300
++ HEIGHT = 900
++ TITLE = 'Wyvern: The Path to the Crown of Heaven'
++-
+++size = arcade.get_display_size()
++ 
++ class Start_menu(arcade.Window):
++     def __init__(self, width, height, title):
++-        size = arcade.get_display_size()
+++
++ 
++         if isinstance(size, tuple):
++             self.w = size[0]
++             self.h = size[1]
++ 
++-        super().__init__(width, height, title, fullscreen=True)
+++        super().__init__(self.w, self.h, title, fullscreen=True)
++ 
++         self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')
++-        arcade.load_font('C:/Users/User/PycharmProjects/project_game/fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+++        arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
++         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
++ 
++         arcade.play_sound(self.background_sound, loop=True, volume=0.6)
++Index: .idea/workspace.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"добавлены частицы листьев на главный экран, шрифт не работает\">\r\n      <change afterPath=\"$PROJECT_DIR$/tests 2.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/tests.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;GitHiWorld&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,\r\n    &quot;accountId&quot;: &quot;b10784f0-31da-485d-a5ff-6e60b6c34a20&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"36svGOEkryzrDuA0DSJU1z3LPsA\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Python.main.executor\": \"Run\",\r\n    \"Python.tests 2.executor\": \"Run\",\r\n    \"Python.tests.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"settings.editor.selected.configurable\": \"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"Python.main\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"tests 2\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests 2.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"tests\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.main\" />\r\n        <item itemvalue=\"Python.tests\" />\r\n        <item itemvalue=\"Python.tests 2\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"\" />\r\n      <created>1765807996815</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1765807996815</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"начальный фон, картинка к нему\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765823297803</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765823297803</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"добавлена загрузка шрифта, не раб. версия\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765826053046</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765826053046</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"добавлены частицы листьев на главный экран, шрифт не работает\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765892266377</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765892266377</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"master\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add main\" />\r\n    <MESSAGE value=\"начальный фон, картинка к нему\" />\r\n    <MESSAGE value=\"добавлена загрузка шрифта, не раб. версия\" />\r\n    <MESSAGE value=\"добавлены частицы листьев на главный экран, шрифт не работает\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"добавлены частицы листьев на главный экран, шрифт не работает\" />\r\n  </component>\r\n</project>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/workspace.xml b/.idea/workspace.xml
++--- a/.idea/workspace.xml	(revision abf55ba21c22cde7b681e35119931c931c61fb5a)
+++++ b/.idea/workspace.xml	(date 1765894841474)
++@@ -5,8 +5,7 @@
++   </component>
++   <component name="ChangeListManager">
++     <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="добавлены частицы листьев на главный экран, шрифт не работает">
++-      <change afterPath="$PROJECT_DIR$/tests 2.py" afterDir="false" />
++-      <change afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
+++      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
++       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
++     </list>
++@@ -25,7 +24,7 @@
++   <component name="Git.Settings">
++     <option name="RECENT_BRANCH_BY_REPOSITORY">
++       <map>
++-        <entry key="$PROJECT_DIR$" value="main" />
+++        <entry key="$PROJECT_DIR$" value="abf55ba21c22cde7b681e35119931c931c61fb5a" />
++       </map>
++     </option>
++     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++@@ -46,7 +45,7 @@
++   &quot;associatedIndex&quot;: 8
++ }</component>
++   <component name="ProjectId" id="36svGOEkryzrDuA0DSJU1z3LPsA" />
++-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+++  <component name="ProjectLevelVcsManager">
++     <ConfirmationsSetting value="2" id="Add" />
++   </component>
++   <component name="ProjectViewState">
++@@ -55,11 +54,11 @@
++   </component>
++   <component name="PropertiesComponent"><![CDATA[{
++   "keyToString": {
++-    "Python.main.executor": "Run",
+++    "Python.main.executor": "Debug",
++     "Python.tests 2.executor": "Run",
++     "Python.tests.executor": "Run",
++     "RunOnceActivity.ShowReadmeOnStart": "true",
++-    "git-widget-placeholder": "main",
+++    "git-widget-placeholder": "abf55ba2",
++     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
++   }
++ }]]></component>
++@@ -133,8 +132,10 @@
++     <recent_temporary>
++       <list>
++         <item itemvalue="Python.main" />
++-        <item itemvalue="Python.tests" />
++         <item itemvalue="Python.tests 2" />
+++        <item itemvalue="Python.tests" />
+++        <item itemvalue="Python.main" />
+++        <item itemvalue="Python.tests" />
++       </list>
++     </recent_temporary>
++   </component>
++Index: .idea/PythonProjectGametool.iml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.12 (project_game)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/PythonProjectGametool.iml b/.idea/PythonProjectGametool.iml
++--- a/.idea/PythonProjectGametool.iml	(revision abf55ba21c22cde7b681e35119931c931c61fb5a)
+++++ b/.idea/PythonProjectGametool.iml	(date 1765894049982)
++@@ -4,7 +4,7 @@
++     <content url="file://$MODULE_DIR$">
++       <excludeFolder url="file://$MODULE_DIR$/.venv" />
++     </content>
++-    <orderEntry type="jdk" jdkName="Python 3.12 (project_game)" jdkType="Python SDK" />
+++    <orderEntry type="jdk" jdkName="Python 3.11 (PythonProjectGametool)" jdkType="Python SDK" />
++     <orderEntry type="sourceFolder" forTests="false" />
++   </component>
++ </module>
++\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"шрифт работает + звук\">\r\n      <change afterPath=\"$PROJECT_DIR$/images/backgrounds/title.jpg\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/tests 2.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/tests.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;GitHiWorld&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,\r\n    &quot;accountId&quot;: &quot;b10784f0-31da-485d-a5ff-6e60b6c34a20&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"36svGOEkryzrDuA0DSJU1z3LPsA\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Python.main.executor\": \"Run\",\r\n    \"Python.tests 2.executor\": \"Run\",\r\n    \"Python.tests.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"settings.editor.selected.configurable\": \"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"Python.main\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"tests 2\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests 2.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"tests\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PythonProjectGametool\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.main\" />\r\n        <item itemvalue=\"Python.tests\" />\r\n        <item itemvalue=\"Python.tests 2\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"\" />\r\n      <created>1765807996815</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1765807996815</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"начальный фон, картинка к нему\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765823297803</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765823297803</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"добавлена загрузка шрифта, не раб. версия\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765826053046</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765826053046</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"добавлены частицы листьев на главный экран, шрифт не работает\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765892266377</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765892266377</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"шрифт работает + звук\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1765893902798</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1765893902798</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"master\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add main\" />\r\n    <MESSAGE value=\"начальный фон, картинка к нему\" />\r\n    <MESSAGE value=\"добавлена загрузка шрифта, не раб. версия\" />\r\n    <MESSAGE value=\"добавлены частицы листьев на главный экран, шрифт не работает\" />\r\n    <MESSAGE value=\"шрифт работает + звук\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"шрифт работает + звук\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 83748b03d12053f76778c8c31365d532b58c59d7)
++++ b/.idea/workspace.xml	(date 1765902548168)
+@@ -53,16 +53,16 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Python.main.executor": "Run",
+-    "Python.tests 2.executor": "Run",
+-    "Python.tests.executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Python.main.executor&quot;: &quot;Run&quot;,
++    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
++    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RunManager" selected="Python.main">
+     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="PythonProjectGametool" />
+Index: .idea/PythonProjectGametool.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.12 (project_game)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/PythonProjectGametool.iml b/.idea/PythonProjectGametool.iml
+--- a/.idea/PythonProjectGametool.iml	(revision 83748b03d12053f76778c8c31365d532b58c59d7)
++++ b/.idea/PythonProjectGametool.iml	(date 1765902548167)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.12 (project_game)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.11 (PythonProjectGametool)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1765902523602)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07__Changes_.xml	(date 1765902523602)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]" date="1765894022420" recycled="false" toDelete="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 16.12.2025 17:07 [Changes]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1765902523606)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch	(date 1765902523606)
+@@ -0,0 +1,72 @@
++Index: .idea/workspace.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\"><![CDATA[{\r\n  \"lastFilter\": {\r\n    \"state\": \"OPEN\",\r\n    \"assignee\": \"GitHiWorld\"\r\n  }\r\n}]]></component>\r\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\r\n  \"selectedUrlAndAccountId\": {\r\n    \"url\": \"https://github.com/GitHiWorld/ArcadeProjectGame.git\",\r\n    \"accountId\": \"b10784f0-31da-485d-a5ff-6e60b6c34a20\"\r\n  }\r\n}]]></component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"36svGOEkryzrDuA0DSJU1z3LPsA\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"settings.editor.selected.configurable\": \"com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0c653048-538d-4f7d-b351-787cf8246c37\" name=\"Changes\" comment=\"\" />\r\n      <created>1765807996815</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1765807996815</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"master\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add main\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"add main\" />\r\n  </component>\r\n</project>
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/workspace.xml b/.idea/workspace.xml
++--- a/.idea/workspace.xml	(revision 20928b08582f7a8569a94f203cb5ba0239d6aff9)
+++++ b/.idea/workspace.xml	(date 1765815667857)
++@@ -4,9 +4,8 @@
++     <option name="autoReloadType" value="SELECTIVE" />
++   </component>
++   <component name="ChangeListManager">
++-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="">
+++    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="add class">
++       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
++     </list>
++     <option name="SHOW_DIALOG" value="false" />
++     <option name="HIGHLIGHT_CONFLICTS" value="true" />
++@@ -70,6 +69,31 @@
++       <option name="presentableId" value="Default" />
++       <updated>1765807996815</updated>
++     </task>
+++    <task id="LOCAL-00001" summary="add class">
+++      <option name="closed" value="true" />
+++      <created>1765808654172</created>
+++      <option name="number" value="00001" />
+++      <option name="presentableId" value="LOCAL-00001" />
+++      <option name="project" value="LOCAL" />
+++      <updated>1765808654172</updated>
+++    </task>
+++    <task id="LOCAL-00002" summary="add class">
+++      <option name="closed" value="true" />
+++      <created>1765808760862</created>
+++      <option name="number" value="00002" />
+++      <option name="presentableId" value="LOCAL-00002" />
+++      <option name="project" value="LOCAL" />
+++      <updated>1765808760862</updated>
+++    </task>
+++    <task id="LOCAL-00003" summary="add class">
+++      <option name="closed" value="true" />
+++      <created>1765808805694</created>
+++      <option name="number" value="00003" />
+++      <option name="presentableId" value="LOCAL-00003" />
+++      <option name="project" value="LOCAL" />
+++      <updated>1765808805694</updated>
+++    </task>
+++    <option name="localTasksCounter" value="4" />
++     <servers />
++   </component>
++   <component name="Vcs.Log.Tabs.Properties">
++@@ -83,7 +107,7 @@
++                   <entry key="branch">
++                     <value>
++                       <list>
++-                        <option value="master" />
+++                        <option value="origin/main" />
++                       </list>
++                     </value>
++                   </entry>
++@@ -97,6 +121,7 @@
++   </component>
++   <component name="VcsManagerConfiguration">
++     <MESSAGE value="add main" />
++-    <option name="LAST_COMMIT_MESSAGE" value="add main" />
+++    <MESSAGE value="add class" />
+++    <option name="LAST_COMMIT_MESSAGE" value="add class" />
++   </component>
++ </project>
++\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1765902523612)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23__Changes_.xml	(date 1765902523612)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]" date="1765894985991" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 16.12.2025 17:23 [Changes]" />
++</changelist>
+\ No newline at end of file
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]1/shelved.patch
+new file mode 100644

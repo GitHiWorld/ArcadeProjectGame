@@ -19,7 +19,7 @@ class Start_menu(arcade.Window):
 
         super().__init__(self.w, self.h, title, fullscreen=False, resizable=True)
 
-        self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')
+        self.texture = arcade.load_texture('images/backgrounds/start_menu.jpeg')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
@@ -55,7 +55,6 @@ class Start_menu(arcade.Window):
         self.w = width
         self.h = height
 
-        # Обновляем позицию текста
         self.text_main.x = self.w // 2
         self.text_main.y = self.h * 0.8
 
