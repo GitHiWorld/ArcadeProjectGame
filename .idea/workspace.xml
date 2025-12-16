@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="шрифт работает + звук">
-      <change afterPath="$PROJECT_DIR$/images/backgrounds/title.jpg" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="тестовые изменения размеров">
       <change afterPath="$PROJECT_DIR$/tests 2.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/backgrounds/start_menu.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/start_menu.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +61,7 @@
     "Python.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RunManager" selected="Python.main">
@@ -185,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765893902798</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="тестовые изменения размеров">
+      <option name="closed" value="true" />
+      <created>1765894675825</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765894675825</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -217,6 +226,7 @@
     <MESSAGE value="добавлена загрузка шрифта, не раб. версия" />
     <MESSAGE value="добавлены частицы листьев на главный экран, шрифт не работает" />
     <MESSAGE value="шрифт работает + звук" />
-    <option name="LAST_COMMIT_MESSAGE" value="шрифт работает + звук" />
+    <MESSAGE value="тестовые изменения размеров" />
+    <option name="LAST_COMMIT_MESSAGE" value="тестовые изменения размеров" />
   </component>
 </project>
