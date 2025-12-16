@@ -10,10 +10,12 @@ TITLE = 'Wyvern: The Path to the Crown of Heaven'
 class Start_menu(arcade.Window):
     def __init__(self, width, height, title):
         size = arcade.get_display_size()
+        screen_extension4k = 16
 
         if isinstance(size, tuple):
             self.w = size[0]
             self.h = size[1]
+
 
         super().__init__(self.w, self.h, title, fullscreen=True, resizable=True)
 
@@ -45,7 +47,12 @@ class Start_menu(arcade.Window):
 
         self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
                                      (255, 241, 210),
-                                     font_size=(self.w / 100 * (self.w / (39*50))) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
+                                     font_size=23.5 * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
+                                     anchor_y='top')
+        if self.w == 3840:
+            self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
+                                     (255, 241, 210),
+                                     font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
     def on_resize(self, width: int, height: int):
