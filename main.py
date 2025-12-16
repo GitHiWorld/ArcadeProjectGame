@@ -19,7 +19,10 @@ class Start_menu(arcade.Window):
         super().__init__(width, height, title, fullscreen=True)
 
         self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')
-        arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+        arcade.load_font('C:/Users/User/PycharmProjects/project_game/fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+        self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
+
+        arcade.play_sound(self.background_sound, loop=True, volume=0.6)
 
         self.parcticles = []
         for i in range(350):
@@ -29,11 +32,11 @@ class Start_menu(arcade.Window):
                 'size': random.uniform(2, 8),
                 'speed': random.uniform(5.5, 10.5),
                 'color': random.choice([
-                    (255, 192, 203, 150),  # Розовый (лепестки сакуры)
-                    (255, 182, 193, 150),  # Светло-розовый
-                    (255, 160, 122, 150),  # Светло-коралловый
-                    (255, 218, 185, 150),  # Персиковый
-                    (240, 230, 140, 150)
+                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
+                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
+                    (255, 160, 122, random.randint(60, 200)),  # Светло-коралловый
+                    (255, 218, 185, random.randint(60, 200)),  # Персиковый
+                    (240, 230, 140, random.randint(60, 200))
                 ]),
                 'side_speed': random.uniform(-4, 4),
                 'rotation': random.uniform(0,360),
@@ -42,7 +45,7 @@ class Start_menu(arcade.Window):
             )
 
         self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8, arcade.color.APRICOT,
-                         font_size=38, font_name="Comic Sans MS Pixel.ttf", anchor_x='center', anchor_y='top')
+                         font_size=46, font_name="Comic Sans MS pixel rus eng", anchor_x='center', anchor_y='top')
 
     def on_update(self, delta_time):
         for i in self.parcticles:
