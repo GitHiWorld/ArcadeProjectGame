@@ -2,24 +2,25 @@ import arcade
 import math
 import random
 
-
-WIDTH = 1300
-HEIGHT = 900
+WIDTH = 1
+HEIGHT = 1
 TITLE = 'Wyvern: The Path to the Crown of Heaven'
 
 
 class Start_menu(arcade.Window):
-    def __init__(self):
+    def __init__(self, width, height, title):
         size = arcade.get_display_size()
 
         if isinstance(size, tuple):
             self.w = size[0]
+            print(size[0])
             self.h = size[1]
+            print(size[1])
 
-        super().__init__(self.w, self.h, TITLE, fullscreen=True)
+        super().__init__(self.w, self.h, title, fullscreen=False, resizable=True)
 
         self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')
-        arcade.load_font('C:/Users/User/PycharmProjects/project_game/fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+        arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
         arcade.play_sound(self.background_sound, loop=True, volume=0.6)
@@ -39,13 +40,24 @@ class Start_menu(arcade.Window):
                     (240, 230, 140, random.randint(60, 200))
                 ]),
                 'side_speed': random.uniform(-4, 4),
-                'rotation': random.uniform(0,360),
+                'rotation': random.uniform(0, 360),
                 'rot_speed': random.uniform(-10, 10)
             }
             )
 
-        self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8, arcade.color.APRICOT,
-                         font_size=46, font_name="Comic Sans MS pixel rus eng", anchor_x='center', anchor_y='top')
+        self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
+                                     arcade.color.APRICOT,
+                                     font_size=46, font_name="Comic Sans MS pixel rus eng", anchor_x='center',
+                                     anchor_y='top')
+
+    def on_resize(self, width: int, height: int):
+        super().on_resize(width, height)
+        self.w = width
+        self.h = height
+
+        # Обновляем позицию текста
+        self.text_main.x = self.w // 2
+        self.text_main.y = self.h * 0.8
 
     def on_update(self, delta_time):
         for i in self.parcticles:
@@ -61,8 +73,8 @@ class Start_menu(arcade.Window):
                 i['x'] = -10
 
     def on_draw(self):
-        arcade.draw_texture_rect(self.texture, arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))
-        # arcade.draw_texture_rect(self.texture_title, arcade.XYWH(self.w // 2, self.h - 30, self.w // 1.1, self.h // 3.2))
+        arcade.draw_texture_rect(self.texture,
+                                 arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))
 
         self.text_main.draw()
 
@@ -70,9 +82,8 @@ class Start_menu(arcade.Window):
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
 
-
 def main():
-    game = Start_menu()
+    game = Start_menu(WIDTH, HEIGHT, TITLE)
     arcade.run()
 
 
