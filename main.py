@@ -44,8 +44,8 @@ class Start_menu(arcade.Window):
             )
 
         self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
-                                     arcade.color.APRICOT,
-                                     font_size=46, font_name="Comic Sans MS pixel rus eng", anchor_x='center',
+                                     (255, 241, 210),
+                                     font_size=(self.w / 100 * (self.w / (39*50))) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
     def on_resize(self, width: int, height: int):
