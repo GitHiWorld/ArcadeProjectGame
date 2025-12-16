@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="шрифт работает + звук">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_07__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2025_17_23__Changes_.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="половина фикса с разными расширениями + улутшеная картинка*">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/backgrounds/start_menu.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/start_menu.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="83748b03d12053f76778c8c31365d532b58c59d7" />
+        <entry key="$PROJECT_DIR$" value="474119ba3ffe32edc749ae7deac9063c9c89591d" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,7 +58,8 @@
     "Python.tests 2.executor": "Run",
     "Python.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "e40b857a",
+    "git-widget-placeholder": "474119ba",
+    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -139,7 +136,7 @@
         <item itemvalue="Python.tests 2" />
         <item itemvalue="Python.tests" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.tests" />
+        <item itemvalue="Python.tests 2" />
       </list>
     </recent_temporary>
   </component>
@@ -190,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765893902798</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="половина фикса с разными расширениями + улутшеная картинка*">
+      <option name="closed" value="true" />
+      <created>1765903145978</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765903145979</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -222,6 +227,7 @@
     <MESSAGE value="добавлена загрузка шрифта, не раб. версия" />
     <MESSAGE value="добавлены частицы листьев на главный экран, шрифт не работает" />
     <MESSAGE value="шрифт работает + звук" />
-    <option name="LAST_COMMIT_MESSAGE" value="шрифт работает + звук" />
+    <MESSAGE value="половина фикса с разными расширениями + улутшеная картинка*" />
+    <option name="LAST_COMMIT_MESSAGE" value="половина фикса с разными расширениями + улутшеная картинка*" />
   </component>
 </project>

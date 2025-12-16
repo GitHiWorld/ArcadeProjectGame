@@ -13,17 +13,15 @@ class Start_menu(arcade.Window):
 
         if isinstance(size, tuple):
             self.w = size[0]
-            print(size[0])
             self.h = size[1]
-            print(size[1])
 
-        super().__init__(self.w, self.h, title, fullscreen=False, resizable=True)
+        super().__init__(self.w, self.h, title, fullscreen=True, resizable=True)
 
         self.texture = arcade.load_texture('images/backgrounds/start_menu.jpeg')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0.6)
+        arcade.play_sound(self.background_sound, loop=True, volume=0.2)
 
         self.parcticles = []
         for i in range(350):
