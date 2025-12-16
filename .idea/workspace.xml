@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="начальный фон, картинка к нему">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="добавлена загрузка шрифта, не раб. версия">
       <change afterPath="$PROJECT_DIR$/tests 2.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -161,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765823297803</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="добавлена загрузка шрифта, не раб. версия">
+      <option name="closed" value="true" />
+      <created>1765826053046</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765826053046</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,6 +198,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add main" />
     <MESSAGE value="начальный фон, картинка к нему" />
-    <option name="LAST_COMMIT_MESSAGE" value="начальный фон, картинка к нему" />
+    <MESSAGE value="добавлена загрузка шрифта, не раб. версия" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавлена загрузка шрифта, не раб. версия" />
   </component>
 </project>
