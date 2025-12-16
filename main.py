@@ -9,14 +9,14 @@ TITLE = 'Wyvern: The Path to the Crown of Heaven'
 
 
 class Start_menu(arcade.Window):
-    def __init__(self, width, height, title):
+    def __init__(self):
         size = arcade.get_display_size()
 
         if isinstance(size, tuple):
             self.w = size[0]
             self.h = size[1]
 
-        super().__init__(width, height, title, fullscreen=True)
+        super().__init__(self.w, self.h, TITLE, fullscreen=True)
 
         self.texture = arcade.load_texture('images/backgrounds/start_menu.jpg')
         arcade.load_font('C:/Users/User/PycharmProjects/project_game/fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
@@ -72,7 +72,7 @@ class Start_menu(arcade.Window):
 
 
 def main():
-    game = Start_menu(WIDTH, HEIGHT, TITLE)
+    game = Start_menu()
     arcade.run()
 
 
