@@ -29,9 +29,15 @@ class Start_menu(arcade.Window):
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
-        self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
-        self.settings = arcade.Sprite('images/sprites/settings.png', scale=0.5)
-        self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=0.5)
+        if self.w == 3840:
+            self.play = arcade.Sprite('images/sprites/play.png', scale=1)
+            self.settings = arcade.Sprite('images/sprites/settings.png', scale=1)
+            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=1)
+
+        if self.w != 3840:
+            self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
+            self.settings = arcade.Sprite('images/sprites/settings.png', scale=0.5)
+            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=0.5)
 
         self.update_button_positions()
 
@@ -41,8 +47,6 @@ class Start_menu(arcade.Window):
         self.button_list.append(self.play)
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
-
-        self.btn_state = 'normal'
 
         arcade.play_sound(self.background_sound, loop=True, volume=0.2)
 
@@ -76,12 +80,40 @@ class Start_menu(arcade.Window):
                                      font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
-    def setup(self):
-        self.play = arcade.Sprite('images/sprites/play.png')
-        self.settings = arcade.Sprite('images/sprites/Settings.png')
-        self.exit_game = arcade.Sprite('images/sprites/Exit.png')
+    def on_mouse_motion(self, x, y, dx, dy):
+        for btn in [self.play, self.settings, self.exit_game]:
+            if self.w != 3840:
+                btn.scale = 0.5
 
-    def on_resize(self, width, height):
+                chek = arcade.get_sprites_at_point((x, y), self.button_list)
+                if chek:
+                    chekin = chek[-1]
+                    chekin.scale = 0.7
+
+            if self.w == 3840:
+                btn.scale = 1
+
+                chek = arcade.get_sprites_at_point((x, y), self.button_list)
+                if chek:
+                    chekin = chek[-1]
+                    chekin.scale = 1.2
+
+    def update_button_positions(self):
+        center_x = self.width // 2
+        self.play.center_y = int(self.height * 0.6)
+        self.settings.center_y = int(self.height * 0.5)
+        self.exit_game.center_y = int(self.height * 0.4)
+
+        self.play.center_x = center_x
+        self.settings.center_x = center_x
+        self.exit_game.center_x = center_x
+
+    def setup(self):
+        play = arcade.Sprite('images/sprites/play.png')
+        settings = arcade.Sprite('images/sprites/Settings.png')
+        exit_game = arcade.Sprite('images/sprites/Exit.png')
+
+    def on_resize(self, width: int, height: int):
         super().on_resize(width, height)
         self.update_button_positions()
         self.w = width
@@ -111,13 +143,11 @@ class Start_menu(arcade.Window):
                                  arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))
 
         self.text_main.draw()
-
         self.button_list.draw()
-
         for i in self.parcticles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
-    def on_mouse_press(self, x, y, button, modifiers):
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
 
@@ -127,61 +157,47 @@ class Start_menu(arcade.Window):
             return
 
         clicked = clicked_sprites[-1]
+        self.pressed_button = clicked
+        if self.w != 3840:
+            clicked.scale = 0.4
 
-        clicked.scale = 0.6
+            if button == arcade.MOUSE_BUTTON_LEFT:
+                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
+                if clicked_buttons:
+                    clicked_sprite = clicked_buttons[-1]
 
-        if button == arcade.MOUSE_BUTTON_LEFT:
-            clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
-            if clicked_buttons:
-                clicked_sprite = clicked_buttons[-1]
+                    if clicked_sprite == self.play:
+                        arcade.schedule(lambda dt: None, 0.15)
 
-                if clicked_sprite == self.play:
-                    arcade.schedule(lambda dt: None, 0.15)
+                    if clicked_sprite == self.settings:
+                        arcade.schedule(lambda dt: None, 0.15)
+                    if clicked_sprite == self.exit_game:
+                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
+        else:
+            clicked.scale = 0.7
 
-                if clicked_sprite == self.settings:
-                    arcade.schedule(lambda dt: None, 0.15)
+            if button == arcade.MOUSE_BUTTON_LEFT:
+                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
+                if clicked_buttons:
+                    clicked_sprite = clicked_buttons[-1]
 
-                if clicked_sprite == self.exit_game:
-                    arcade.schedule(lambda dt: None, 0.15)
+                    if clicked_sprite == self.play:
+                        arcade.schedule(lambda dt: None, 0.15)
 
-                    time.sleep(1)
-                    arcade.exit()
+                    if clicked_sprite == self.settings:
+                        arcade.schedule(lambda dt: None, 0.15)
+                    if clicked_sprite == self.exit_game:
+                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
 
     def on_mouse_release(self, x, y, button, modifiers):
-        for btn in self.button_list:
-            pass
-
-    def on_mouse_motion(self, x, y, dx, dy):
-        for btn in [self.play, self.settings, self.exit_game]:
-            btn.scale = 0.5
-
-        check = arcade.get_sprites_at_point((x, y), self.button_list)
-        if check:
-            checkin = check[-1]
-            checkin.scale = 0.8
+        if button != arcade.MOUSE_BUTTON_LEFT:
+            return
+        if hasattr(self, 'pressed_button') and self.pressed_button is not None:
+            self.pressed_button.scale = 0.5
+            self.pressed_button = None
 
 
-    def update_button_positions(self):
-        #center_x = self.width // 2
-        #self.play.center_y = int(self.height * 0.6)
-        #self.settings.center_y = int(self.height * 0.5)
-        #self.exit_game.center_y = int(self.height * 0.4)
 
-        #self.play.center_x = center_x
-        #self.settings.center_x = center_x
-        #self.exit_game.center_x = center_x
-
-        center_x = self.width // 2
-        spacing = self.height * 0.1  # Расстояние между кнопками
-
-        self.play.center_x = center_x
-        self.play.center_y = self.height * 0.6
-
-        self.settings.center_x = center_x
-        self.settings.center_y = self.height * 0.6 - spacing
-
-        self.exit_game.center_x = center_x
-        self.exit_game.center_y = self.height * 0.6 - spacing * 2
 
 
 def main():
