@@ -156,9 +156,8 @@ class Start_menu(arcade.Window):
                 if clicked_sprite == self.settings:
                     arcade.schedule(lambda dt: None, 0.15)
                 if clicked_sprite == self.exit_game:
-                    arcade.schedule(lambda dt: None, 0.15)
-                    time.sleep(1)
-                    arcade.exit()
+                    arcade.schedule(lambda dt: arcade.exit(), 0.15)
+
 
 
 def main():
