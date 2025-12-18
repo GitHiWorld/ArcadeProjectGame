@@ -13,15 +13,11 @@ class Start_menu(arcade.Window):
     def __init__(self, width, height, title):
         size = arcade.get_display_size()
         screen_extension4k = 16
-
-
+        self.pressed_button = None
 
         if isinstance(size, tuple):
             self.w = size[0]
             self.h = size[1]
-
-
-
 
         super().__init__(self.w, self.h, title, fullscreen=True, resizable=True)
 
@@ -41,14 +37,13 @@ class Start_menu(arcade.Window):
 
         self.update_button_positions()
 
-
         self.button_list = arcade.SpriteList()
 
         self.button_list.append(self.play)
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0.2)
+        arcade.play_sound(self.background_sound, loop=True, volume=0)
 
         self.parcticles = []
         for i in range(350):
@@ -80,38 +75,10 @@ class Start_menu(arcade.Window):
                                      font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
-    def on_mouse_motion(self, x, y, dx, dy):
-        for btn in [self.play, self.settings, self.exit_game]:
-            if self.w != 3840:
-                btn.scale = 0.5
-
-                chek = arcade.get_sprites_at_point((x, y), self.button_list)
-                if chek:
-                    chekin = chek[-1]
-                    chekin.scale = 0.7
-
-            if self.w == 3840:
-                btn.scale = 1
-
-                chek = arcade.get_sprites_at_point((x, y), self.button_list)
-                if chek:
-                    chekin = chek[-1]
-                    chekin.scale = 1.2
-
-    def update_button_positions(self):
-        center_x = self.width // 2
-        self.play.center_y = int(self.height * 0.6)
-        self.settings.center_y = int(self.height * 0.5)
-        self.exit_game.center_y = int(self.height * 0.4)
-
-        self.play.center_x = center_x
-        self.settings.center_x = center_x
-        self.exit_game.center_x = center_x
-
     def setup(self):
-        play = arcade.Sprite('images/sprites/play.png')
-        settings = arcade.Sprite('images/sprites/Settings.png')
-        exit_game = arcade.Sprite('images/sprites/Exit.png')
+        self.play = arcade.Sprite('images/sprites/play.png')
+        self.settings = arcade.Sprite('images/sprites/Settings.png')
+        self.exit_game = arcade.Sprite('images/sprites/Exit.png')
 
     def on_resize(self, width: int, height: int):
         super().on_resize(width, height)
@@ -147,7 +114,7 @@ class Start_menu(arcade.Window):
         for i in self.parcticles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
-    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+    def on_mouse_press(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
 
@@ -167,10 +134,10 @@ class Start_menu(arcade.Window):
                     clicked_sprite = clicked_buttons[-1]
 
                     if clicked_sprite == self.play:
-                        arcade.schedule(lambda dt: None, 0.15)
+                        arcade.schedule(lambda dt: None, 1)
 
                     if clicked_sprite == self.settings:
-                        arcade.schedule(lambda dt: None, 0.15)
+                        arcade.schedule(lambda dt: None, 1)
                     if clicked_sprite == self.exit_game:
                         arcade.schedule(lambda dt: arcade.exit(), 0.15)
         else:
@@ -192,12 +159,40 @@ class Start_menu(arcade.Window):
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
-        if hasattr(self, 'pressed_button') and self.pressed_button is not None:
-            self.pressed_button.scale = 0.5
+        if hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w != 3840:
+            self.pressed_button.scale = 0.55
+            self.pressed_button = None
+        elif hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w == 3840:
+            self.pressed_button.scale = 0.8
             self.pressed_button = None
 
+    def on_mouse_motion(self, x, y, dx, dy):
+        for btn in [self.play, self.settings, self.exit_game]:
+            if self.w != 3840:
+                btn.scale = 0.5
 
+                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
+                if cheсk:
+                    cheсkin = cheсk[-1]
+                    cheсkin.scale = 0.55
 
+            if self.w == 3840:
+                btn.scale = 1
+
+                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
+                if cheсk:
+                    cheсkin = cheсk[-1]
+                    cheсkin.scale = 1.2
+
+    def update_button_positions(self):
+        center_x = self.width // 2
+        self.play.center_y = int(self.height * 0.6)
+        self.settings.center_y = int(self.height * 0.5)
+        self.exit_game.center_y = int(self.height * 0.4)
+
+        self.play.center_x = center_x
+        self.settings.center_x = center_x
+        self.exit_game.center_x = center_x
 
 
 def main():
