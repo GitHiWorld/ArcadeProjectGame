@@ -24,6 +24,7 @@ class Start_menu(arcade.Window):
         self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
+        self.cursor = arcade.load_texture('images/cursors/pixel_cursors/Tiles/tile_0202.png')
 
         if self.w == 3840:
             self.play = arcade.Sprite('images/sprites/play.png', scale=1)
@@ -75,6 +76,13 @@ class Start_menu(arcade.Window):
                                      font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
+        self.set_mouse_visible(False)
+        self.cursor_x = 0
+        self.cursor_y = 0
+        self.cursor_w = self.cursor.width
+        self.cursor_h = self.cursor.height
+        self.cursor_scale = 1.2
+
     def setup(self):
         self.play = arcade.Sprite('images/sprites/play.png')
         self.settings = arcade.Sprite('images/sprites/Settings.png')
@@ -114,6 +122,10 @@ class Start_menu(arcade.Window):
         for i in self.parcticles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
+        arcade.draw_texture_rect(self.cursor, arcade.XYWH(self.cursor_x, self.cursor_y,
+                                                          self.cursor_w * self.cursor_scale,
+                                                          self.cursor_h * self.cursor_scale))
+
     def on_mouse_press(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
@@ -126,7 +138,7 @@ class Start_menu(arcade.Window):
         clicked = clicked_sprites[-1]
         self.pressed_button = clicked
         if self.w != 3840:
-            clicked.scale = 0.4
+            clicked.scale = 0.45
 
             if button == arcade.MOUSE_BUTTON_LEFT:
                 clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
@@ -183,6 +195,9 @@ class Start_menu(arcade.Window):
                 if cheсk:
                     cheсkin = cheсk[-1]
                     cheсkin.scale = 1.2
+
+        self.cursor_x = x
+        self.cursor_y = y
 
     def update_button_positions(self):
         center_x = self.width // 2
