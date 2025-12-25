@@ -2,7 +2,7 @@ import time
 import arcade
 import math
 import random
-from GameWindow import GameView
+from GameWindow import GameWindow
 
 WIDTH = 1
 HEIGHT = 1
@@ -10,7 +10,7 @@ TITLE = 'Wyvern: The Path to the Crown of Heaven'
 
 
 class Start_menu(arcade.View):
-    def __init__(self, width, height, title):
+    def __init__(self):
         size = arcade.get_display_size()
         screen_extension4k = 16
         self.pressed_button = None
@@ -19,7 +19,7 @@ class Start_menu(arcade.View):
             self.w = size[0]
             self.h = size[1]
 
-        super().__init__(self.w, self.h, title, fullscreen=True, resizable=True)
+        super().__init__()
 
         self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
@@ -221,7 +221,8 @@ class Start_menu(arcade.View):
         self.exit_game.center_x = center_x
 
     def start_game(self):
-        game_view = GameVeiw()
+        game_view = GameWindow()
+        self.window.show_view(game_view)
 
 
 # def main():
