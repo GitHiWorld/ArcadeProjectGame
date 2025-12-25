@@ -44,15 +44,15 @@ class Start_menu(arcade.Window):
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0)
+        arcade.play_sound(self.background_sound, loop=True, volume=2)
 
         self.parcticles = []
-        for i in range(350):
+        for i in range(500):
             self.parcticles.append({
                 'x': random.uniform(0, self.w),
                 'y': random.uniform(0, self.h),
                 'size': random.uniform(2, 8),
-                'speed': random.uniform(5.5, 10.5),
+                'speed': random.uniform(5.5, 14.5),
                 'color': random.choice([
                     (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
                     (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
