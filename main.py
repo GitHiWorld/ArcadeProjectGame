@@ -24,7 +24,7 @@ class Start_menu(arcade.Window):
         self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
-        self.cursor = arcade.load_texture('images/cursors/pixel_cursors/Tiles/tile_0202.png')
+        self.cursor = arcade.Sprite('images/cursors/pixel_cursors/Tiles/tile_0202.png', scale = 1.2)
 
         if self.w == 3840:
             self.play = arcade.Sprite('images/sprites/play.png', scale=1)
@@ -44,27 +44,10 @@ class Start_menu(arcade.Window):
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0)
+        arcade.play_sound(self.background_sound, loop=True, volume=0.5)
 
-        self.parcticles = []
-        for i in range(350):
-            self.parcticles.append({
-                'x': random.uniform(0, self.w),
-                'y': random.uniform(0, self.h),
-                'size': random.uniform(2, 8),
-                'speed': random.uniform(5.5, 10.5),
-                'color': random.choice([
-                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
-                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
-                    (255, 160, 122, random.randint(60, 200)),  # Светло-коралловый
-                    (255, 218, 185, random.randint(60, 200)),  # Персиковый
-                    (240, 230, 140, random.randint(60, 200))
-                ]),
-                'side_speed': random.uniform(-4, 4),
-                'rotation': random.uniform(0, 360),
-                'rot_speed': random.uniform(-10, 10)
-            }
-            )
+        self.particles = []
+        self.particle()
 
         self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
                                      (255, 241, 210),
@@ -76,19 +59,43 @@ class Start_menu(arcade.Window):
                                      font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
-        self.set_mouse_visible(False)
-        self.cursor_x = 0
-        self.cursor_y = 0
-        self.cursor_w = self.cursor.width
-        self.cursor_h = self.cursor.height
-        self.cursor_scale = 1.2
+        if self.w != 1920:
+            self.set_mouse_visible(False)
+
+        self.cursor.center_x = 0
+        self.cursor.center_y = 0
+        # self.cursor_w = self.cursor.width
+        # self.cursor_h = self.cursor.height
+        # self.cursor_scale = 1.2
+        self.cursors_list = arcade.SpriteList()
+        self.cursors_list.append(self.cursor)
 
     def setup(self):
-        self.play = arcade.Sprite('images/sprites/play.png')
-        self.settings = arcade.Sprite('images/sprites/Settings.png')
-        self.exit_game = arcade.Sprite('images/sprites/Exit.png')
+        pass
 
-    def on_resize(self, width: int, height: int):
+    def particle(self):
+        for i in range(150):
+            self.particles.append({
+                'x': random.uniform(0, self.w),
+                'y': random.uniform(0, self.h),
+                'size': random.uniform(2, 8),
+                'speed': random.uniform(8.5, 14.5),
+                'color': random.choice([
+                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
+                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
+                    (255, 160, 122, random.randint(100, 200)),  # Светло-коралловый
+                    # (255, 218, 185, random.randint(60, 200)),  # Персиковый
+                    (255,183,197, random.randint(10, 130)),
+                    (255, 183, 197, random.randint(0, 160)),
+                    (240, 230, 140, random.randint(60, 200))
+                ]),
+                'side_speed': random.uniform(-6, 6),
+                'rotation': random.uniform(0, 360),
+                'rot_speed': random.uniform(-10, 10)
+            }
+            )
+
+    def on_resize(self, width, height):
         super().on_resize(width, height)
         self.update_button_positions()
         self.w = width
@@ -98,7 +105,7 @@ class Start_menu(arcade.Window):
         self.text_main.y = self.h * 0.8
 
     def on_update(self, delta_time):
-        for i in self.parcticles:
+        for i in self.particles:
             i['y'] -= i['speed'] * delta_time
             i['x'] += i['side_speed'] * delta_time
             i['rotation'] += i['rot_speed'] * delta_time
@@ -111,6 +118,7 @@ class Start_menu(arcade.Window):
                 i['x'] = -10
 
     def on_draw(self):
+        self.clear()
 
         self.play.draw_hit_box()
 
@@ -119,12 +127,15 @@ class Start_menu(arcade.Window):
 
         self.text_main.draw()
         self.button_list.draw()
-        for i in self.parcticles:
+        for i in self.particles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
-        arcade.draw_texture_rect(self.cursor, arcade.XYWH(self.cursor_x, self.cursor_y,
-                                                          self.cursor_w * self.cursor_scale,
-                                                          self.cursor_h * self.cursor_scale))
+#        arcade.draw_texture_rect(self.cursor, arcade.XYWH(self.cursor_x, self.cursor_y,
+#                                                          self.cursor_w * self.cursor_scale,
+#                                                           self.cursor_h * self.cursor_scale))
+
+        if self.w != 1920:
+            self.cursors_list.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
@@ -196,8 +207,8 @@ class Start_menu(arcade.Window):
                     cheсkin = cheсk[-1]
                     cheсkin.scale = 1.2
 
-        self.cursor_x = x
-        self.cursor_y = y
+        self.cursor.center_x = x
+        self.cursor.center_y = y
 
     def update_button_positions(self):
         center_x = self.width // 2
