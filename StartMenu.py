@@ -59,8 +59,7 @@ class Start_menu(arcade.View):
                                      font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
                                      anchor_y='top')
 
-        if self.w != 1921:
-            self.window.set_mouse_visible(False)
+        self.window.set_mouse_visible(False)
 
         cursor(self)
 
@@ -103,26 +102,6 @@ class Start_menu(arcade.View):
                 'rotation': random.uniform(0, 360),
                 'rot_speed': random.uniform(-16, 16)
             })
-        # for i in range(250):
-        #         x = random.uniform(0, self.w),
-        #         y = random.uniform(0, self.h),
-        #         size = random.uniform(2, 8),
-        #         speed = random.uniform(10.5, 16.5),
-        #         color = random.choice([
-        #             (255, 192, 203, random.randint(0, 100)),  # Розовый (лепестки сакуры)
-        #             (255, 182, 193, random.randint(0, 120)),  # Светло-розовый
-        #             (255, 160, 122, random.randint(120, 200)),  # Светло-коралловый
-        #             # (255, 218, 185, random.randint(60, 200)),  # Персиковый
-        #             (255,183,197, random.randint(0, 100)),
-        #             (255, 183, 197, random.randint(0, 160)),
-        #             (240, 230, 140, random.randint(60, 200))
-        #         ]),
-        #         side_speed = random.uniform(-8, 8),
-        #         rotation = random.uniform(0, 360),
-        #         rot_speed = random.uniform(-16, 16)
-        #
-        #         particle = arcade.shape_list.create_ellipse_filled(arcade.XYWH(x, y, size, size), color, rotation)
-        #         self.particle_list.append(particle)
 
     def on_resize(self, width, height):
         super().on_resize(width, height)
@@ -150,8 +129,6 @@ class Start_menu(arcade.View):
     def on_draw(self):
         self.clear()
 
-        self.play.draw_hit_box()
-
         arcade.draw_texture_rect(self.texture,
                                  arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))
 
@@ -161,12 +138,7 @@ class Start_menu(arcade.View):
         for i in self.particles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
-#        arcade.draw_texture_rect(self.cursor, arcade.XYWH(self.cursor_x, self.cursor_y,
-#                                                          self.cursor_w * self.cursor_scale,
-#                                                           self.cursor_h * self.cursor_scale))
-
-        if self.w != 1921:
-            self.cursors_list.draw()
+        self.cursors_list.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:

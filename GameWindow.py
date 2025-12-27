@@ -3,6 +3,7 @@ import arcade
 import math
 import random
 from constants import WIDTH, HEIGHT, cursor
+from PauseView import PauseView
 
 
 class GameWindow(arcade.View):
@@ -39,10 +40,14 @@ class GameWindow(arcade.View):
 
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
+        if key == arcade.key.ESCAPE:
+            pause_view = PauseView(self)
+            self.window.show_view(pause_view)
 
     def on_key_release(self, key, modifiers):
         if key in self.keys_pressed:
             self.keys_pressed.remove(key)
+
 
     def on_update(self, delta_time):
         dx, dy = 0, 0
@@ -63,4 +68,11 @@ class GameWindow(arcade.View):
 
         self.player.center_x += dx
         self.player.center_y += dy
+
+    def on_hide_view(self):
+        self.cursors_list = arcade.SpriteList()
+
+    def on_show_view(self):
+        cursor(self)
+        self.keys_pressed = set()
 
