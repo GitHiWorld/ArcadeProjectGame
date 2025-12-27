@@ -16,7 +16,7 @@ class GameWindow(arcade.View):
         self.player = arcade.SpriteCircle(20, arcade.color.BLUE)
         self.player.center_x = self.w // 2
         self.player.center_y = self.h // 2
-        self.player_speed = 200
+        self.player_speed = 170
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player)
 
@@ -59,6 +59,7 @@ class GameWindow(arcade.View):
             dy += self.player_speed * delta_time
         if arcade.key.DOWN in self.keys_pressed or arcade.key.S in self.keys_pressed:
             dy -= self.player_speed * delta_time
+
 
         # Нормализация диагонального движения
         if dx != 0 and dy != 0:

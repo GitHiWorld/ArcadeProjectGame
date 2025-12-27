@@ -174,12 +174,13 @@ class Start_menu(arcade.View):
                     clicked_sprite = clicked_buttons[-1]
 
                     if clicked_sprite == self.play:
-                        arcade.schedule(lambda dt: None, 0.15)
+                        self.start_game()
 
                     if clicked_sprite == self.settings:
-                        arcade.schedule(lambda dt: None, 0.15)
+                        pass
+
                     if clicked_sprite == self.exit_game:
-                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
+                        arcade.exit()
 
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
@@ -196,18 +197,18 @@ class Start_menu(arcade.View):
             if self.w != 3840:
                 btn.scale = 0.5
 
-                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
-                if cheсk:
-                    cheсkin = cheсk[-1]
-                    cheсkin.scale = 0.55
+                check = arcade.get_sprites_at_point((x, y), self.button_list)
+                if check:
+                    checkin = check[-1]
+                    checkin.scale = 0.55
 
             if self.w == 3840:
                 btn.scale = 1
 
-                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
-                if cheсk:
-                    cheсkin = cheсk[-1]
-                    cheсkin.scale = 1.2
+                check = arcade.get_sprites_at_point((x, y), self.button_list)
+                if check:
+                    checkin = check[-1]
+                    checkin.scale = 1.2
 
         self.cursor.center_x = x
         self.cursor.center_y = y
