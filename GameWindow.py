@@ -7,8 +7,9 @@ from PauseView import PauseView
 
 
 class GameWindow(arcade.View):
-    def __init__(self):
+    def __init__(self, menu_view):
         super().__init__()
+        self.main_menu = menu_view
 
         self.w = WIDTH
         self.h = HEIGHT
@@ -16,16 +17,13 @@ class GameWindow(arcade.View):
         self.player = arcade.SpriteCircle(20, arcade.color.BLUE)
         self.player.center_x = self.w // 2
         self.player.center_y = self.h // 2
-        self.player_speed = 170
+        self.player_speed = 180
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player)
 
         cursor(self)
 
         self.keys_pressed = set()
-
-    def on_show(self):
-        arcade.set_background_color(arcade.color.AMAZON)
 
     def on_draw(self):
         self.clear()
@@ -41,7 +39,7 @@ class GameWindow(arcade.View):
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
         if key == arcade.key.ESCAPE:
-            pause_view = PauseView(self)
+            pause_view = PauseView(self, self.main_menu)
             self.window.show_view(pause_view)
 
     def on_key_release(self, key, modifiers):

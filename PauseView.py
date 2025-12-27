@@ -7,10 +7,13 @@ from constants import WIDTH, HEIGHT, cursor
 
 
 class PauseView(arcade.View):
-    def __init__(self, game_view):
+    def __init__(self, game_view, menu_view):
         super().__init__()
         self.game_view = game_view
+        self.menu_view = menu_view
+
         self.w = WIDTH
+
         if WIDTH == 3840:
             self.play = arcade.Sprite('images/sprites/play.png', scale=1)
             self.settings = arcade.Sprite('images/sprites/settings.png', scale=1)
@@ -20,6 +23,7 @@ class PauseView(arcade.View):
             self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
             self.settings = arcade.Sprite('images/sprites/settings.png', scale=0.5)
             self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=0.5)
+            self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=0.255)
 
         self.update_button_positions()
 
@@ -28,6 +32,7 @@ class PauseView(arcade.View):
         self.button_list.append(self.play)
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
+        self.button_list.append(self.main_menu)
 
         cursor(self)
 
@@ -50,13 +55,15 @@ class PauseView(arcade.View):
 
     def update_button_positions(self):
         center_x = self.width // 2
-        self.play.center_y = int(self.height * 0.6)
+        self.play.center_y = int(self.height * 0.7)
+        self.main_menu.center_y = int(self.height * 0.6)
         self.settings.center_y = int(self.height * 0.5)
         self.exit_game.center_y = int(self.height * 0.4)
 
         self.play.center_x = center_x
         self.settings.center_x = center_x
         self.exit_game.center_x = center_x
+        self.main_menu.center_x = center_x
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
@@ -70,7 +77,10 @@ class PauseView(arcade.View):
         clicked = clicked_sprites[-1]
         self.pressed_button = clicked
         if self.w != 3840:
-            clicked.scale = 0.45
+            if clicked != self.main_menu:
+                clicked.scale = 0.45
+            else:
+                clicked.scale = 0.23
 
             if button == arcade.MOUSE_BUTTON_LEFT:
                 clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
@@ -83,6 +93,9 @@ class PauseView(arcade.View):
                         pass
                     if clicked_sprite == self.exit_game:
                         arcade.exit()
+                    if clicked_sprite == self.main_menu:
+                        self.window.show_view(self.menu_view)
+
         else:
             clicked.scale = 0.7
 
@@ -103,21 +116,30 @@ class PauseView(arcade.View):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
         if hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w != 3840:
-            self.pressed_button.scale = 0.55
+            if self.pressed_button != self.main_menu:
+                self.pressed_button.scale = 0.55
+            else:
+                self.pressed_button.scale = 0.285
             self.pressed_button = None
         elif hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w == 3840:
             self.pressed_button.scale = 0.8
             self.pressed_button = None
 
     def on_mouse_motion(self, x, y, dx, dy):
-        for btn in [self.play, self.settings, self.exit_game]:
+        for btn in self.button_list:
             if self.w != 3840:
-                btn.scale = 0.5
+                if btn != self.main_menu:
+                    btn.scale = 0.5
+                else:
+                    btn.scale = 0.255
 
                 check = arcade.get_sprites_at_point((x, y), self.button_list)
                 if check:
                     checkin = check[-1]
-                    checkin.scale = 0.55
+                    if checkin != self.main_menu:
+                        checkin.scale = 0.55
+                    else:
+                        checkin.scale = 0.285
 
             if self.w == 3840:
                 btn.scale = 1

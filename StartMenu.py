@@ -15,8 +15,6 @@ class Start_menu(arcade.View):
 
         self.pressed_button = None
 
-        self.sound = None
-
         size = arcade.get_display_size()
         if isinstance(size, tuple):
             self.w = size[0]
@@ -44,7 +42,7 @@ class Start_menu(arcade.View):
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        self.sound = arcade.play_sound(self.background_sound, loop=True, volume=0.5)
+        # self.sound = arcade.play_sound(self.background_sound, loop=True, volume=0.5)
 
         self.particles = []
         self.particle()
@@ -66,18 +64,12 @@ class Start_menu(arcade.View):
         self.particle_list = arcade.shape_list.ShapeElementList()
 
     def start_game(self):
-        game_view = GameWindow()
+        game_view = GameWindow(self)
         self.window.show_view(game_view)
 
     def on_hide_view(self):
         if self.sound:
             self.sound.pause()
-            self.sound = None
-
-        self.button_list.clear()
-        self.cursors_list.clear()
-        self.particles.clear()
-        self.texture = None
 
     def setup(self):
         pass
@@ -222,3 +214,7 @@ class Start_menu(arcade.View):
         self.play.center_x = center_x
         self.settings.center_x = center_x
         self.exit_game.center_x = center_x
+
+    def on_show_view(self):
+        self.__init__()
+        self.sound = arcade.play_sound(self.background_sound, loop=True, volume=0.5)

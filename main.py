@@ -3,6 +3,7 @@ import arcade
 import math
 import random
 from StartMenu import Start_menu
+from GameWindow import GameWindow
 from constants import WIDTH, HEIGHT, TITLE
 
 def main():
