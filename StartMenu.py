@@ -3,28 +3,28 @@ import arcade
 import math
 import random
 from GameWindow import GameWindow
-
-WIDTH = 1
-HEIGHT = 1
-TITLE = 'Wyvern: The Path to the Crown of Heaven'
+from constants import WIDTH, HEIGHT, cursor
+from pyglet.graphics import Batch
 
 
 class Start_menu(arcade.View):
     def __init__(self):
-        size = arcade.get_display_size()
+        super().__init__()
+
         screen_extension4k = 16
+
         self.pressed_button = None
 
+        self.sound = None
+
+        size = arcade.get_display_size()
         if isinstance(size, tuple):
             self.w = size[0]
             self.h = size[1]
 
-        super().__init__()
-
         self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
-        self.cursor = arcade.Sprite('images/cursors/pixel_cursors/Tiles/tile_0202.png', scale = 1.2)
 
         if self.w == 3840:
             self.play = arcade.Sprite('images/sprites/play.png', scale=1)
@@ -44,7 +44,7 @@ class Start_menu(arcade.View):
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0.5)
+        self.sound = arcade.play_sound(self.background_sound, loop=True, volume=0.5)
 
         self.particles = []
         self.particle()
@@ -62,13 +62,23 @@ class Start_menu(arcade.View):
         if self.w != 1921:
             self.window.set_mouse_visible(False)
 
-        self.cursor.center_x = 0
-        self.cursor.center_y = 0
-        # self.cursor_w = self.cursor.width
-        # self.cursor_h = self.cursor.height
-        # self.cursor_scale = 1.2
-        self.cursors_list = arcade.SpriteList()
-        self.cursors_list.append(self.cursor)
+        cursor(self)
+
+        self.particle_list = arcade.shape_list.ShapeElementList()
+
+    def start_game(self):
+        game_view = GameWindow()
+        self.window.show_view(game_view)
+
+    def on_hide_view(self):
+        if self.sound:
+            self.sound.pause()
+            self.sound = None
+
+        self.button_list.clear()
+        self.cursors_list.clear()
+        self.particles.clear()
+        self.texture = None
 
     def setup(self):
         pass
@@ -79,21 +89,40 @@ class Start_menu(arcade.View):
                 'x': random.uniform(0, self.w),
                 'y': random.uniform(0, self.h),
                 'size': random.uniform(2, 8),
-                'speed': random.uniform(8.5, 14.5),
+                'speed': random.uniform(10.5, 16.5),
                 'color': random.choice([
-                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
-                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
-                    (255, 160, 122, random.randint(100, 200)),  # Светло-коралловый
+                    (255, 192, 203, random.randint(0, 100)),  # Розовый (лепестки сакуры)
+                    (255, 182, 193, random.randint(0, 120)),  # Светло-розовый
+                    (255, 160, 122, random.randint(120, 200)),  # Светло-коралловый
                     # (255, 218, 185, random.randint(60, 200)),  # Персиковый
-                    (255,183,197, random.randint(10, 130)),
+                    (255,183,197, random.randint(0, 100)),
                     (255, 183, 197, random.randint(0, 160)),
                     (240, 230, 140, random.randint(60, 200))
                 ]),
-                'side_speed': random.uniform(-6, 6),
+                'side_speed': random.uniform(-8, 8),
                 'rotation': random.uniform(0, 360),
-                'rot_speed': random.uniform(-10, 10)
-            }
-            )
+                'rot_speed': random.uniform(-16, 16)
+            })
+        # for i in range(250):
+        #         x = random.uniform(0, self.w),
+        #         y = random.uniform(0, self.h),
+        #         size = random.uniform(2, 8),
+        #         speed = random.uniform(10.5, 16.5),
+        #         color = random.choice([
+        #             (255, 192, 203, random.randint(0, 100)),  # Розовый (лепестки сакуры)
+        #             (255, 182, 193, random.randint(0, 120)),  # Светло-розовый
+        #             (255, 160, 122, random.randint(120, 200)),  # Светло-коралловый
+        #             # (255, 218, 185, random.randint(60, 200)),  # Персиковый
+        #             (255,183,197, random.randint(0, 100)),
+        #             (255, 183, 197, random.randint(0, 160)),
+        #             (240, 230, 140, random.randint(60, 200))
+        #         ]),
+        #         side_speed = random.uniform(-8, 8),
+        #         rotation = random.uniform(0, 360),
+        #         rot_speed = random.uniform(-16, 16)
+        #
+        #         particle = arcade.shape_list.create_ellipse_filled(arcade.XYWH(x, y, size, size), color, rotation)
+        #         self.particle_list.append(particle)
 
     def on_resize(self, width, height):
         super().on_resize(width, height)
@@ -117,6 +146,7 @@ class Start_menu(arcade.View):
             elif i['x'] >= self.w + 10:
                 i['x'] = -10
 
+
     def on_draw(self):
         self.clear()
 
@@ -127,6 +157,7 @@ class Start_menu(arcade.View):
 
         self.text_main.draw()
         self.button_list.draw()
+
         for i in self.particles:
             arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
 
@@ -157,12 +188,11 @@ class Start_menu(arcade.View):
                     clicked_sprite = clicked_buttons[-1]
 
                     if clicked_sprite == self.play:
-                        arcade.schedule(lambda dt: start_game, 1)
-
+                        self.start_game()
                     if clicked_sprite == self.settings:
-                        arcade.schedule(lambda dt: None, 1)
+                        pass
                     if clicked_sprite == self.exit_game:
-                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
+                        arcade.exit()
         else:
             clicked.scale = 0.7
 
@@ -219,16 +249,3 @@ class Start_menu(arcade.View):
         self.play.center_x = center_x
         self.settings.center_x = center_x
         self.exit_game.center_x = center_x
-
-    def start_game(self):
-        game_view = GameWindow()
-        self.window.show_view(game_view)
-
-
-# def main():
-#     game = Start_menu(WIDTH, HEIGHT, TITLE)
-#     arcade.run()
-#
-#
-# if __name__ == "__main__":
-#     main()
