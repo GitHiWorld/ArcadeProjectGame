@@ -18,6 +18,7 @@ class PauseView(arcade.View):
             self.play = arcade.Sprite('images/sprites/play.png', scale=1)
             self.settings = arcade.Sprite('images/sprites/settings.png', scale=1)
             self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=1)
+            self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=0.51)
 
         if WIDTH != 3840:
             self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
@@ -42,7 +43,6 @@ class PauseView(arcade.View):
         self.clear()
         self.game_view.on_draw()
         arcade.draw_rect_filled(arcade.XYWH(WIDTH // 2, HEIGHT // 2, WIDTH, HEIGHT), (0, 0, 0, 150))
-        # self.batch.draw()
         self.button_list.draw()
         self.cursors_list.draw()
 
@@ -97,7 +97,10 @@ class PauseView(arcade.View):
                         self.window.show_view(self.menu_view)
 
         else:
-            clicked.scale = 0.7
+            if clicked != self.main_menu:
+                clicked.scale = 0.7
+            else:
+                clicked.scale = 0.46
 
             if button == arcade.MOUSE_BUTTON_LEFT:
                 clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
@@ -112,6 +115,8 @@ class PauseView(arcade.View):
 
                     if clicked_sprite == self.exit_game:
                         arcade.exit()
+                    if clicked_sprite == self.main_menu:
+                        self.window.show_view(self.menu_view)
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
@@ -122,7 +127,10 @@ class PauseView(arcade.View):
                 self.pressed_button.scale = 0.285
             self.pressed_button = None
         elif hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w == 3840:
-            self.pressed_button.scale = 0.8
+            if self.pressed_button != self.main_menu:
+                self.pressed_button.scale = 1.2
+            else:
+                self.pressed_button.scale = 0.57
             self.pressed_button = None
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -142,12 +150,18 @@ class PauseView(arcade.View):
                         checkin.scale = 0.285
 
             if self.w == 3840:
-                btn.scale = 1
+                if btn != self.main_menu:
+                    btn.scale = 1
+                else:
+                    btn.scale = 0.51
 
                 check = arcade.get_sprites_at_point((x, y), self.button_list)
                 if check:
                     checkin = check[-1]
-                    checkin.scale = 1.2
+                    if checkin != self.main_menu:
+                        checkin.scale = 1.2
+                    else:
+                        checkin.scale = 0.57
 
         self.cursor.center_x = x
         self.cursor.center_y = y

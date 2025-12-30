@@ -6,8 +6,8 @@ TITLE = 'Wyvern: The Path to the Crown of Heaven'
 
 def cursor(self):
     self.cursor = arcade.Sprite('images/cursors/pixel_cursors/Tiles/tile_0202.png', scale=1.2)
-    self.cursor.center_x = 0
-    self.cursor.center_y = 0
+    self.cursor.center_x = self.window._mouse_x if hasattr(self.window, '_mouse_x') else self.w // 2
+    self.cursor.center_y = self.window._mouse_y if hasattr(self.window, '_mouse_y') else self.h // 2
     self.cursors_list = arcade.SpriteList()
     self.cursors_list.append(self.cursor)
     self.window.set_mouse_visible(False)

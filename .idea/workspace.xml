@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="добавлены 3 кнопки в паузе, нет кнопки вернуться в меню (">
-      <change afterPath="$PROJECT_DIR$/images/sprites/main_menu.png" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="пауза в игре на Escape">
+      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PauseView.py" beforeDir="false" afterPath="$PROJECT_DIR$/PauseView.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StartMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/StartMenu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="fe82a177aaeff5cafe929da038ff008511a78925" />
+        <entry key="$PROJECT_DIR$" value="b265b28d439b9e31fd8e2a7210c2d65698860811" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +64,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "b265b28d",
+    "git-widget-placeholder": "949dbc2d",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -73,9 +72,6 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool\images\backgrounds" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Artemii\PycharmProjects\arcade_game\images\sprites" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -311,15 +307,7 @@
       <option name="project" value="LOCAL" />
       <updated>1766864760879</updated>
     </task>
-    <task id="LOCAL-00013" summary="добавлены 3 кнопки в паузе, нет кнопки вернуться в меню (">
-      <option name="closed" value="true" />
-      <created>1766865467839</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1766865467839</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +347,6 @@
     <MESSAGE value="переделано Window в View, добавлено разбиение на файлы" />
     <MESSAGE value="небольшая оптимизация, переход из главного меню в игру, синий кружок бегает)" />
     <MESSAGE value="пауза в игре на Escape" />
-    <MESSAGE value="добавлены 3 кнопки в паузе, нет кнопки вернуться в меню (" />
-    <option name="LAST_COMMIT_MESSAGE" value="добавлены 3 кнопки в паузе, нет кнопки вернуться в меню (" />
+    <option name="LAST_COMMIT_MESSAGE" value="пауза в игре на Escape" />
   </component>
 </project>
