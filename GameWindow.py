@@ -2,7 +2,7 @@ import time
 import arcade
 import math
 import random
-from constants import WIDTH, HEIGHT, cursor
+from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W
 from PauseView import PauseView
 
 
@@ -13,6 +13,9 @@ class GameWindow(arcade.View):
 
         self.w = WIDTH
         self.h = HEIGHT
+
+        self.world_camera = arcade.camera.Camera2D()
+        self.gui_camera = arcade.camera.Camera2D()
 
         self.player = arcade.SpriteCircle(20, arcade.color.BLUE)
         self.player.center_x = self.w // 2
@@ -29,7 +32,10 @@ class GameWindow(arcade.View):
         self.clear()
         # arcade.start_render()
         # arcade.draw_rect_filled(arcade.XYWH(self.w // 2, self.h // 2, self.w, self.h), color=(255, 0, 0))
+        self.world_camera.use()
         self.player_list.draw()
+
+        self.gui_camera.use()
         self.cursors_list.draw()
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -67,6 +73,17 @@ class GameWindow(arcade.View):
 
         self.player.center_x += dx
         self.player.center_y += dy
+
+        position = (
+            self.player.center_x,
+            self.player.center_y
+        )
+
+
+        self.world_camera.position = arcade.math.lerp_2d(self.world_camera.position,
+            position,
+            0.1,
+        )
 
     def on_hide_view(self):
         self.cursors_list = arcade.SpriteList()
