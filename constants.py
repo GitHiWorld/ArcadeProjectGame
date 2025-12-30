@@ -5,6 +5,7 @@ HEIGHT = size[1]
 TITLE = 'Wyvern: The Path to the Crown of Heaven'
 DEAD_ZONE_W = int(WIDTH * 0.35)
 DEAD_ZONE_H = int(HEIGHT * 0.45)
+CAMERA_LERP = 0.1
 
 def cursor(self):
     self.cursor = arcade.Sprite('images/cursors/pixel_cursors/Tiles/tile_0202.png', scale=1.2)

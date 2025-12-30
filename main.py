@@ -9,7 +9,8 @@ from constants import WIDTH, HEIGHT, TITLE
 def main():
     # game = Start_menu(WIDTH, HEIGHT, TITLE)
     window = arcade.Window(fullscreen=True, title=TITLE)
-    view = Start_menu()
+    # view = Start_menu()
+    view = GameWindow(123)
     window.show_view(view)
     arcade.run()
 
