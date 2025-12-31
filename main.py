@@ -1,19 +1,12 @@
-import time
 import arcade
-import math
-import random
 from StartMenu import Start_menu
-from GameWindow import GameWindow
-from constants import WIDTH, HEIGHT, TITLE
+from constants import TITLE
 
 def main():
-    # game = Start_menu(WIDTH, HEIGHT, TITLE)
     window = arcade.Window(fullscreen=True, title=TITLE)
-    # view = Start_menu()
-    view = GameWindow(123)
-    window.show_view(view)
+    start_menu = Start_menu()
+    window.show_view(start_menu)
     arcade.run()
-
 
 if __name__ == "__main__":
     main()

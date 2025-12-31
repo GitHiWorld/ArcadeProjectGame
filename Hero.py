@@ -6,12 +6,9 @@ from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LE
 from PauseView import PauseView
 import enum
 
-# Делаем класс для направления взгляда персонажа,
-# это позволит не запутаться в чиселках и сделать код более читаемым
 class FaceDirection(enum.Enum):
     LEFT = 0
     RIGHT = 1
-
 
 class Hero(arcade.Sprite):
     def __init__(self):
@@ -21,45 +18,57 @@ class Hero(arcade.Sprite):
         self.speed = 300
         self.health = 100
 
-        self.idle_player = arcade.load_texture(f'images/pers/Knight_1/Idle.png')
-        self.texture = self.idle_player
-        self.run_player = arcade.load_texture('images/pers/Knight_1/Run.png')
+        idle_path = 'images/pers/Knight_1/Idle.png'
+        IDLE_COLUMNS = 4
+        sprite_sheet_idle = arcade.SpriteSheet(idle_path)
+        self.idle_textures_right = sprite_sheet_idle.get_texture_grid(
+            size=(128, 128),
+            columns=IDLE_COLUMNS,
+            count=IDLE_COLUMNS
+        )
+        self.idle_textures_left = [tex.flip_horizontally() for tex in self.idle_textures_right]
 
-        self.walk_textures = []
-        for i in range():
-            texture = arcade.load_texture(self.run_player, x=i * 128, y=0, width=128, height=128)
-            self.walk_textures.append(texture)
+        run_path = 'images/pers/Knight_1/Run.png'
+        RUN_COLUMNS = 4
+        sprite_sheet_run = arcade.SpriteSheet(run_path)
+        self.walk_textures_right = sprite_sheet_run.get_texture_grid(
+            size=(128, 128),
+            columns=RUN_COLUMNS,
+            count=RUN_COLUMNS
+        )
+        self.walk_textures_left = [tex.flip_horizontally() for tex in self.walk_textures_right]
 
-        self.current_texture = 0
-        self.texture_change_time = 0
-        self.texture_change_delay = 0.1  # секунд на кадр
+        self.current_texture_index = 0
+        self.animation_timer = 0
+        self.walk_delay = 0.1
+        self.idle_delay = 0.2
         self.is_walking = False
         self.face_direction = FaceDirection.RIGHT
+
+        self.texture = self.idle_textures_right[0]
 
         self.center_x = WIDTH // 2
         self.center_y = HEIGHT // 2
 
-    def update_animation(self, delta_time):
-        if self.is_walking:
-            self.texture_change_time += delta_time
-            if self.texture_change_time >= self.texture_change_delay:
-                self.texture_change_time = 0
-                self.current_texture += 1
-                if self.current_texture >= len(self.walk_textures):
-                    self.current_texture = 0
-                # Поворачиваем текстуру в зависимости от направления взгляда
-                if self.face_direction == FaceDirection.RIGHT:
-                    self.texture = self.walk_textures[self.current_texture]
-                else:
-                    self.texture = self.walk_textures[self.current_texture].flip_horizontally()
+    def update_animation(self, delta_time: float):
+        self.animation_timer += delta_time
 
+        if self.is_walking:
+            if self.animation_timer >= self.walk_delay:
+                self.animation_timer = 0
+                self.current_texture_index = (self.current_texture_index + 1) % len(self.walk_textures_right)
+                if self.face_direction == FaceDirection.RIGHT:
+                    self.texture = self.walk_textures_right[self.current_texture_index]
+                else:
+                    self.texture = self.walk_textures_left[self.current_texture_index]
         else:
-            # Если не идём, то просто показываем текстуру покоя
-            # и поворачиваем её в зависимости от направления взгляда
-            if self.face_direction == FaceDirection.RIGHT:
-                self.texture = self.idle_player
-            else:
-                self.texture = self.idle_player.flip_horizontally()
+            if self.animation_timer >= self.idle_delay:
+                self.animation_timer = 0
+                self.current_texture_index = (self.current_texture_index + 1) % len(self.idle_textures_right)
+                if self.face_direction == FaceDirection.RIGHT:
+                    self.texture = self.idle_textures_right[self.current_texture_index]
+                else:
+                    self.texture = self.idle_textures_left[self.current_texture_index]
 
     def update(self, delta_time, keys_pressed):
         dx, dy = 0, 0
@@ -79,12 +88,10 @@ class Hero(arcade.Sprite):
 
         self.center_x += dx
         self.center_y += dy
-        # Поворачиваем персонажа в зависимости от направления движения
-        # Если никуда не идём, то не меняем направление взгляда
+
         if dx < 0:
             self.face_direction = FaceDirection.LEFT
         elif dx > 0:
             self.face_direction = FaceDirection.RIGHT
 
-        # Проверка на движение
-        self.is_walking = dx or dy
+        self.is_walking = bool(dx or dy)
