@@ -29,7 +29,7 @@ class Hero(arcade.Sprite):
         self.idle_textures_left = [tex.flip_horizontally() for tex in self.idle_textures_right]
 
         run_path = 'images/pers/Knight_1/Run.png'
-        RUN_COLUMNS = 4
+        RUN_COLUMNS = 5
         sprite_sheet_run = arcade.SpriteSheet(run_path)
         self.walk_textures_right = sprite_sheet_run.get_texture_grid(
             size=(128, 128),
