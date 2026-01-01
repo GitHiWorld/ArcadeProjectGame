@@ -40,6 +40,10 @@ class GameWindow(arcade.View):
         self.cursor.center_x = x
         self.cursor.center_y = y
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.player.state = 'atc_1'
+
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
         if key == arcade.key.ESCAPE:
