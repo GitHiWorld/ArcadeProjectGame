@@ -218,3 +218,4 @@ class Start_menu(arcade.View):
     def on_show_view(self):
         self.__init__()
         self.sound = arcade.play_sound(self.background_sound, loop=True, volume=0.5)
+        self.on_resize(WIDTH, HEIGHT)

@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="фикс камеры для анимаций, кадров анимаций не 4 а 5, в main добавлен выбор view (откуда мы начнем)">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="анимация атаки, недоделка, работает но как то криво)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hero.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StartMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/StartMenu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,22 +54,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.GameWindow.executor": "Run",
-    "Python.Hero.executor": "Run",
-    "Python.StartMenu.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.tests 2.executor": "Run",
-    "Python.tests.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "893e71ff",
-    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.GameWindow.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Hero.executor&quot;: &quot;Run&quot;,
+    &quot;Python.StartMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;f719b5f1&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool\images\backgrounds" />
@@ -322,7 +324,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767262206732</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="анимация атаки, недоделка, работает но как то криво)">
+      <option name="closed" value="true" />
+      <created>1767266531577</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1767266531577</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -364,6 +374,7 @@
     <MESSAGE value="пауза в игре на Escape" />
     <MESSAGE value="сделана камера за игроком, нет мертвой зоны" />
     <MESSAGE value="фикс камеры для анимаций, кадров анимаций не 4 а 5, в main добавлен выбор view (откуда мы начнем)" />
-    <option name="LAST_COMMIT_MESSAGE" value="фикс камеры для анимаций, кадров анимаций не 4 а 5, в main добавлен выбор view (откуда мы начнем)" />
+    <MESSAGE value="анимация атаки, недоделка, работает но как то криво)" />
+    <option name="LAST_COMMIT_MESSAGE" value="анимация атаки, недоделка, работает но как то криво)" />
   </component>
 </project>

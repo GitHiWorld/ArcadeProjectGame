@@ -42,7 +42,9 @@ class GameWindow(arcade.View):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
-            self.player.state = 'atc_1'
+            camera_x = self.world_camera.position[0]
+            mouse_world_x = camera_x - (WIDTH // 2) + x
+            self.player.try_attack(mouse_world_x)
 
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
