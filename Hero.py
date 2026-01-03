@@ -84,6 +84,7 @@ class Hero(arcade.Sprite):
         self.walk_delay = 0.1
         self.idle_delay = 0.2
         self.atc_1_delay = 0.1
+        self.atc_2_delay = 0.1
         self.dodge_delay = 0.05
 
         self.state = 'idle'
@@ -92,6 +93,7 @@ class Hero(arcade.Sprite):
         self.attack_cooldown = 0.6
         self.attack_timer = 0
         self.can_attack = True
+        self.attack = 'atc_1'
 
         self.face_direction = FaceDirection.RIGHT
         self.attack_direction = FaceDirection.RIGHT
@@ -121,6 +123,7 @@ class Hero(arcade.Sprite):
                     self.texture = self.walk_textures_right[self.current_texture_index]
                 else:
                     self.texture = self.walk_textures_left[self.current_texture_index]
+
         elif self.state == 'idle':
             if self.animation_timer >= self.idle_delay:
                 self.animation_timer = 0
@@ -129,6 +132,7 @@ class Hero(arcade.Sprite):
                     self.texture = self.idle_textures_right[self.current_texture_index]
                 else:
                     self.texture = self.idle_textures_left[self.current_texture_index]
+
         elif self.state == 'atc_1':
             if self.animation_timer >= self.atc_1_delay:
                 self.animation_timer = 0
@@ -141,6 +145,20 @@ class Hero(arcade.Sprite):
                         self.texture = self.atc_1_texture_right[self.current_texture_index]
                     else:
                         self.texture = self.atc_1_texture_left[self.current_texture_index]
+
+        elif self.state == 'atc_2':
+            if self.animation_timer >= self.atc_2_delay:
+                self.animation_timer = 0
+                if self.current_texture_index == len(self.atc_2_texture_right) - 1:
+                    self.state = 'idle'
+                    self.current_texture_index = 0
+                else:
+                    self.current_texture_index = (self.current_texture_index + 1)
+                    if self.attack_direction == FaceDirection.RIGHT:
+                        self.texture = self.atc_2_texture_right[self.current_texture_index]
+                    else:
+                        self.texture = self.atc_2_texture_left[self.current_texture_index]
+
         elif self.state == 'dodge':
             if self.face_direction == FaceDirection.RIGHT:
                 self.texture = self.dodge_texture_right
@@ -181,7 +199,7 @@ class Hero(arcade.Sprite):
 
         dx, dy = 0, 0
 
-        if arcade.key.F in keys_pressed:
+        if arcade.key.SPACE in keys_pressed:
             if not self.is_dodging and self.dodge_cooldown <= 0:
                 self.dodge()
 
@@ -220,7 +238,7 @@ class Hero(arcade.Sprite):
         elif dx > 0:
             self.face_direction = FaceDirection.RIGHT
 
-        if not self.is_dodging and self.state != 'atc_1':
+        if not self.is_dodging and self.state not in ['atc_1', 'atc_2']:
             self.is_walking = bool(dx or dy)
             if self.is_walking:
                 self.state = 'run'
@@ -236,14 +254,28 @@ class Hero(arcade.Sprite):
 
             self.face_direction = self.attack_direction
 
-            self.state = 'atc_1'
+            if self.attack == 'atc_1':
+                self.state = 'atc_1'
+                self.attack = 'atc_2'
+
+                if self.attack_direction == FaceDirection.RIGHT:
+                    self.texture = self.atc_1_texture_right[0]
+                else:
+                    self.texture = self.atc_1_texture_left[0]
+
+            elif self.attack == 'atc_2':
+                self.state = 'atc_2'
+                self.attack = 'atc_1'
+
+                if self.attack_direction == FaceDirection.RIGHT:
+                    self.texture = self.atc_2_texture_right[0]
+                else:
+                    self.texture = self.atc_2_texture_left[0]
+
             self.current_texture_index = 0
             self.animation_timer = 0
 
-            if self.attack_direction == FaceDirection.RIGHT:
-                self.texture = self.atc_1_texture_right[0]
-            else:
-                self.texture = self.atc_1_texture_left[0]
+
 
             return True
         else:
