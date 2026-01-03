@@ -16,7 +16,7 @@ class Hero(arcade.Sprite):
 
         self.scale = 1.0
         self.speed = 300
-        self.dodge_speed = 600
+        self.dodge_speed = 900
         self.health = 100
 
         self.is_dodging = False
@@ -68,15 +68,12 @@ class Hero(arcade.Sprite):
 
         dodge_path = 'images/pers/Knight_1/Jump.png'
         JUMP_COLUMNS = 6
-
         sprite_sheet_dodge = arcade.SpriteSheet(dodge_path)
-
         all_dodge_textures = sprite_sheet_dodge.get_texture_grid(
             size=(128, 128),
             columns=JUMP_COLUMNS,
             count=JUMP_COLUMNS
         )
-
         DODGE_FRAME_INDEX = 0
         self.dodge_texture_right = all_dodge_textures[DODGE_FRAME_INDEX]
         self.dodge_texture_left = self.dodge_texture_right.flip_horizontally()
@@ -183,6 +180,10 @@ class Hero(arcade.Sprite):
                 self.attack_timer = 0
 
         dx, dy = 0, 0
+
+        if arcade.key.F in keys_pressed:
+            if not self.is_dodging and self.dodge_cooldown <= 0:
+                self.dodge()
 
         if self.is_dodging:
             current_speed = self.dodge_speed
