@@ -90,7 +90,7 @@ class Hero(arcade.Sprite):
         self.state = 'idle'
         self.is_walking = False
 
-        self.attack_cooldown = 0.6
+        self.attack_cooldown = 0.5
         self.attack_timer = 0
         self.can_attack = True
         self.attack = 'atc_1'
