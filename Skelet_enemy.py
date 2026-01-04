@@ -75,28 +75,31 @@ class Skelet(arcade.Sprite):
                     self.texture = self.idle_textures_left[self.current_texture_index]
 
     def update(self, delta_time, player_x, player_y):
-        # dx = player_x - self.center_x
-        # dy = player_y - self.center_y
+        dx = player_x - self.center_x
+        dy = player_y - self.center_y
 
-        dx, dy = 0, 0
+        distance = math.sqrt(dx * dx + dy * dy)
 
-        if player_x < self.center_x:
-            dx -= self.speed
+        if distance > 10:
+            if distance > 0:
+                dx_normalized = dx / distance
+                dy_normalized = dy / distance
+            else:
+                dx_normalized = 0
+                dy_normalized = 0
+
+            self.center_x += dx_normalized * self.speed * delta_time
+            self.center_y += dy_normalized * self.speed * delta_time
+
+            if dx_normalized > 0.1:
+                self.face_direction = FaceDirection.RIGHT
+            elif dx_normalized < -0.1:
+                self.face_direction = FaceDirection.LEFT
+            self.state = 'run'
         else:
-            dx += self.speed
-
-        if player_y < self.center_y:
-            dy -= self.speed
-        else:
-            dy += self.speed
-
-        if dx != 0 and dy != 0:
-            factor = 0.7071
-            dx *= factor
-            dy *= factor
-
-        self.center_x += dx * delta_time
-        self.center_y += dy * delta_time
+            dx = 0
+            dy = 0
+            self.state = 'idle'
 
         self.is_walking = bool(dx or dy)
         if self.is_walking:

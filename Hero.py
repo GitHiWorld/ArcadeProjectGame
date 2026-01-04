@@ -12,7 +12,7 @@ class Hero(arcade.Sprite):
 
         self.scale = 1.0
         self.speed = 300
-        self.dodge_speed = 900
+        self.dodge_speed = 600
         self.health = 100
 
         self.is_dodging = False
