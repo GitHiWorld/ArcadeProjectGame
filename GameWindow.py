@@ -36,9 +36,8 @@ class GameWindow(arcade.View):
     def on_draw(self):
         self.clear()
         self.world_camera.use()
-        self.player_list.draw()
-
         self.enemy_list.draw()
+        self.player_list.draw()
 
         self.gui_camera.use()
         self.cursors_list.draw()
@@ -68,6 +67,7 @@ class GameWindow(arcade.View):
         self.player_list.update_animation(delta_time)
 
         self.enemy_list.update(delta_time, self.player.center_x, self.player.center_y)
+        self.enemy_list.update_animation(delta_time, self.player.center_x)
 
         position = (
             self.player.center_x,
