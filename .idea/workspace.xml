@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="скелетик двигается но почему то дергается">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hero.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Skelet_enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Skelet_enemy.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +63,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "9e22291a",
+    "git-widget-placeholder": "550aaadf",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -371,7 +370,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767533240324</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)">
+      <option name="closed" value="true" />
+      <created>1767533637905</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1767533637905</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -419,6 +426,7 @@
     <MESSAGE value="бесполезный 4" />
     <MESSAGE value="промежуточный коммит, добавлены иконки врагов + скелет стоит не рыпается)" />
     <MESSAGE value="скелетик двигается но почему то дергается" />
-    <option name="LAST_COMMIT_MESSAGE" value="скелетик двигается но почему то дергается" />
+    <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
+    <option name="LAST_COMMIT_MESSAGE" value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
   </component>
 </project>

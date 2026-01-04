@@ -34,6 +34,16 @@ class Skelet(arcade.Sprite):
         )
         self.walk_textures_left = [tex.flip_horizontally() for tex in self.walk_textures_right]
 
+        atc_1_path = 'images/pers/enemy/skelet/Skeleton_Warrior/Attack_1.png'
+        ATC_1_COLUMNS = 5
+        sprite_sheet_atc_1 = arcade.SpriteSheet(atc_1_path)
+        self.atc_1_texture_right = sprite_sheet_atc_1.get_texture_grid(
+            size=(128, 128),
+            columns=ATC_1_COLUMNS,
+            count=ATC_1_COLUMNS
+        )
+        self.atc_1_texture_left = [tex.flip_horizontally() for tex in self.atc_1_texture_right]
+
         self.current_texture_index = 0
         self.animation_timer = 0
 
@@ -50,6 +60,9 @@ class Skelet(arcade.Sprite):
         self.atc_1_delay = 0.1
         self.atc_2_delay = 0.1
 
+        self.atc_range = 50
+        self.vision_range = 500
+
         self.center_x = random.randint(0, WIDTH)
         self.center_y = HEIGHT // 2
 
@@ -65,7 +78,7 @@ class Skelet(arcade.Sprite):
                 else:
                     self.texture = self.walk_textures_left[self.current_texture_index]
 
-        if self.state == 'idle':
+        elif self.state == 'idle':
             if self.animation_timer >= self.idle_delay:
                 self.animation_timer = 0
                 self.current_texture_index = (self.current_texture_index + 1) % len(self.idle_textures_right)
@@ -74,13 +87,31 @@ class Skelet(arcade.Sprite):
                 else:
                     self.texture = self.idle_textures_left[self.current_texture_index]
 
+        elif self.state == 'atc_1':
+            if self.animation_timer >= self.atc_1_delay:
+                self.animation_timer = 0
+                if self.current_texture_index == len(self.atc_1_texture_right) - 1:
+                    self.state = 'idle'
+                    self.current_texture_index = 0
+                else:
+                    self.current_texture_index = (self.current_texture_index + 1)
+                    if self.attack_direction == FaceDirection.RIGHT:
+                        self.texture = self.atc_1_texture_right[self.current_texture_index]
+                    else:
+                        self.texture = self.atc_1_texture_left[self.current_texture_index]
+
     def update(self, delta_time, player_x, player_y):
         dx = player_x - self.center_x
         dy = player_y - self.center_y
 
         distance = math.sqrt(dx * dx + dy * dy)
 
-        if distance > 10:
+        if distance <= self.atc_range:
+            if self.state != 'atc_1':
+                self.state = 'atc_1'
+                self.current_texture_index = 0
+                self.animation_timer = 0
+        elif distance <= self.vision_range:
             if distance > 0:
                 dx_normalized = dx / distance
                 dy_normalized = dy / distance
@@ -97,12 +128,5 @@ class Skelet(arcade.Sprite):
                 self.face_direction = FaceDirection.LEFT
             self.state = 'run'
         else:
-            dx = 0
-            dy = 0
             self.state = 'idle'
 
-        self.is_walking = bool(dx or dy)
-        if self.is_walking:
-            self.state = 'run'
-        else:
-            self.state = 'idle'
