@@ -4,11 +4,7 @@ import math
 import random
 from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP
 from PauseView import PauseView
-import enum
-
-class FaceDirection(enum.Enum):
-    LEFT = 0
-    RIGHT = 1
+from constants import FaceDirection
 
 class Hero(arcade.Sprite):
     def __init__(self):

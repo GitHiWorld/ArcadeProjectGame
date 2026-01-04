@@ -3,6 +3,7 @@ import math
 from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP
 from PauseView import PauseView
 from Hero import Hero
+from Skelet_enemy import Skelet
 
 class GameWindow(arcade.View):
     def __init__(self, menu_view):
@@ -22,6 +23,10 @@ class GameWindow(arcade.View):
         self.player = Hero()
         self.player_list.append(self.player)
 
+        self.enemy_list = arcade.SpriteList()
+        self.skelet_1 = Skelet()
+        self.enemy_list.append(self.skelet_1)
+
         cursor(self)
 
         self.keys_pressed = set()
@@ -32,6 +37,8 @@ class GameWindow(arcade.View):
         self.clear()
         self.world_camera.use()
         self.player_list.draw()
+
+        self.enemy_list.draw()
 
         self.gui_camera.use()
         self.cursors_list.draw()
@@ -59,6 +66,8 @@ class GameWindow(arcade.View):
     def on_update(self, delta_time):
         self.player_list.update(delta_time, self.keys_pressed)
         self.player_list.update_animation(delta_time)
+
+        self.enemy_list.update(delta_time, self.player.center_x, self.player.center_y)
 
         position = (
             self.player.center_x,
