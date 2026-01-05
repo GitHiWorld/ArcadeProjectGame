@@ -24,8 +24,11 @@ class GameWindow(arcade.View):
         self.player_list.append(self.player)
 
         self.enemy_list = arcade.SpriteList()
+
+        self.skeleton_list = arcade.SpriteList()
         self.skelet_1 = Skelet()
-        self.enemy_list.append(self.skelet_1)
+        self.skeleton_list.append(self.skelet_1)
+        # self.enemy_list.append(self.skeleton_list)
 
         cursor(self)
 
@@ -36,7 +39,7 @@ class GameWindow(arcade.View):
     def on_draw(self):
         self.clear()
         self.world_camera.use()
-        self.enemy_list.draw()
+        self.skeleton_list.draw()
         self.player_list.draw()
 
         self.gui_camera.use()
@@ -66,8 +69,27 @@ class GameWindow(arcade.View):
         self.player_list.update(delta_time, self.keys_pressed)
         self.player_list.update_animation(delta_time)
 
-        self.enemy_list.update(delta_time, self.player.center_x, self.player.center_y)
-        self.enemy_list.update_animation(delta_time, self.player.center_x)
+        self.skeleton_list.update(delta_time, self.player.center_x, self.player.center_y)
+        self.skeleton_list.update_animation(delta_time, self.player.center_x)
+
+        # skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
+
+        # if skeleton_hit_list and self.player.state in ['atc_1', 'atc_2']:
+        #     if self.player.current_texture_index == 1:
+        #         for i in skeleton_hit_list:
+        #             i.health -= 50
+
+        if self.player.state in ['atc_1', 'atc_2']:
+            skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
+
+            # Наносим урон только в середине анимации (чтобы избежать множественных попаданий)
+            if self.player.current_texture_index in [2, 3] and skeleton_hit_list:
+                for skeleton in skeleton_hit_list:
+                    skeleton.health -= 25
+
+        for skeleton in self.skeleton_list:
+            if skeleton.health <= 0:
+                skeleton.remove_from_sprite_lists()
 
         position = (
             self.player.center_x,
@@ -77,7 +99,7 @@ class GameWindow(arcade.View):
 
         self.world_camera.position = arcade.math.lerp_2d(self.world_camera.position,
             position,
-            0.1,
+            0.03,
         )
 
     def on_hide_view(self):
