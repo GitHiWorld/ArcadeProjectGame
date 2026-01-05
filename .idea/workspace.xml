@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="ффф">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="скелетик ходит, атакует в радиусе 50px">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Skelet_enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Skelet_enemy.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="e087dbc123e1d8dfbcd8b7886cb84d56ea3d1cc4" />
+        <entry key="$PROJECT_DIR$" value="save-my-work" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -379,7 +379,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767533637905</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="скелетик ходит, атакует в радиусе 50px">
+      <option name="closed" value="true" />
+      <created>1767535425695</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1767535425695</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -428,6 +436,7 @@
     <MESSAGE value="промежуточный коммит, добавлены иконки врагов + скелет стоит не рыпается)" />
     <MESSAGE value="скелетик двигается но почему то дергается" />
     <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
-    <option name="LAST_COMMIT_MESSAGE" value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
+    <MESSAGE value="скелетик ходит, атакует в радиусе 50px" />
+    <option name="LAST_COMMIT_MESSAGE" value="скелетик ходит, атакует в радиусе 50px" />
   </component>
 </project>

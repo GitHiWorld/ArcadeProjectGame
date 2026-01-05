@@ -57,7 +57,7 @@ class Skelet(arcade.Sprite):
 
         self.walk_delay = 0.1
         self.idle_delay = 0.2
-        self.atc_1_delay = 0.1
+        self.atc_1_delay = 0.12
         self.atc_2_delay = 0.1
 
         self.atc_range = 50
@@ -95,7 +95,7 @@ class Skelet(arcade.Sprite):
                     self.current_texture_index = 0
                 else:
                     self.current_texture_index = (self.current_texture_index + 1)
-                    if self.attack_direction == FaceDirection.RIGHT:
+                    if player_x >= self.center_x:
                         self.texture = self.atc_1_texture_right[self.current_texture_index]
                     else:
                         self.texture = self.atc_1_texture_left[self.current_texture_index]
