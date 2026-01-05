@@ -20,7 +20,7 @@ class Start_menu(arcade.View):
             self.w = size[0]
             self.h = size[1]
 
-        self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
+        self.texture = arcade.load_texture('images/backgrounds/start_mennu.png')
         arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
