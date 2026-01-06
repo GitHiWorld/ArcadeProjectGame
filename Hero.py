@@ -96,8 +96,8 @@ class Hero(arcade.Sprite):
 
         self.texture = self.idle_textures_right[0]
 
-        self.center_x = WIDTH // 2
-        self.center_y = HEIGHT // 2
+        self.center_x = 100
+        self.center_y = HEIGHT * 1.8
 
     def set_attack_direction(self, mouse_x):
         if mouse_x >= self.center_x:

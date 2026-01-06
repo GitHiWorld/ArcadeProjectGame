@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="начальная карта(лучше), тайлы для нее">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="карта работает но немного криво (черные края, размер нужно подбирать)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hero.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/backgrounds/map_start_artemii.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/map_start_artemii.tmx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +36,12 @@
     &quot;assignee&quot;: &quot;GitHiWorld&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,
-    &quot;accountId&quot;: &quot;b10784f0-31da-485d-a5ff-6e60b6c34a20&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GitHiWorld/ArcadeProjectGame.git",
+    "accountId": "28964013-60b7-4cf7-b360-0300c0ad73e9"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -52,23 +53,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.GameWindow.executor": "Run",
-    "Python.Hero.executor": "Run",
-    "Python.Skelet_enemy.executor": "Run",
-    "Python.StartMenu.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.tests 2.executor": "Run",
-    "Python.tests.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "9910535b",
-    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.GameWindow.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Hero.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Skelet_enemy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.StartMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;18bda723&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool\images\backgrounds" />
@@ -198,7 +199,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-53e2683a6804-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
@@ -403,7 +404,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767715306206</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="карта работает но немного криво (черные края, размер нужно подбирать)">
+      <option name="closed" value="true" />
+      <created>1767716139806</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1767716139806</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -430,7 +439,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add main" />
     <MESSAGE value="начальный фон, картинка к нему" />
     <MESSAGE value="добавлена загрузка шрифта, не раб. версия" />
     <MESSAGE value="добавлены частицы листьев на главный экран, шрифт не работает" />
@@ -455,6 +463,7 @@
     <MESSAGE value="скелетик ходит, атакует в радиусе 50px" />
     <MESSAGE value="Начальная карта" />
     <MESSAGE value="начальная карта(лучше), тайлы для нее" />
-    <option name="LAST_COMMIT_MESSAGE" value="начальная карта(лучше), тайлы для нее" />
+    <MESSAGE value="карта работает но немного криво (черные края, размер нужно подбирать)" />
+    <option name="LAST_COMMIT_MESSAGE" value="карта работает но немного криво (черные края, размер нужно подбирать)" />
   </component>
 </project>

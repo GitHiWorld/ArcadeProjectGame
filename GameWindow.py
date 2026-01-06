@@ -13,9 +13,6 @@ class GameWindow(arcade.View):
         self.w = WIDTH
         self.h = HEIGHT
 
-        self.world_width = 2000
-        self.world_height = 2000
-
         self.world_camera = arcade.camera.Camera2D()
         self.gui_camera = arcade.camera.Camera2D()
 
@@ -37,7 +34,8 @@ class GameWindow(arcade.View):
         arcade.set_background_color(arcade.color.BLACK)
 
         map_name = 'images/backgrounds/map_start_artemii.tmx'
-        tile_map = arcade.load_tilemap(map_name, scaling=2.5)
+        self.tile_map = arcade.load_tilemap(map_name, scaling=2.5)
+        tile_map = self.tile_map
 
         self.embient_list = tile_map.sprite_lists['окружение']
         self.walls_list = tile_map.sprite_lists['walls']
@@ -47,6 +45,8 @@ class GameWindow(arcade.View):
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.player, self.walls_list
         )
+
+        print(tile_map.tile_height)
 
     def on_draw(self):
         self.clear()
@@ -109,16 +109,30 @@ class GameWindow(arcade.View):
             if skeleton.health <= 0:
                 skeleton.remove_from_sprite_lists()
 
-        position = (
-            self.player.center_x,
-            self.player.center_y
-        )
+        if self.player.center_x - self.w // 2 <= 0:
+            target_x = self.w // 2
+        elif self.player.center_x + self.w // 2 >= self.tile_map.width * self.tile_map.tile_width * 2.5:
+            target_x = self.tile_map.width * self.tile_map.tile_width * 2.5 - self.w // 2
+        else:
+            target_x = self.player.center_x
 
+        if self.player.center_y - self.h // 2 <= 0:
+            target_y = self.h // 2
+        elif self.player.center_y + self.w // 2 >= self.tile_map.height * self.tile_map.tile_height * 2.5:
+            target_y = self.tile_map.height * self.tile_map.tile_height * 2.5 - self.h // 2
+        else:
+            target_y = self.player.center_y
+
+        position = (
+            target_x,
+            target_y
+        )
 
         self.world_camera.position = arcade.math.lerp_2d(self.world_camera.position,
             position,
             0.03,
         )
+
 
     def on_hide_view(self):
         self.cursors_list = arcade.SpriteList()
