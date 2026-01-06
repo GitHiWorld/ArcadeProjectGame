@@ -36,9 +36,26 @@ class GameWindow(arcade.View):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+        map_name = 'images/backgrounds/map_start_artemii.tmx'
+        tile_map = arcade.load_tilemap(map_name, scaling=2.5)
+
+        self.embient_list = tile_map.sprite_lists['окружение']
+        self.walls_list = tile_map.sprite_lists['walls']
+        self.water_list = tile_map.sprite_lists['water']
+        self.floor_list = tile_map.sprite_lists['floor']
+
+        self.physics_engine = arcade.PhysicsEngineSimple(
+            self.player, self.walls_list
+        )
+
     def on_draw(self):
         self.clear()
+
         self.world_camera.use()
+        self.floor_list.draw()
+        self.water_list.draw()
+        self.walls_list.draw()
+        self.embient_list.draw()
         self.skeleton_list.draw()
         self.player_list.draw()
 
@@ -66,6 +83,7 @@ class GameWindow(arcade.View):
             self.keys_pressed.remove(key)
 
     def on_update(self, delta_time):
+        self.physics_engine.update()
         self.player_list.update(delta_time, self.keys_pressed)
         self.player_list.update_animation(delta_time)
 

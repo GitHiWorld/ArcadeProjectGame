@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="Начальная карта">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="начальная карта(лучше), тайлы для нее">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="2d488610d9fb9bd81d2115cb6a3f2eb91f470db0" />
+        <entry key="$PROJECT_DIR$" value="9910535b95d9c060493129ce0b25029ace74bed6" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,7 +64,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "d8ae0f43",
+    "git-widget-placeholder": "9910535b",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -395,7 +395,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767627343492</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="начальная карта(лучше), тайлы для нее">
+      <option name="closed" value="true" />
+      <created>1767715306206</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1767715306206</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -446,6 +454,7 @@
     <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
     <MESSAGE value="скелетик ходит, атакует в радиусе 50px" />
     <MESSAGE value="Начальная карта" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начальная карта" />
+    <MESSAGE value="начальная карта(лучше), тайлы для нее" />
+    <option name="LAST_COMMIT_MESSAGE" value="начальная карта(лучше), тайлы для нее" />
   </component>
 </project>
