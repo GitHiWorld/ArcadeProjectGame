@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="карта работает но немного криво (черные края, размер нужно подбирать)">
-      <change afterPath="$PROJECT_DIR$/images/backgrounds/watersheet.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="наборы тайлов чтобы все работало (надеюсь)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/backgrounds/water.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/water.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="84bd3084cd8d4de72f6d801d504ed3d4d24604e1" />
+        <entry key="$PROJECT_DIR$" value="9910535b95d9c060493129ce0b25029ace74bed6" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,12 +33,12 @@
     &quot;assignee&quot;: &quot;GitHiWorld&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/GitHiWorld/ArcadeProjectGame.git",
-    "accountId": "b10784f0-31da-485d-a5ff-6e60b6c34a20"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,
+    &quot;accountId&quot;: &quot;28964013-60b7-4cf7-b360-0300c0ad73e9&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -67,7 +62,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "84bd3084",
+    "git-widget-placeholder": "ef259d31",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/backgrounds",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -201,7 +196,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
+        <option value="bundled-python-sdk-53e2683a6804-9cdd278e9d02-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
@@ -414,15 +409,23 @@
       <option name="project" value="LOCAL" />
       <updated>1767716139806</updated>
     </task>
-    <task id="LOCAL-00026" summary="..">
+    <task id="LOCAL-00026" summary="карта работает очень даже хорошо, камера не заходит в черноту, стены не проходятся короче классно">
       <option name="closed" value="true" />
-      <created>1767800119044</created>
+      <created>1767732460940</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1767800119044</updated>
+      <updated>1767732460940</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="наборы тайлов чтобы все работало (надеюсь)">
+      <option name="closed" value="true" />
+      <created>1767805992771</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1767805992771</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -449,7 +452,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="добавлена загрузка шрифта, не раб. версия" />
     <MESSAGE value="добавлены частицы листьев на главный экран, шрифт не работает" />
     <MESSAGE value="шрифт работает + звук" />
     <MESSAGE value="Добавлены кнопки(с настройками расширения) + конструкция нажатия. Так же изменен фон  соответсвующий описанию." />
@@ -473,7 +475,8 @@
     <MESSAGE value="Начальная карта" />
     <MESSAGE value="начальная карта(лучше), тайлы для нее" />
     <MESSAGE value="карта работает но немного криво (черные края, размер нужно подбирать)" />
-    <MESSAGE value=".." />
-    <option name="LAST_COMMIT_MESSAGE" value=".." />
+    <MESSAGE value="карта работает очень даже хорошо, камера не заходит в черноту, стены не проходятся короче классно" />
+    <MESSAGE value="наборы тайлов чтобы все работало (надеюсь)" />
+    <option name="LAST_COMMIT_MESSAGE" value="наборы тайлов чтобы все работало (надеюсь)" />
   </component>
 </project>
