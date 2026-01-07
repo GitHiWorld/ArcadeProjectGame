@@ -4,7 +4,7 @@ import math
 import random
 from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP
 from PauseView import PauseView
-from constants import FaceDirection
+from constants import FaceDirection, SCALE
 
 class Hero(arcade.Sprite):
     def __init__(self):
@@ -96,8 +96,8 @@ class Hero(arcade.Sprite):
 
         self.texture = self.idle_textures_right[0]
 
-        self.center_x = 100
-        self.center_y = HEIGHT * 1.8
+        self.center_x = 100 * SCALE
+        self.center_y = HEIGHT * 1.8 * SCALE / 2
 
     def set_attack_direction(self, mouse_x):
         if mouse_x >= self.center_x:

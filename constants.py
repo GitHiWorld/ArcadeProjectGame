@@ -9,6 +9,8 @@ DEAD_ZONE_W = int(WIDTH * 0.35)
 DEAD_ZONE_H = int(HEIGHT * 0.45)
 CAMERA_LERP = 0.1
 TILE_SCALING = 1
+BASE_WIDTH = 1920
+SCALE = WIDTH / BASE_WIDTH
 
 
 class FaceDirection(enum.Enum):

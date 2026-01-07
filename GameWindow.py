@@ -1,9 +1,10 @@
 import arcade
 import math
-from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP
+from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP, SCALE
 from PauseView import PauseView
 from Hero import Hero
 from Skelet_enemy import Skelet
+
 
 class GameWindow(arcade.View):
     def __init__(self, menu_view):
@@ -33,8 +34,16 @@ class GameWindow(arcade.View):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+        # ДИНАМИЧЕСКОЕ МАСШТАБИРОВАНИЕ КАРТЫ
         map_name = 'images/backgrounds/map_start_artemii.tmx'
-        self.tile_map = arcade.load_tilemap(map_name, scaling=2.5)
+
+        # Рассчитываем масштаб карты на основе разрешения экрана
+        # Базовый масштаб для 1920x1080 = 2.5
+        # Для 4K (3840x2160) масштаб будет 5.0
+        base_tile_scale = 2.5
+        dynamic_scale = base_tile_scale * SCALE
+
+        self.tile_map = arcade.load_tilemap(map_name, scaling=dynamic_scale)
         tile_map = self.tile_map
 
         self.embient_list = tile_map.sprite_lists['окружение']
@@ -46,7 +55,6 @@ class GameWindow(arcade.View):
             self.player, self.walls_list
         )
 
-        print(tile_map.tile_height)
 
     def on_draw(self):
         self.clear()
@@ -69,7 +77,7 @@ class GameWindow(arcade.View):
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             camera_x = self.world_camera.position[0]
-            mouse_world_x = camera_x - (WIDTH // 2) + x
+            mouse_world_x = camera_x - (self.w // 2) + x
             self.player.try_attack(mouse_world_x)
 
     def on_key_press(self, key, modifiers):
@@ -90,13 +98,6 @@ class GameWindow(arcade.View):
         self.skeleton_list.update(delta_time, self.player.center_x, self.player.center_y)
         self.skeleton_list.update_animation(delta_time, self.player.center_x)
 
-        # skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
-
-        # if skeleton_hit_list and self.player.state in ['atc_1', 'atc_2']:
-        #     if self.player.current_texture_index == 1:
-        #         for i in skeleton_hit_list:
-        #             i.health -= 50
-
         if self.player.state in ['atc_1', 'atc_2']:
             skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
 
@@ -109,17 +110,20 @@ class GameWindow(arcade.View):
             if skeleton.health <= 0:
                 skeleton.remove_from_sprite_lists()
 
+        map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
+        map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
+
         if self.player.center_x - self.w // 2 <= 0:
             target_x = self.w // 2
-        elif self.player.center_x + self.w // 2 >= self.tile_map.width * self.tile_map.tile_width * 2.5:
-            target_x = self.tile_map.width * self.tile_map.tile_width * 2.5 - self.w // 2
+        elif self.player.center_x + self.w // 2 >= map_width_pixels:
+            target_x = map_width_pixels - self.w // 2
         else:
             target_x = self.player.center_x
 
         if self.player.center_y - self.h // 2 <= 0:
             target_y = self.h // 2
-        elif self.player.center_y + self.w // 2 >= self.tile_map.height * self.tile_map.tile_height * 2.5:
-            target_y = self.tile_map.height * self.tile_map.tile_height * 2.5 - self.h // 2
+        elif self.player.center_y + self.w // 2 >= map_height_pixels:
+            target_y = map_height_pixels - self.h // 2
         else:
             target_y = self.player.center_y
 
@@ -129,10 +133,9 @@ class GameWindow(arcade.View):
         )
 
         self.world_camera.position = arcade.math.lerp_2d(self.world_camera.position,
-            position,
-            0.03,
-        )
-
+                                                         position,
+                                                         0.03,
+                                                         )
 
     def on_hide_view(self):
         self.cursors_list = arcade.SpriteList()

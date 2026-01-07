@@ -8,11 +8,19 @@ from constants import FaceDirection
 
 
 class Skelet(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, speed_multiplier=1.0):
         super().__init__()
 
-        self.speed = 150
+        self.base_speed = 150
+        self.speed = self.base_speed * speed_multiplier
         self.health = 100
+
+        screen_ratio = WIDTH / 1920
+        self.scale = 1.0 * screen_ratio
+
+        self.atc_range = 50 * screen_ratio
+        self.vision_range = 500 * screen_ratio
+
 
         idle_path = 'images/pers/enemy/skelet/Skeleton_Warrior/Idle.png'
         IDLE_COLUMNS = 7
