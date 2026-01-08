@@ -4,6 +4,7 @@ import math
 import random
 from pyglet.graphics import Batch
 from constants import WIDTH, HEIGHT, cursor
+from SettingsView import SettingsView
 
 
 class PauseView(arcade.View):
@@ -111,7 +112,8 @@ class PauseView(arcade.View):
                         self.window.show_view(self.game_view)
 
                     if clicked_sprite == self.settings:
-                        pass
+                        settings_view = SettingsView(self.menu_view)
+                        self.window.show_view(settings_view)
 
                     if clicked_sprite == self.exit_game:
                         arcade.exit()

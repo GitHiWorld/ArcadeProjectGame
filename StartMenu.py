@@ -5,6 +5,8 @@ import random
 from GameWindow import GameWindow
 from constants import WIDTH, HEIGHT, cursor
 from pyglet.graphics import Batch
+from SettingsView import SettingsView
+from SettingsView import SettingsView
 
 
 class Start_menu(arcade.View):
@@ -154,7 +156,8 @@ class Start_menu(arcade.View):
                     if clicked_sprite == self.play:
                         self.start_game()
                     if clicked_sprite == self.settings:
-                        pass
+                        settings_view = SettingsView(self)
+                        self.window.show_view(settings_view)
                     if clicked_sprite == self.exit_game:
                         arcade.exit()
         else:
