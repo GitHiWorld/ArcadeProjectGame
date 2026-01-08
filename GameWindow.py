@@ -11,6 +11,12 @@ class GameWindow(arcade.View):
         super().__init__()
         self.main_menu = menu_view
 
+        self.map_1_sound = arcade.load_sound('sounds/map_1_sound.mp3', streaming=True)
+        self.sound_map1 = None
+        self.sound_pos = 0
+
+        map_name = 'images/backgrounds/map_start_artemii.tmx'
+
         self.w = WIDTH
         self.h = HEIGHT
 
@@ -18,7 +24,7 @@ class GameWindow(arcade.View):
         self.gui_camera = arcade.camera.Camera2D()
 
         self.player_list = arcade.SpriteList()
-        self.player = Hero()
+        self.player = Hero(map_name)
         self.player_list.append(self.player)
 
         self.enemy_list = arcade.SpriteList()
@@ -35,7 +41,6 @@ class GameWindow(arcade.View):
         arcade.set_background_color(arcade.color.BLACK)
 
         # ДИНАМИЧЕСКОЕ МАСШТАБИРОВАНИЕ КАРТЫ
-        map_name = 'images/backgrounds/map_start_artemii.tmx'
 
         # Рассчитываем масштаб карты на основе разрешения экрана
         # Базовый масштаб для 1920x1080 = 2.5
@@ -138,8 +143,14 @@ class GameWindow(arcade.View):
                                                          )
 
     def on_hide_view(self):
+        if self.sound_map1:
+            self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
+            self.sound_map1.pause()
         self.cursors_list = arcade.SpriteList()
 
     def on_show_view(self):
         cursor(self)
+        self.sound_map1 = arcade.play_sound(self.map_1_sound, volume=0.5, loop=True)
+        if self.sound_pos > 0:
+            self.sound_map1.seek(self.sound_pos)
         self.keys_pressed = set()

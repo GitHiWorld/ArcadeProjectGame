@@ -7,11 +7,16 @@ from PauseView import PauseView
 from constants import FaceDirection, SCALE
 
 class Hero(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, map_name):
         super().__init__()
 
+        self.map_name = map_name
+
         self.scale = 1.0
-        self.speed = 300
+        if self.map_name != 'images/backgrounds/map_start_artemii.tmx':
+            self.speed = 300
+        else:
+            self.speed = 200
         self.dodge_speed = 600
         self.health = 100
 
@@ -35,12 +40,12 @@ class Hero(arcade.Sprite):
         run_path = 'images/pers/Knight_1/Run.png'
         RUN_COLUMNS = 5
         sprite_sheet_run = arcade.SpriteSheet(run_path)
-        self.walk_textures_right = sprite_sheet_run.get_texture_grid(
+        self.run_textures_right = sprite_sheet_run.get_texture_grid(
             size=(128, 128),
             columns=RUN_COLUMNS,
             count=RUN_COLUMNS
         )
-        self.walk_textures_left = [tex.flip_horizontally() for tex in self.walk_textures_right]
+        self.run_textures_left = [tex.flip_horizontally() for tex in self.run_textures_right]
 
         atc_1_path = 'images/pers/Knight_1/Attack 1.png'
         ATC_1_COLUMNS = 5
@@ -74,6 +79,16 @@ class Hero(arcade.Sprite):
         self.dodge_texture_right = all_dodge_textures[DODGE_FRAME_INDEX]
         self.dodge_texture_left = self.dodge_texture_right.flip_horizontally()
 
+        walk_path = 'images/pers/Knight_1/Walk.png'
+        WALK_COLUMNS = 8
+        sprite_sheet_walk = arcade.SpriteSheet(walk_path)
+        self.walk_textures_right = sprite_sheet_walk.get_texture_grid(
+            size=(128, 128),
+            columns=WALK_COLUMNS,
+            count=WALK_COLUMNS
+        )
+        self.walk_textures_left = [i.flip_horizontally() for i in self.walk_textures_right]
+
         self.current_texture_index = 0
         self.animation_timer = 0
 
@@ -97,7 +112,7 @@ class Hero(arcade.Sprite):
         self.texture = self.idle_textures_right[0]
 
         self.center_x = 100 * SCALE
-        self.center_y = HEIGHT * 1.8 * SCALE / 2
+        self.center_y = HEIGHT * 1.8
 
     def set_attack_direction(self, mouse_x):
         if mouse_x >= self.center_x:
@@ -111,7 +126,7 @@ class Hero(arcade.Sprite):
         if self.dodge_cooldown > 0:
             self.dodge_cooldown -= delta_time
 
-        if self.state == 'run':
+        if self.state == 'walk':
             if self.animation_timer >= self.walk_delay:
                 self.animation_timer = 0
                 self.current_texture_index = (self.current_texture_index + 1) % len(self.walk_textures_right)
@@ -119,6 +134,15 @@ class Hero(arcade.Sprite):
                     self.texture = self.walk_textures_right[self.current_texture_index]
                 else:
                     self.texture = self.walk_textures_left[self.current_texture_index]
+
+        if self.state == 'run':
+            if self.animation_timer >= self.walk_delay:
+                self.animation_timer = 0
+                self.current_texture_index = (self.current_texture_index + 1) % len(self.run_textures_right)
+                if self.face_direction == FaceDirection.RIGHT:
+                    self.texture = self.run_textures_right[self.current_texture_index]
+                else:
+                    self.texture = self.run_textures_left[self.current_texture_index]
 
         elif self.state == 'idle':
             if self.animation_timer >= self.idle_delay:
@@ -169,7 +193,7 @@ class Hero(arcade.Sprite):
                 self.animation_timer = 0
 
     def dodge(self, direction=None):
-        if not self.is_dodging and self.dodge_cooldown <= 0:
+        if not self.is_dodging and self.dodge_cooldown <= 0 and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
             self.state = 'dodge'
             self.is_dodging = True
             self.dodge_timer = self.dodge_duration
@@ -195,7 +219,7 @@ class Hero(arcade.Sprite):
 
         dx, dy = 0, 0
 
-        if arcade.key.SPACE in keys_pressed:
+        if arcade.key.SPACE in keys_pressed and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
             if not self.is_dodging and self.dodge_cooldown <= 0:
                 self.dodge()
 
@@ -236,13 +260,15 @@ class Hero(arcade.Sprite):
 
         if not self.is_dodging and self.state not in ['atc_1', 'atc_2']:
             self.is_walking = bool(dx or dy)
-            if self.is_walking:
+            if self.is_walking and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
                 self.state = 'run'
+            elif self.is_walking and self.map_name == 'images/backgrounds/map_start_artemii.tmx':
+                self.state = 'walk'
             else:
                 self.state = 'idle'
 
     def try_attack(self, mouse_x):
-        if self.can_attack:
+        if self.can_attack and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
             self.can_attack = False
             self.attack_timer = 0
 
