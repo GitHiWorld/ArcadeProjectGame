@@ -1,5 +1,9 @@
 import arcade
 import math
+import time
+
+from arcade.types import XYZWHD
+
 from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP, SCALE
 from PauseView import PauseView
 from Hero import Hero
@@ -60,6 +64,28 @@ class GameWindow(arcade.View):
             self.player, self.walls_list
         )
 
+        self.subtitles = [
+            "...Предисловие...",
+            "Отец: Давным давно, сын мой, эти земли были подвластны тёмной магии...",
+            "Наши предки были доблестными воинами и магами, они сражались с тьмой на протяжении долгих десятилетий...",
+            'И вот, когда тьма дала слабину, наши предки запечатали её в древнем артефакте: Короне небес...',
+            'Но сейчас, после столь долгого времени силы тьмы, набрав мощь, вырвались на свободу...',
+            'Я уже слишком стар чтобы бороться с ними, но ты, сын мой, должен остановить их...',
+            'И, наконец, положить же конец страданиям и насилию в этих краях...',
+            'Иди же в Замок Тёмных и повергни их раз и на всегда...',
+            '...Удачи, о сын мой...'
+        ]
+        self.current_subtitle = 0
+        self.displayed_text = ""
+        self.full_text = ""
+        self.typing_index = 0
+        self.typing_timer = 0
+        self.typing_speed = 0.06
+        self.show_subtitles = True
+
+        # Начинаем с первого субтитра
+        if self.subtitles:
+            self.full_text = self.subtitles[0]
 
     def on_draw(self):
         self.clear()
@@ -73,7 +99,66 @@ class GameWindow(arcade.View):
         self.player_list.draw()
 
         self.gui_camera.use()
+        self.draw_subtitles()
         self.cursors_list.draw()
+
+    def update_subtitles(self, delta_time):
+        """Обновление эффекта печатания"""
+        if not self.show_subtitles or self.typing_index >= len(self.full_text):
+            return
+
+        self.typing_timer += delta_time
+        if self.typing_timer >= self.typing_speed:
+            self.typing_timer = 0
+            self.displayed_text += self.full_text[self.typing_index]
+            self.typing_index += 1
+
+    def draw_subtitles(self):
+        """Отрисовка субтитров"""
+        if not self.show_subtitles:
+            return
+
+        # Фон
+        arcade.draw_rect_filled(arcade.XYWH(
+            self.window.width // 2, 100,
+            self.window.width - 100, 80),
+            (0, 0, 0, 180)
+        )
+
+        # Текст
+        arcade.draw_text(
+            self.displayed_text,
+            self.window.width // 2, 100,
+            (255, 241, 210), 24,
+            anchor_x="center", anchor_y="center",
+            align="center",
+            width=self.window.width - 150,
+            font_name="Comic Sans MS pixel rus eng"
+        )
+
+        # Подсказка (мигающая)
+        if self.typing_index >= len(self.full_text):
+            blink = int(time.time() * 2) % 2
+            if blink:
+                arcade.draw_text(
+                    "Нажмите E",
+                    self.window.width // 2, 30,
+                    (0, 0, 0, 180), 20,
+                    anchor_x="center",
+                    font_name="Comic Sans MS pixel rus eng"
+                )
+
+    def next_subtitle(self):
+        """Следующий субтитр"""
+        self.current_subtitle += 1
+        if self.current_subtitle < len(self.subtitles):
+            self.full_text = self.subtitles[self.current_subtitle]
+            self.displayed_text = ""
+            self.typing_index = 0
+            return True
+        else:
+            self.show_subtitles = False
+            return False
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.cursor.center_x = x
@@ -91,6 +176,17 @@ class GameWindow(arcade.View):
             pause_view = PauseView(self, self.main_menu)
             self.window.show_view(pause_view)
 
+        if key == arcade.key.E and self.show_subtitles:
+            if self.typing_index < len(self.full_text):
+                # Показать весь текст сразу
+                self.displayed_text = self.full_text
+                self.typing_index = len(self.full_text)
+            else:
+                # Следующий субтитр
+                if not self.next_subtitle():
+                    # Закончились субтитры
+                    self.show_subtitles = False
+
     def on_key_release(self, key, modifiers):
         if key in self.keys_pressed:
             self.keys_pressed.remove(key)
@@ -102,6 +198,8 @@ class GameWindow(arcade.View):
 
         self.skeleton_list.update(delta_time, self.player.center_x, self.player.center_y)
         self.skeleton_list.update_animation(delta_time, self.player.center_x)
+
+        self.update_subtitles(delta_time)
 
         if self.player.state in ['atc_1', 'atc_2']:
             skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)

@@ -16,7 +16,7 @@ class Hero(arcade.Sprite):
         if self.map_name != 'images/backgrounds/map_start_artemii.tmx':
             self.speed = 300
         else:
-            self.speed = 200
+            self.speed = 180
         self.dodge_speed = 600
         self.health = 100
 

@@ -1,6 +1,7 @@
 import arcade
 import enum
 
+arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
 size = arcade.get_display_size()
 WIDTH = size[0]
 HEIGHT = size[1]

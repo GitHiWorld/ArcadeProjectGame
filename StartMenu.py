@@ -23,7 +23,7 @@ class Start_menu(arcade.View):
             self.h = size[1]
 
         self.texture = arcade.load_texture('images/backgrounds/start_mennu.png')
-        arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+        # arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
 
         if self.w == 3840:
