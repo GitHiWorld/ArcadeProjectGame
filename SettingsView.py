@@ -60,7 +60,7 @@ class SettingsView(arcade.View):
 
         slider_width = 300 * SCALE
         slider_height = 15 * SCALE
-        self.slider_x = self.dialog_left + dialog_width - 150 * SCALE
+        self.slider_x = self.dialog_left + dialog_width - 240 * SCALE
         self.slider_y = sound_section_y
         self.slider_width = slider_width
         self.slider_height = slider_height
