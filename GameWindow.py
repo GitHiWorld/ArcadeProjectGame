@@ -16,16 +16,16 @@ class GameWindow(arcade.View):
         self.sound_map1 = None
         self.sound_pos = 0
 
-        map_name = 'images/backgrounds/map_start_artemii.tmx'
-
         self.w = WIDTH
         self.h = HEIGHT
+
+        self.map_name = 'images/backgrounds/map_start_artemii.tmx'
 
         self.world_camera = arcade.camera.Camera2D()
         self.gui_camera = arcade.camera.Camera2D()
 
         self.player_list = arcade.SpriteList()
-        self.player = Hero(map_name)
+        self.player = Hero(self.map_name)
         self.player_list.append(self.player)
 
         self.enemy_list = arcade.SpriteList()
@@ -37,24 +37,6 @@ class GameWindow(arcade.View):
         cursor(self)
 
         self.keys_pressed = set()
-
-        arcade.set_background_color(arcade.color.BLACK)
-
-        # ДИНАМИЧЕСКОЕ МАСШТАБИРОВАНИЕ КАРТЫ
-        base_tile_scale = 2.5
-        dynamic_scale = base_tile_scale * SCALE
-
-        self.tile_map = arcade.load_tilemap(map_name, scaling=dynamic_scale)
-        tile_map = self.tile_map
-
-        self.embient_list = tile_map.sprite_lists['окружение']
-        self.walls_list = tile_map.sprite_lists['walls']
-        self.water_list = tile_map.sprite_lists['water']
-        self.floor_list = tile_map.sprite_lists['floor']
-
-        self.physics_engine = arcade.PhysicsEngineSimple(
-            self.player, self.walls_list
-        )
 
         self.subtitles = [
             "...Предисловие...",
@@ -105,19 +87,28 @@ class GameWindow(arcade.View):
         if self.subtitles:
             self.full_text = self.subtitles[0]
 
+        self.load_map()
+
+    def what_level(self, map_name):
+        if map_name == 'images/backgrounds/map_start_artemii.tmx':
+            return 1
+        elif map_name == 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx':
+            return 2
+
     def on_draw(self):
         self.clear()
 
         self.world_camera.use()
         self.floor_list.draw()
-        self.water_list.draw()
+        self.other_list.draw()
         self.walls_list.draw()
         self.embient_list.draw()
         self.skeleton_list.draw()
         self.player_list.draw()
 
         self.gui_camera.use()
-        self.draw_subtitles()
+        if self.what_level(self.map_name) == 1:
+            self.draw_subtitles()
         self.cursors_list.draw()
 
     def update_subtitles(self, delta_time):
@@ -198,6 +189,9 @@ class GameWindow(arcade.View):
             self.keys_pressed.remove(key)
 
     def on_update(self, delta_time):
+        map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
+        map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
+
         self.physics_engine.update()
         self.player_list.update(delta_time, self.keys_pressed)
         self.player_list.update_animation(delta_time)
@@ -205,7 +199,19 @@ class GameWindow(arcade.View):
         self.skeleton_list.update(delta_time, self.player.center_x, self.player.center_y)
         self.skeleton_list.update_animation(delta_time, self.player.center_x)
 
-        self.update_subtitles(delta_time)
+        next_collison = arcade.check_for_collision_with_list(self.player, self.next_list)
+
+        if self.what_level(self.map_name) == 1:
+            self.update_subtitles(delta_time)
+            if next_collison and not self.next_subtitle():
+                self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx'
+                self.load_map()
+                self.player_list.remove(self.player)
+                self.player = Hero(self.map_name)
+                self.player_list.append(self.player)
+                self.player.center_x = 100 * SCALE
+                map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
+                self.player.center_y = map_height_pixels // 2
 
         if self.player.state in ['atc_1', 'atc_2']:
             skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
@@ -217,9 +223,6 @@ class GameWindow(arcade.View):
         for skeleton in self.skeleton_list:
             if skeleton.health <= 0:
                 skeleton.remove_from_sprite_lists()
-
-        map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
-        map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
 
         if self.player.center_x - self.w // 2 <= 0:
             target_x = self.w // 2
@@ -287,3 +290,22 @@ class GameWindow(arcade.View):
             self.sound_map1 = None
 
         self.keys_pressed = set()
+
+    def load_map(self):
+        base_tile_scale = 2.5
+        dynamic_scale = base_tile_scale * SCALE
+
+        self.tile_map = arcade.load_tilemap(self.map_name, scaling=dynamic_scale)
+        tile_map = self.tile_map
+
+        if self.what_level(self.map_name) == 1:
+            self.next_list = tile_map.sprite_lists['next']
+
+        self.embient_list = tile_map.sprite_lists['embient']
+        self.other_list = tile_map.sprite_lists['other']
+        self.walls_list = tile_map.sprite_lists['walls']
+        self.floor_list = tile_map.sprite_lists['floor']
+
+        self.physics_engine = arcade.PhysicsEngineSimple(
+            self.player, (self.walls_list, self.other_list)
+        )
