@@ -1,9 +1,5 @@
-import time
 import arcade
-import math
-import random
-from pyglet.graphics import Batch
-from constants import WIDTH, HEIGHT, cursor
+from constants import WIDTH, HEIGHT, cursor, SCALE
 from SettingsView import SettingsView
 
 
@@ -15,17 +11,18 @@ class PauseView(arcade.View):
 
         self.w = WIDTH
 
+        button_scale = 0.5 * SCALE
         if WIDTH == 3840:
-            self.play = arcade.Sprite('images/sprites/play.png', scale=1)
-            self.settings = arcade.Sprite('images/sprites/settings.png', scale=1)
-            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=1)
-            self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=0.51)
+            button_scale = 1.0
 
-        if WIDTH != 3840:
-            self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
-            self.settings = arcade.Sprite('images/sprites/settings.png', scale=0.5)
-            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=0.5)
-            self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=0.255)
+        main_menu_scale = 0.255 * SCALE
+        if WIDTH == 3840:
+            main_menu_scale = 0.51
+
+        self.play = arcade.Sprite('images/sprites/play.png', scale=button_scale)
+        self.settings = arcade.Sprite('images/sprites/settings.png', scale=button_scale)
+        self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=button_scale)
+        self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=main_menu_scale)
 
         self.update_button_positions()
 
@@ -56,10 +53,12 @@ class PauseView(arcade.View):
 
     def update_button_positions(self):
         center_x = self.width // 2
+        button_spacing = 80 * SCALE
+
         self.play.center_y = int(self.height * 0.7)
-        self.main_menu.center_y = int(self.height * 0.6)
-        self.settings.center_y = int(self.height * 0.5)
-        self.exit_game.center_y = int(self.height * 0.4)
+        self.main_menu.center_y = int(self.height * 0.7 - button_spacing)
+        self.settings.center_y = int(self.height * 0.7 - button_spacing * 2)
+        self.exit_game.center_y = int(self.height * 0.7 - button_spacing * 3)
 
         self.play.center_x = center_x
         self.settings.center_x = center_x
@@ -77,93 +76,49 @@ class PauseView(arcade.View):
 
         clicked = clicked_sprites[-1]
         self.pressed_button = clicked
-        if self.w != 3840:
-            if clicked != self.main_menu:
-                clicked.scale = 0.45
-            else:
-                clicked.scale = 0.23
 
-            if button == arcade.MOUSE_BUTTON_LEFT:
-                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
-                if clicked_buttons:
-                    clicked_sprite = clicked_buttons[-1]
+        if clicked == self.play:
+            self.window.show_view(self.game_view)
+        elif clicked == self.settings:
+            settings_view = SettingsView(self)
+            self.window.show_view(settings_view)
+        elif clicked == self.exit_game:
+            arcade.exit()
+        elif clicked == self.main_menu:
+            self.window.show_view(self.menu_view)
 
-                    if clicked_sprite == self.play:
-                        self.window.show_view(self.game_view)
-                    if clicked_sprite == self.settings:
-                        pass
-                    if clicked_sprite == self.exit_game:
-                        arcade.exit()
-                    if clicked_sprite == self.main_menu:
-                        self.window.show_view(self.menu_view)
-
-        else:
-            if clicked != self.main_menu:
-                clicked.scale = 0.7
-            else:
-                clicked.scale = 0.46
-
-            if button == arcade.MOUSE_BUTTON_LEFT:
-                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
-                if clicked_buttons:
-                    clicked_sprite = clicked_buttons[-1]
-
-                    if clicked_sprite == self.play:
-                        self.window.show_view(self.game_view)
-
-                    if clicked_sprite == self.settings:
-                        settings_view = SettingsView(self.menu_view)
-                        self.window.show_view(settings_view)
-
-                    if clicked_sprite == self.exit_game:
-                        arcade.exit()
-                    if clicked_sprite == self.main_menu:
-                        self.window.show_view(self.menu_view)
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
-        if hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w != 3840:
-            if self.pressed_button != self.main_menu:
-                self.pressed_button.scale = 0.55
-            else:
-                self.pressed_button.scale = 0.285
-            self.pressed_button = None
-        elif hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w == 3840:
-            if self.pressed_button != self.main_menu:
-                self.pressed_button.scale = 1.2
-            else:
-                self.pressed_button.scale = 0.57
+        if hasattr(self, 'pressed_button') and self.pressed_button is not None:
             self.pressed_button = None
 
     def on_mouse_motion(self, x, y, dx, dy):
+        base_scale = 0.5 * SCALE
+        hover_scale = base_scale * 1.1
+        main_menu_base = 0.255 * SCALE
+        main_menu_hover = main_menu_base * 1.1
+
+        if WIDTH == 3840:
+            base_scale = 1.0
+            hover_scale = 1.2
+            main_menu_base = 0.51
+            main_menu_hover = 0.57
+
         for btn in self.button_list:
-            if self.w != 3840:
-                if btn != self.main_menu:
-                    btn.scale = 0.5
-                else:
-                    btn.scale = 0.255
+            if btn == self.main_menu:
+                btn.scale = main_menu_base
+            else:
+                btn.scale = base_scale
 
-                check = arcade.get_sprites_at_point((x, y), self.button_list)
-                if check:
-                    checkin = check[-1]
-                    if checkin != self.main_menu:
-                        checkin.scale = 0.55
-                    else:
-                        checkin.scale = 0.285
+        check = arcade.get_sprites_at_point((x, y), self.button_list)
+        if check:
+            checkin = check[-1]
+            if checkin == self.main_menu:
+                checkin.scale = main_menu_hover
+            else:
+                checkin.scale = hover_scale
 
-            if self.w == 3840:
-                if btn != self.main_menu:
-                    btn.scale = 1
-                else:
-                    btn.scale = 0.51
-
-                check = arcade.get_sprites_at_point((x, y), self.button_list)
-                if check:
-                    checkin = check[-1]
-                    if checkin != self.main_menu:
-                        checkin.scale = 1.2
-                    else:
-                        checkin.scale = 0.57
-
-        self.cursor.center_x = x
-        self.cursor.center_y = y
+        if hasattr(self, 'cursor'):
+            self.cursor.center_x = x
+            self.cursor.center_y = y

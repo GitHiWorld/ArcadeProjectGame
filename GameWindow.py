@@ -1,10 +1,7 @@
 import arcade
 import math
 import time
-
-from arcade.types import XYZWHD
-
-from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP, SCALE
+from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings
 from PauseView import PauseView
 from Hero import Hero
 from Skelet_enemy import Skelet
@@ -36,7 +33,6 @@ class GameWindow(arcade.View):
         self.skeleton_list = arcade.SpriteList()
         self.skelet_1 = Skelet()
         self.skeleton_list.append(self.skelet_1)
-        # self.enemy_list.append(self.skeleton_list)
 
         cursor(self)
 
@@ -45,10 +41,6 @@ class GameWindow(arcade.View):
         arcade.set_background_color(arcade.color.BLACK)
 
         # ДИНАМИЧЕСКОЕ МАСШТАБИРОВАНИЕ КАРТЫ
-
-        # Рассчитываем масштаб карты на основе разрешения экрана
-        # Базовый масштаб для 1920x1080 = 2.5
-        # Для 4K (3840x2160) масштаб будет 5.0
         base_tile_scale = 2.5
         dynamic_scale = base_tile_scale * SCALE
 
@@ -83,7 +75,33 @@ class GameWindow(arcade.View):
         self.typing_speed = 0.06
         self.show_subtitles = True
 
-        # Начинаем с первого субтитра
+        subtitle_font_size = int(24 * SCALE)
+        if WIDTH == 3840:
+            subtitle_font_size = 48
+
+        self.subtitle_text = arcade.Text(
+            "",
+            self.window.width // 2,
+            100,
+            (255, 241, 210),
+            font_size=subtitle_font_size,
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x="center",
+            anchor_y="center",
+            align="center",
+            width=self.window.width - 150
+        )
+
+        self.hint_text = arcade.Text(
+            "Нажмите E",
+            self.window.width // 2,
+            30,
+            (0, 0, 0, 180),
+            font_size=int(20 * SCALE),
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x="center"
+        )
+
         if self.subtitles:
             self.full_text = self.subtitles[0]
 
@@ -103,7 +121,6 @@ class GameWindow(arcade.View):
         self.cursors_list.draw()
 
     def update_subtitles(self, delta_time):
-        """Обновление эффекта печатания"""
         if not self.show_subtitles or self.typing_index >= len(self.full_text):
             return
 
@@ -112,57 +129,45 @@ class GameWindow(arcade.View):
             self.typing_timer = 0
             self.displayed_text += self.full_text[self.typing_index]
             self.typing_index += 1
+            self.subtitle_text.text = self.displayed_text
 
     def draw_subtitles(self):
-        """Отрисовка субтитров"""
         if not self.show_subtitles:
             return
 
-        # Фон
-        arcade.draw_rect_filled(arcade.XYWH(
-            self.window.width // 2, 100,
-            self.window.width - 100, 80),
+        arcade.draw_rect_filled(
+            arcade.XYWH(
+                self.window.width // 2,
+                100,
+                self.window.width - 100,
+                80 * SCALE
+            ),
             (0, 0, 0, 180)
         )
 
-        # Текст
-        arcade.draw_text(
-            self.displayed_text,
-            self.window.width // 2, 100,
-            (255, 241, 210), 24,
-            anchor_x="center", anchor_y="center",
-            align="center",
-            width=self.window.width - 150,
-            font_name="Comic Sans MS pixel rus eng"
-        )
+        self.subtitle_text.draw()
 
-        # Подсказка (мигающая)
         if self.typing_index >= len(self.full_text):
             blink = int(time.time() * 2) % 2
             if blink:
-                arcade.draw_text(
-                    "Нажмите E",
-                    self.window.width // 2, 30,
-                    (0, 0, 0, 180), 20,
-                    anchor_x="center",
-                    font_name="Comic Sans MS pixel rus eng"
-                )
+                self.hint_text.draw()
 
     def next_subtitle(self):
-        """Следующий субтитр"""
         self.current_subtitle += 1
         if self.current_subtitle < len(self.subtitles):
             self.full_text = self.subtitles[self.current_subtitle]
             self.displayed_text = ""
             self.typing_index = 0
+            self.subtitle_text.text = ""
             return True
         else:
             self.show_subtitles = False
             return False
 
     def on_mouse_motion(self, x, y, dx, dy):
-        self.cursor.center_x = x
-        self.cursor.center_y = y
+        if hasattr(self, 'cursor'):
+            self.cursor.center_x = x
+            self.cursor.center_y = y
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
@@ -181,6 +186,7 @@ class GameWindow(arcade.View):
                 # Показать весь текст сразу
                 self.displayed_text = self.full_text
                 self.typing_index = len(self.full_text)
+                self.subtitle_text.text = self.full_text
             else:
                 # Следующий субтитр
                 if not self.next_subtitle():
@@ -204,7 +210,6 @@ class GameWindow(arcade.View):
         if self.player.state in ['atc_1', 'atc_2']:
             skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
 
-            # Наносим урон только в середине анимации (чтобы избежать множественных попаданий)
             if self.player.current_texture_index in [2, 3] and skeleton_hit_list:
                 for skeleton in skeleton_hit_list:
                     skeleton.health -= 25
@@ -230,25 +235,55 @@ class GameWindow(arcade.View):
         else:
             target_y = self.player.center_y
 
-        position = (
-            target_x,
-            target_y
-        )
+        position = (target_x, target_y)
 
-        self.world_camera.position = arcade.math.lerp_2d(self.world_camera.position,
-                                                         position,
-                                                         0.03,
-                                                         )
+        self.world_camera.position = arcade.math.lerp_2d(
+            self.world_camera.position,
+            position,
+            0.03
+        )
 
     def on_hide_view(self):
         if self.sound_map1:
-            self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
-            self.sound_map1.pause()
-        self.cursors_list = arcade.SpriteList()
+            try:
+                self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
+            except:
+                self.sound_pos = 0
+
+            try:
+                self.sound_map1.pause()
+            except:
+                pass
+
+        if hasattr(self, 'cursors_list'):
+            self.cursors_list.clear()
 
     def on_show_view(self):
         cursor(self)
-        self.sound_map1 = arcade.play_sound(self.map_1_sound, volume=0.5, loop=True)
-        if self.sound_pos > 0:
-            self.sound_map1.seek(self.sound_pos)
+
+        if hasattr(self, 'sound_map1') and self.sound_map1:
+            try:
+                self.sound_map1.delete()
+            except:
+                pass
+
+        settings = load_settings()
+        volume = settings.get("volume", 70) / 100.0
+        sound_enabled = settings.get("sound_enabled", True)
+
+        if sound_enabled:
+            self.sound_map1 = arcade.play_sound(
+                self.map_1_sound,
+                volume=volume,
+                loop=True
+            )
+
+            if hasattr(self, 'sound_pos') and self.sound_pos > 0:
+                try:
+                    self.sound_map1.seek(self.sound_pos)
+                except:
+                    pass
+        else:
+            self.sound_map1 = None
+
         self.keys_pressed = set()
