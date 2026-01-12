@@ -54,7 +54,7 @@ class GameWindow(arcade.View):
         self.full_text = ""
         self.typing_index = 0
         self.typing_timer = 0
-        self.typing_speed = 0.06
+        self.typing_speed = 0.07
         self.show_subtitles = True
 
         subtitle_font_size = int(24 * SCALE)
@@ -63,14 +63,14 @@ class GameWindow(arcade.View):
 
         self.subtitle_text = arcade.Text(
             "",
-            self.window.width // 2,
+            110,
             100,
             (255, 241, 210),
             font_size=subtitle_font_size,
             font_name="Comic Sans MS pixel rus eng",
-            anchor_x="center",
+            anchor_x="left",
             anchor_y="center",
-            align="center",
+            align="left",
             width=self.window.width - 150
         )
 
