@@ -30,9 +30,7 @@ class GameWindow(arcade.View):
         self.player_list.append(self.player)
 
         self.enemy_list = arcade.SpriteList()
-
         self.skeleton_list = arcade.SpriteList()
-        self.skelet_1 = Skelet()
 
         cursor(self)
 
@@ -213,9 +211,14 @@ class GameWindow(arcade.View):
                 self.player_list.remove(self.player)
                 self.player = Hero(self.map_name)
                 self.player_list.append(self.player)
+                self.skelet_1 = Skelet()
                 self.skeleton_list.append(self.skelet_1)
                 map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
                 self.player.center_y = map_height_pixels // 2
+                self.skelet_1.center_y = random.uniform(
+                    (map_height_pixels // 2) - 100 * SCALE,
+                    (map_height_pixels // 2) + 100 * SCALE
+                )
 
         skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
 

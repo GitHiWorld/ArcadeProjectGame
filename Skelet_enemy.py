@@ -4,7 +4,7 @@ import math
 import random
 from constants import WIDTH, HEIGHT, cursor, DEAD_ZONE_H, DEAD_ZONE_W, CAMERA_LERP
 from PauseView import PauseView
-from constants import FaceDirection
+from constants import FaceDirection, SCALE
 
 
 class Skelet(arcade.Sprite):
@@ -85,7 +85,7 @@ class Skelet(arcade.Sprite):
 
         self.walk_delay = 0.1
         self.idle_delay = 0.2
-        self.atc_1_delay = 0.12
+        self.atc_1_delay = 0.2
         self.atc_2_delay = 0.1
         self.hurt_delay = 0.16
         self.dead_delay = 0.18
@@ -93,7 +93,7 @@ class Skelet(arcade.Sprite):
         self.atc_range = 50
         self.vision_range = 500
 
-        self.center_x = random.randint(0, WIDTH)
+        self.center_x = random.randint(10, WIDTH)
         self.center_y = HEIGHT * 1.8
 
         self.is_dead = False

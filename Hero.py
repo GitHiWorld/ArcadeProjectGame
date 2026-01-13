@@ -14,10 +14,10 @@ class Hero(arcade.Sprite):
 
         self.scale = 1.0
         if self.map_name != 'images/backgrounds/map_start_artemii.tmx':
-            self.speed = 3000
+            self.speed = 300
         else:
             self.speed = 1800
-        self.dodge_speed = 600
+        self.dodge_speed = 652
         self.health = 100
 
         self.is_dodging = False
@@ -117,7 +117,7 @@ class Hero(arcade.Sprite):
         self.atc_1_delay = 0.1
         self.atc_2_delay = 0.1
         self.dodge_delay = 0.05
-        self.hurt_delay = 0.16
+        self.hurt_delay = 0.1
         self.dead_delay = 0.18
 
         self.state = 'idle'
@@ -270,10 +270,19 @@ class Hero(arcade.Sprite):
         dx, dy = 0, 0
 
         if (arcade.key.SPACE in keys_pressed and self.map_name != 'images/backgrounds/map_start_artemii.tmx' and
-                self.state not in ['hurt', 'dead']):
+                self.state not in ['hurt', 'dead', 'atc_1', 'atc_2']):
             if not self.is_dodging and self.dodge_cooldown <= 0:
                 self.dodge()
-        if self.state not in ['hurt', 'dead']:
+
+        if self.is_dodging:
+            self.dodge_timer -= delta_time
+            if self.dodge_timer <= 0:
+                self.is_dodging = False
+                self.state = 'idle'
+                self.current_texture_index = 0
+                self.animation_timer = 0
+
+        if self.state not in ['dead']:
             if self.is_dodging:
                 current_speed = self.dodge_speed
                 if self.dodge_direction == FaceDirection.LEFT:
@@ -319,7 +328,7 @@ class Hero(arcade.Sprite):
                 self.state = 'idle'
 
     def try_attack(self, mouse_x):
-        if self.can_attack and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
+        if self.can_attack and self.map_name != 'images/backgrounds/map_start_artemii.tmx' and self.state != 'dead':
             self.can_attack = False
             self.attack_timer = 0
 
