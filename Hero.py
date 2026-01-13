@@ -89,6 +89,26 @@ class Hero(arcade.Sprite):
         )
         self.walk_textures_left = [i.flip_horizontally() for i in self.walk_textures_right]
 
+        hurt_path = 'images/pers/Knight_1/Hurt.png'
+        HURT_COLUMNS = 2
+        sprite_sheet_hurt = arcade.SpriteSheet(hurt_path)
+        self.hurt_textures_right = sprite_sheet_hurt.get_texture_grid(
+            size=(128, 128),
+            columns=HURT_COLUMNS,
+            count=HURT_COLUMNS
+        )
+        self.hurt_textures_left = [tex.flip_horizontally() for tex in self.hurt_textures_right]
+
+        dead_path = 'images/pers/Knight_1/Dead.png'
+        DEAD_COLUMNS = 6
+        sprite_sheet_dead = arcade.SpriteSheet(dead_path)
+        self.dead_textures_right = sprite_sheet_dead.get_texture_grid(
+            size=(128, 128),
+            columns=DEAD_COLUMNS,
+            count=DEAD_COLUMNS
+        )
+        self.dead_textures_left = [tex.flip_horizontally() for tex in self.dead_textures_right]
+
         self.current_texture_index = 0
         self.animation_timer = 0
 
@@ -97,6 +117,8 @@ class Hero(arcade.Sprite):
         self.atc_1_delay = 0.1
         self.atc_2_delay = 0.1
         self.dodge_delay = 0.05
+        self.hurt_delay = 0.16
+        self.dead_delay = 0.18
 
         self.state = 'idle'
         self.is_walking = False
@@ -113,6 +135,8 @@ class Hero(arcade.Sprite):
 
         self.center_x = 100 * SCALE
         self.center_y = HEIGHT * 1.8
+
+        self.is_dead = False
 
     def set_attack_direction(self, mouse_x):
         if mouse_x >= self.center_x:
@@ -192,6 +216,32 @@ class Hero(arcade.Sprite):
                 self.current_texture_index = 0
                 self.animation_timer = 0
 
+        elif self.state == 'hurt':
+            if self.animation_timer >= self.hurt_delay:
+                self.animation_timer = 0
+                if self.current_texture_index == len(self.hurt_textures_right) - 1:
+                    self.state = 'idle'
+                    self.current_texture_index = 0
+                else:
+                    self.current_texture_index = (self.current_texture_index + 1)
+                    if self.face_direction == FaceDirection.RIGHT:
+                        self.texture = self.hurt_textures_right[self.current_texture_index]
+                    else:
+                        self.texture = self.hurt_textures_left[self.current_texture_index]
+
+        elif self.state == 'dead':
+            if self.animation_timer >= self.dead_delay:
+                self.animation_timer = 0
+                if self.current_texture_index == len(self.dead_textures_right) - 1:
+                    self.is_dead = True
+                    self.current_texture_index = 0
+                else:
+                    self.current_texture_index = (self.current_texture_index + 1)
+                    if self.face_direction == FaceDirection.RIGHT:
+                        self.texture = self.dead_textures_right[self.current_texture_index]
+                    else:
+                        self.texture = self.dead_textures_left[self.current_texture_index]
+
     def dodge(self, direction=None):
         if not self.is_dodging and self.dodge_cooldown <= 0 and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
             self.state = 'dodge'
@@ -219,46 +269,47 @@ class Hero(arcade.Sprite):
 
         dx, dy = 0, 0
 
-        if arcade.key.SPACE in keys_pressed and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
+        if (arcade.key.SPACE in keys_pressed and self.map_name != 'images/backgrounds/map_start_artemii.tmx' and
+                self.state not in ['hurt', 'dead']):
             if not self.is_dodging and self.dodge_cooldown <= 0:
                 self.dodge()
+        if self.state not in ['hurt', 'dead']:
+            if self.is_dodging:
+                current_speed = self.dodge_speed
+                if self.dodge_direction == FaceDirection.LEFT:
+                    dx -= current_speed * delta_time
+                elif self.dodge_direction == FaceDirection.RIGHT:
+                    dx += current_speed * delta_time
+            else:
+                current_speed = self.speed
+                if arcade.key.LEFT in keys_pressed or arcade.key.A in keys_pressed:
+                    dx -= current_speed * delta_time
+                    if not self.is_dodging:
+                        self.face_direction = FaceDirection.LEFT
+                if arcade.key.RIGHT in keys_pressed or arcade.key.D in keys_pressed:
+                    dx += current_speed * delta_time
+                    if not self.is_dodging:
+                        self.face_direction = FaceDirection.RIGHT
 
-        if self.is_dodging:
-            current_speed = self.dodge_speed
-            if self.dodge_direction == FaceDirection.LEFT:
-                dx -= current_speed * delta_time
-            elif self.dodge_direction == FaceDirection.RIGHT:
-                dx += current_speed * delta_time
-        else:
-            current_speed = self.speed
-            if arcade.key.LEFT in keys_pressed or arcade.key.A in keys_pressed:
-                dx -= current_speed * delta_time
-                if not self.is_dodging:
-                    self.face_direction = FaceDirection.LEFT
-            if arcade.key.RIGHT in keys_pressed or arcade.key.D in keys_pressed:
-                dx += current_speed * delta_time
-                if not self.is_dodging:
-                    self.face_direction = FaceDirection.RIGHT
+            if arcade.key.UP in keys_pressed or arcade.key.W in keys_pressed:
+                dy += current_speed * delta_time
+            if arcade.key.DOWN in keys_pressed or arcade.key.S in keys_pressed:
+                dy -= current_speed * delta_time
 
-        if arcade.key.UP in keys_pressed or arcade.key.W in keys_pressed:
-            dy += current_speed * delta_time
-        if arcade.key.DOWN in keys_pressed or arcade.key.S in keys_pressed:
-            dy -= current_speed * delta_time
+            if dx != 0 and dy != 0:
+                factor = 0.7071
+                dx *= factor
+                dy *= factor
 
-        if dx != 0 and dy != 0:
-            factor = 0.7071
-            dx *= factor
-            dy *= factor
+            self.center_x += dx
+            self.center_y += dy
 
-        self.center_x += dx
-        self.center_y += dy
+            if dx < 0:
+                self.face_direction = FaceDirection.LEFT
+            elif dx > 0:
+                self.face_direction = FaceDirection.RIGHT
 
-        if dx < 0:
-            self.face_direction = FaceDirection.LEFT
-        elif dx > 0:
-            self.face_direction = FaceDirection.RIGHT
-
-        if not self.is_dodging and self.state not in ['atc_1', 'atc_2']:
+        if not self.is_dodging and self.state not in ['atc_1', 'atc_2', 'hurt', 'dead']:
             self.is_walking = bool(dx or dy)
             if self.is_walking and self.map_name != 'images/backgrounds/map_start_artemii.tmx':
                 self.state = 'run'
@@ -302,6 +353,22 @@ class Hero(arcade.Sprite):
             return True
         else:
             return False
+
+    def take_damage(self, amount, attacker_x):
+        if self.state == 'hurt' or self.state == 'dead':
+            return False
+
+        self.health -= amount
+        if self.health <= 0:
+            self.state = 'dead'
+        else:
+            self.state = 'hurt'
+        self.current_texture_index = 0
+        self.animation_timer = 0
+
+        self.face_direction = FaceDirection.RIGHT if attacker_x >= self.center_x else FaceDirection.LEFT
+
+        return True
 
 
 

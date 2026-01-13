@@ -1,6 +1,7 @@
 import arcade
 import math
 import time
+import random
 from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings
 from PauseView import PauseView
 from Hero import Hero
@@ -188,6 +189,10 @@ class GameWindow(arcade.View):
             self.keys_pressed.remove(key)
 
     def on_update(self, delta_time):
+        if self.player.is_dead:
+            if self.player in self.player_list:
+                self.player_list.remove(self.player)
+
         map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
         map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
 
@@ -202,7 +207,7 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.show_subtitles:
+            if next_collison and not self.show_subtitles or 0 == 0:
                 self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx'
                 self.load_map()
                 self.player_list.remove(self.player)
@@ -217,11 +222,13 @@ class GameWindow(arcade.View):
         if self.player.state in ['atc_1', 'atc_2']:
             if self.player.current_texture_index in [2] and skeleton_hit_list:
                 for skeleton in skeleton_hit_list:
-                    skeleton.take_damage(20, self.player.center_x)
+                    skeleton.take_damage(random.randint(15, 25), self.player.center_x)
 
         for skeleton in self.skeleton_list:
             if skeleton.is_dead:
                 skeleton.remove_from_sprite_lists()
+            if skeleton.state == 'atc_1':
+                self.player.take_damage(random.randint(5, 15), skeleton.center_x)
 
         if self.player.center_x - self.w // 2 <= 0:
             target_x = self.w // 2
