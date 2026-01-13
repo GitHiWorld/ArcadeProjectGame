@@ -220,7 +220,7 @@ class GameWindow(arcade.View):
                     skeleton.take_damage(20, self.player.center_x)
 
         for skeleton in self.skeleton_list:
-            if skeleton.health <= 0:
+            if skeleton.is_dead:
                 skeleton.remove_from_sprite_lists()
 
         if self.player.center_x - self.w // 2 <= 0:
