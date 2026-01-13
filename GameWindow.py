@@ -6,6 +6,7 @@ from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings
 from PauseView import PauseView
 from Hero import Hero
 from Skelet_enemy import Skelet
+from LoseView import LoseView
 
 
 class GameWindow(arcade.View):
@@ -188,8 +189,10 @@ class GameWindow(arcade.View):
 
     def on_update(self, delta_time):
         if self.player.is_dead:
-            if self.player in self.player_list:
-                self.player_list.remove(self.player)
+            # Показываем экран проигрыша
+            lose_view = LoseView(self)
+            self.window.show_view(lose_view)
+            return  # Прекращаем обновление игры
 
         map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
         map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
