@@ -32,7 +32,6 @@ class GameWindow(arcade.View):
 
         self.skeleton_list = arcade.SpriteList()
         self.skelet_1 = Skelet()
-        self.skeleton_list.append(self.skelet_1)
 
         cursor(self)
 
@@ -54,7 +53,7 @@ class GameWindow(arcade.View):
         self.full_text = ""
         self.typing_index = 0
         self.typing_timer = 0
-        self.typing_speed = 0.07
+        self.typing_speed = 0.055
         self.show_subtitles = True
 
         subtitle_font_size = int(24 * SCALE)
@@ -203,22 +202,22 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.next_subtitle():
+            if next_collison and not self.show_subtitles:
                 self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx'
                 self.load_map()
                 self.player_list.remove(self.player)
                 self.player = Hero(self.map_name)
                 self.player_list.append(self.player)
-                self.player.center_x = 100 * SCALE
+                self.skeleton_list.append(self.skelet_1)
                 map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
                 self.player.center_y = map_height_pixels // 2
 
-        if self.player.state in ['atc_1', 'atc_2']:
-            skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
+        skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
 
-            if self.player.current_texture_index in [2, 3] and skeleton_hit_list:
+        if self.player.state in ['atc_1', 'atc_2']:
+            if self.player.current_texture_index in [2] and skeleton_hit_list:
                 for skeleton in skeleton_hit_list:
-                    skeleton.health -= 25
+                    skeleton.take_damage(20, self.player.center_x)
 
         for skeleton in self.skeleton_list:
             if skeleton.health <= 0:

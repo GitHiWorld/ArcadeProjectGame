@@ -52,6 +52,16 @@ class Skelet(arcade.Sprite):
         )
         self.atc_1_texture_left = [tex.flip_horizontally() for tex in self.atc_1_texture_right]
 
+        hurt_path = 'images/pers/enemy/skelet/Skeleton_Warrior/Hurt.png'
+        HURT_COLUMNS = 2
+        sprite_sheet_hurt = arcade.SpriteSheet(hurt_path)
+        self.hurt_texture_right = sprite_sheet_hurt.get_texture_grid(
+            size=(128, 128),
+            columns=HURT_COLUMNS,
+            count=HURT_COLUMNS
+        )
+        self.hurt_texture_left = [i.flip_horizontally() for i in self.hurt_texture_right]
+
         self.current_texture_index = 0
         self.animation_timer = 0
 
@@ -67,12 +77,13 @@ class Skelet(arcade.Sprite):
         self.idle_delay = 0.2
         self.atc_1_delay = 0.12
         self.atc_2_delay = 0.1
+        self.hurt_delay = 0.16
 
         self.atc_range = 50
         self.vision_range = 500
 
         self.center_x = random.randint(0, WIDTH)
-        self.center_y = HEIGHT // 2
+        self.center_y = HEIGHT * 1.8
 
     def update_animation(self, delta_time, player_x):
         self.animation_timer += delta_time
@@ -108,33 +119,60 @@ class Skelet(arcade.Sprite):
                     else:
                         self.texture = self.atc_1_texture_left[self.current_texture_index]
 
-    def update(self, delta_time, player_x, player_y):
-        dx = player_x - self.center_x
-        dy = player_y - self.center_y
-
-        distance = math.sqrt(dx * dx + dy * dy)
-
-        if distance <= self.atc_range:
-            if self.state != 'atc_1':
-                self.state = 'atc_1'
-                self.current_texture_index = 0
+        elif self.state == 'hurt':
+            if self.animation_timer >= self.hurt_delay:
                 self.animation_timer = 0
-        elif distance <= self.vision_range:
-            if distance > 0:
-                dx_normalized = dx / distance
-                dy_normalized = dy / distance
+                # self.current_texture_index = (self.current_texture_index + 1) % len(self.hurt_texture_right)
+                if self.current_texture_index == len(self.hurt_texture_right) - 1:
+                    self.state = 'idle'
+                    self.current_texture_index = 0
+                else:
+                    self.current_texture_index = (self.current_texture_index + 1)
+                    if player_x >= self.center_x:
+                        self.texture = self.hurt_texture_right[self.current_texture_index]
+                    else:
+                        self.texture = self.hurt_texture_left[self.current_texture_index]
+
+    def update(self, delta_time, player_x, player_y):
+        if self.state != 'hurt':
+            dx = player_x - self.center_x
+            dy = player_y - self.center_y
+
+            distance = math.sqrt(dx * dx + dy * dy)
+
+            if distance <= self.atc_range:
+                if self.state != 'atc_1':
+                    self.state = 'atc_1'
+                    self.current_texture_index = 0
+                    self.animation_timer = 0
+            elif distance <= self.vision_range:
+                if distance > 0:
+                    dx_normalized = dx / distance
+                    dy_normalized = dy / distance
+                else:
+                    dx_normalized = 0
+                    dy_normalized = 0
+
+                self.center_x += dx_normalized * self.speed * delta_time
+                self.center_y += dy_normalized * self.speed * delta_time
+
+                if dx_normalized > 0.1:
+                    self.face_direction = FaceDirection.RIGHT
+                elif dx_normalized < -0.1:
+                    self.face_direction = FaceDirection.LEFT
+                self.state = 'run'
             else:
-                dx_normalized = 0
-                dy_normalized = 0
+                self.state = 'idle'
 
-            self.center_x += dx_normalized * self.speed * delta_time
-            self.center_y += dy_normalized * self.speed * delta_time
+    def take_damage(self, amount, player_x):
+        if self.state == 'hurt':
+            return False
 
-            if dx_normalized > 0.1:
-                self.face_direction = FaceDirection.RIGHT
-            elif dx_normalized < -0.1:
-                self.face_direction = FaceDirection.LEFT
-            self.state = 'run'
-        else:
-            self.state = 'idle'
+        self.health -= amount
+        self.state = 'hurt'
+        self.current_texture_index = 0
+        self.animation_timer = 0
+
+        self.face_direction = FaceDirection.RIGHT if player_x >= self.center_x else FaceDirection.LEFT
+        return True
 
