@@ -30,6 +30,22 @@ class GameWindow(arcade.View):
         self.player = Hero(self.map_name)
         self.player_list.append(self.player)
 
+        self.level_message = ""
+        self.level_message_timer = 0
+        self.show_level_message = False
+
+        self.level_message_text = arcade.Text(
+            "",
+            self.window.width // 2,
+            self.window.height // 2 + 100 * SCALE,
+            (255, 50, 50, 255),
+            font_size=int(48 * SCALE),
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x="center",
+            anchor_y="center",
+            bold=True
+        )
+
         self.enemy_list = arcade.SpriteList()
         self.skeleton_list = arcade.SpriteList()
 
@@ -108,6 +124,20 @@ class GameWindow(arcade.View):
         self.gui_camera.use()
         if self.what_level(self.map_name) == 1:
             self.draw_subtitles()
+
+
+        if self.show_level_message:
+            arcade.draw_rect_filled(
+                arcade.XYWH(
+                    self.window.width // 2,
+                    self.level_message_text.y,
+                    self.window.width - 100,
+                    80 * SCALE
+                ),
+                (0, 0, 0, 150)
+            )
+            self.level_message_text.draw()
+
         self.cursors_list.draw()
 
     def update_subtitles(self, delta_time):
@@ -189,10 +219,14 @@ class GameWindow(arcade.View):
 
     def on_update(self, delta_time):
         if self.player.is_dead:
-            # Показываем экран проигрыша
             lose_view = LoseView(self)
             self.window.show_view(lose_view)
-            return  # Прекращаем обновление игры
+            return
+
+        if self.show_level_message:
+            self.level_message_timer -= delta_time
+            if self.level_message_timer <= 0:
+                self.show_level_message = False
 
         map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
         map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
@@ -208,7 +242,11 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.show_subtitles or 0 == 0:
+            if next_collison and not self.show_subtitles:
+                self.level_message = "Уничтожь всех стражей тьмы"
+                self.level_message_text.text = self.level_message
+                self.show_level_message = True
+                self.level_message_timer = 5.0
                 self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx'
                 self.load_map()
                 self.player_list.remove(self.player)
