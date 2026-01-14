@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="Падпись в начале">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +64,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "688190fb",
+    "git-widget-placeholder": "a1dadd23",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/sprites",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -507,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768331065550</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Падпись в начале">
+      <option name="closed" value="true" />
+      <created>1768411118934</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1768411118934</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -534,7 +539,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="пауза в игре на Escape" />
     <MESSAGE value="сделана камера за игроком, нет мертвой зоны" />
     <MESSAGE value="фикс камеры для анимаций, кадров анимаций не 4 а 5, в main добавлен выбор view (откуда мы начнем)" />
     <MESSAGE value="работает и атака и рывок" />
@@ -559,6 +563,7 @@
     <MESSAGE value="ОУУ ЕССС СКЕЛЕТ УМЕР УРААААААААА" />
     <MESSAGE value="не, ну так-то игрок умирает, но чуть-чуть криво" />
     <MESSAGE value="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке" />
-    <option name="LAST_COMMIT_MESSAGE" value="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке" />
+    <MESSAGE value="Падпись в начале" />
+    <option name="LAST_COMMIT_MESSAGE" value="Падпись в начале" />
   </component>
 </project>

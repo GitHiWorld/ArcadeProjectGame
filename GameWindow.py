@@ -23,8 +23,8 @@ class GameWindow(arcade.View):
 
         self.map_name = 'images/backgrounds/map_start_artemii.tmx'
 
-        self.world_camera = arcade.camera.Camera2D()
-        self.gui_camera = arcade.camera.Camera2D()
+        self.world_camera = arcade.Camera2D()
+        self.gui_camera = arcade.Camera2D()
 
         self.player_list = arcade.SpriteList()
         self.player = Hero(self.map_name)
@@ -119,12 +119,18 @@ class GameWindow(arcade.View):
         self.walls_list.draw()
         self.embient_list.draw()
         self.skeleton_list.draw()
+
+        self.draw_enemy_health_bars()
+
         self.player_list.draw()
+        self.draw_player_health_bar()
 
         self.gui_camera.use()
+
+        self.draw_player_health()
+
         if self.what_level(self.map_name) == 1:
             self.draw_subtitles()
-
 
         if self.show_level_message:
             arcade.draw_rect_filled(
@@ -203,14 +209,11 @@ class GameWindow(arcade.View):
 
         if key == arcade.key.E and self.show_subtitles:
             if self.typing_index < len(self.full_text):
-                # Показать весь текст сразу
                 self.displayed_text = self.full_text
                 self.typing_index = len(self.full_text)
                 self.subtitle_text.text = self.full_text
             else:
-                # Следующий субтитр
                 if not self.next_subtitle():
-                    # Закончились субтитры
                     self.show_subtitles = False
 
     def on_key_release(self, key, modifiers):
@@ -283,7 +286,7 @@ class GameWindow(arcade.View):
 
         if self.player.center_y - self.h // 2 <= 0:
             target_y = self.h // 2
-        elif self.player.center_y + self.w // 2 >= map_height_pixels:
+        elif self.player.center_y + self.h // 2 >= map_height_pixels:
             target_y = map_height_pixels - self.h // 2
         else:
             target_y = self.player.center_y
@@ -295,6 +298,133 @@ class GameWindow(arcade.View):
             position,
             0.03
         )
+
+    def draw_player_health(self):
+        hp_ratio = max(0, self.player.health) / 100.0
+
+        x = self.w - 320 * SCALE
+        y = self.h - 90 * SCALE
+        bar_width = 280 * SCALE
+        bar_height = 40 * SCALE
+
+        arcade.draw_lbwh_rectangle_outline(
+            left=x,
+            bottom=y,
+            width=bar_width,
+            height=bar_height,
+            color=arcade.color.WHITE,
+            border_width=5
+        )
+
+        arcade.draw_lbwh_rectangle_filled(
+            left=x + 5,
+            bottom=y + 5,
+            width=bar_width - 10,
+            height=bar_height - 10,
+            color=arcade.color.BLACK
+        )
+
+        fill_width = (bar_width - 10) * hp_ratio
+        fill_color = arcade.color.GREEN if hp_ratio > 0.5 else arcade.color.ORANGE if hp_ratio > 0.25 else arcade.color.RED
+        arcade.draw_lbwh_rectangle_filled(
+            left=x + 5,
+            bottom=y + 5,
+            width=fill_width,
+            height=bar_height - 10,
+            color=fill_color
+        )
+
+        arcade.draw_text(
+            f"HP: {int(self.player.health)} / 100",
+            x + bar_width / 2,
+            y + bar_height / 2,
+            arcade.color.WHITE,
+            font_size=int(28 * SCALE),
+            anchor_x="center",
+            anchor_y="center",
+            bold=True
+        )
+
+    def draw_player_health_bar(self):
+        if not self.player.is_dead and self.player.health > 0:
+            hp_ratio = max(0, self.player.health) / 100.0
+
+            left = self.player.center_x - 35 * SCALE
+            bottom = self.player.center_y + 40 * SCALE
+            bar_width = 70 * SCALE
+            bar_height = 14 * SCALE
+
+            arcade.draw_lbwh_rectangle_outline(
+                left=left,
+                bottom=bottom,
+                width=bar_width,
+                height=bar_height,
+                color=arcade.color.WHITE_SMOKE,
+                border_width=int(2 * SCALE)
+            )
+
+            arcade.draw_lbwh_rectangle_filled(
+                left=left + 2 * SCALE,
+                bottom=bottom + 2 * SCALE,
+                width=bar_width - 4 * SCALE,
+                height=bar_height - 4 * SCALE,
+                color=arcade.color.DARK_GRAY
+            )
+
+            fill_width = (bar_width - 4 * SCALE) * hp_ratio
+            fill_color = (
+                arcade.color.LIME_GREEN if hp_ratio > 0.6 else
+                arcade.color.ORANGE if hp_ratio > 0.3 else
+                arcade.color.RED
+            )
+            arcade.draw_lbwh_rectangle_filled(
+                left=left + 2 * SCALE,
+                bottom=bottom + 2 * SCALE,
+                width=fill_width,
+                height=bar_height - 4 * SCALE,
+                color=fill_color
+            )
+
+    def draw_enemy_health_bars(self):
+        for skeleton in self.skeleton_list:
+            if not skeleton.is_dead and skeleton.health > 0:
+                hp_ratio = max(0, skeleton.health) / 100.0
+
+                left = skeleton.center_x - 35 * SCALE
+                bottom = skeleton.center_y + 70 * SCALE
+                bar_width = 70 * SCALE
+                bar_height = 14 * SCALE
+
+                arcade.draw_lbwh_rectangle_outline(
+                    left=left,
+                    bottom=bottom,
+                    width=bar_width,
+                    height=bar_height,
+                    color=arcade.color.WHITE_SMOKE,
+                    border_width=int(2 * SCALE)
+                )
+
+                arcade.draw_lbwh_rectangle_filled(
+                    left=left + 2 * SCALE,
+                    bottom=bottom + 2 * SCALE,
+                    width=bar_width - 4 * SCALE,
+                    height=bar_height - 4 * SCALE,
+                    color=arcade.color.DARK_GRAY
+                )
+
+                fill_width = (bar_width - 4 * SCALE) * hp_ratio
+                fill_color = (
+                    arcade.color.LIME_GREEN if hp_ratio > 0.6 else
+                    arcade.color.ORANGE if hp_ratio > 0.3 else
+                    arcade.color.RED
+                )
+                arcade.draw_lbwh_rectangle_filled(
+                    left=left + 2 * SCALE,
+                    bottom=bottom + 2 * SCALE,
+                    width=fill_width,
+                    height=bar_height - 4 * SCALE,
+                    color=fill_color
+                )
 
     def on_hide_view(self):
         if self.sound_map1:
@@ -340,6 +470,11 @@ class GameWindow(arcade.View):
             self.sound_map1 = None
 
         self.keys_pressed = set()
+
+    def on_resize(self, width, height):
+        super().on_resize(width, height)
+        self.w = width
+        self.h = height
 
     def load_map(self):
         base_tile_scale = 2.5
