@@ -120,14 +120,16 @@ class GameWindow(arcade.View):
         self.embient_list.draw()
         self.skeleton_list.draw()
 
-        self.draw_enemy_health_bars()
+        if self.what_level(self.map_name) != 1:
+            self.draw_enemy_health_bars()
 
         self.player_list.draw()
-        self.draw_player_health_bar()
+        if self.what_level(self.map_name) != 1:
+            self.draw_player_health_bar()
 
         self.gui_camera.use()
-
-        self.draw_player_health()
+        if self.what_level(self.map_name) != 1:
+            self.draw_player_health()
 
         if self.what_level(self.map_name) == 1:
             self.draw_subtitles()
@@ -245,7 +247,7 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.show_subtitles:
+            if next_collison and not self.show_subtitles or 0 == 0:
                 self.level_message = "Уничтожь всех стражей тьмы"
                 self.level_message_text.text = self.level_message
                 self.show_level_message = True
@@ -274,7 +276,7 @@ class GameWindow(arcade.View):
         for skeleton in self.skeleton_list:
             if skeleton.is_dead:
                 skeleton.remove_from_sprite_lists()
-            if skeleton.state == 'atc_1':
+            if skeleton.state == 'atc_1' and skeleton.current_texture_index == 2:
                 self.player.take_damage(random.randint(5, 15), skeleton.center_x)
 
         if self.player.center_x - self.w // 2 <= 0:

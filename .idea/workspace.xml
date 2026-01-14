@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="Падпись в начале">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="бесполезный 6">
+      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/game_settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +68,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "a1dadd23",
+    "git-widget-placeholder": "9a9b49b1",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/sprites",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
