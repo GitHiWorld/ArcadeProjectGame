@@ -115,8 +115,8 @@ class GameWindow(arcade.View):
 
         self.world_camera.use()
         self.floor_list.draw()
-        self.other_list.draw()
         self.walls_list.draw()
+        self.other_list.draw()
         self.embient_list.draw()
         self.skeleton_list.draw()
 
