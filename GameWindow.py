@@ -247,7 +247,7 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.show_subtitles or 0 == 0:
+            if next_collison and not self.show_subtitles:
                 self.level_message = "Уничтожь всех стражей тьмы"
                 self.level_message_text.text = self.level_message
                 self.show_level_message = True
