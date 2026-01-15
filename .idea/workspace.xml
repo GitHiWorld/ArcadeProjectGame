@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="хп показатель">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="small work moment">
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +33,12 @@
     &quot;assignee&quot;: &quot;GitHiWorld&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,
-    &quot;accountId&quot;: &quot;28964013-60b7-4cf7-b360-0300c0ad73e9&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GitHiWorld/ArcadeProjectGame.git",
+    "accountId": "0715f342-62e3-48b1-96af-17f34e07ecaa"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -50,24 +50,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.GameWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Hero.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Skelet_enemy.executor&quot;: &quot;Run&quot;,
-    &quot;Python.StartMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;941c6989&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/sprites&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.GameWindow.executor": "Run",
+    "Python.Hero.executor": "Run",
+    "Python.Skelet_enemy.executor": "Run",
+    "Python.StartMenu.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.tests 2.executor": "Run",
+    "Python.tests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "1d36f394",
+    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool/images/sprites",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool\images\sprites" />
@@ -511,13 +511,13 @@
       <option name="project" value="LOCAL" />
       <updated>1768411118934</updated>
     </task>
-    <task id="LOCAL-00038" summary="хп показатель">
+    <task id="LOCAL-00038" summary="small work moment">
       <option name="closed" value="true" />
-      <created>1768416386183</created>
+      <created>1768496301695</created>
       <option name="number" value="00038" />
       <option name="presentableId" value="LOCAL-00038" />
       <option name="project" value="LOCAL" />
-      <updated>1768416386183</updated>
+      <updated>1768496301695</updated>
     </task>
     <option name="localTasksCounter" value="39" />
     <servers />
@@ -570,7 +570,7 @@
     <MESSAGE value="не, ну так-то игрок умирает, но чуть-чуть криво" />
     <MESSAGE value="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке" />
     <MESSAGE value="Падпись в начале" />
-    <MESSAGE value="хп показатель" />
-    <option name="LAST_COMMIT_MESSAGE" value="хп показатель" />
+    <MESSAGE value="small work moment" />
+    <option name="LAST_COMMIT_MESSAGE" value="small work moment" />
   </component>
 </project>
