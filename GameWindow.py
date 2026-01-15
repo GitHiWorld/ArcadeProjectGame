@@ -252,7 +252,7 @@ class GameWindow(arcade.View):
                 self.level_message_text.text = self.level_message
                 self.show_level_message = True
                 self.level_message_timer = 5.0
-                self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test.tmx'
+                self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test2.tmx'
                 self.load_map()
                 self.player_list.remove(self.player)
                 self.player = Hero(self.map_name)
