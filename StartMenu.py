@@ -2,73 +2,75 @@ import time
 import arcade
 import math
 import random
+import json
+import os
 from GameWindow import GameWindow
-
-WIDTH = 1
-HEIGHT = 1
-TITLE = 'Wyvern: The Path to the Crown of Heaven'
+from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings
+from SettingsView import SettingsView
 
 
 class Start_menu(arcade.View):
     def __init__(self):
-        size = arcade.get_display_size()
-        screen_extension4k = 16
-        self.pressed_button = None
-
-        if isinstance(size, tuple):
-            self.w = size[0]
-            self.h = size[1]
-
         super().__init__()
 
-        self.texture = arcade.load_texture('images/backgrounds/start_menu.png')
-        arcade.load_font('fonts/Comic Sans MS Pixel/Comic Sans MS Pixel.ttf')
+        self.pressed_button = None
+        self.sound = None
+
+        # Используем глобальные размеры
+        self.w = WIDTH
+        self.h = HEIGHT
+
+        self.texture = arcade.load_texture('images/backgrounds/start_mennu.png')
+
         self.background_sound = arcade.load_sound('sounds/Flappy Dragon - Wispernalia.mp3')
-        self.cursor = arcade.Sprite('images/cursors/pixel_cursors/Tiles/tile_0202.png', scale = 1.2)
 
-        if self.w == 3840:
-            self.play = arcade.Sprite('images/sprites/play.png', scale=1)
-            self.settings = arcade.Sprite('images/sprites/settings.png', scale=1)
-            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=1)
+        button_scale = 0.5 * SCALE
+        if WIDTH == 3840:
+            button_scale = 1.0
 
-        if self.w != 3840:
-            self.play = arcade.Sprite('images/sprites/play.png', scale=0.5)
-            self.settings = arcade.Sprite('images/sprites/settings.png', scale=0.5)
-            self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=0.5)
+        self.play = arcade.Sprite('images/sprites/play.png', scale=button_scale)
+        self.settings = arcade.Sprite('images/sprites/settings.png', scale=button_scale)
+        self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=button_scale)
 
         self.update_button_positions()
 
         self.button_list = arcade.SpriteList()
-
         self.button_list.append(self.play)
         self.button_list.append(self.settings)
         self.button_list.append(self.exit_game)
 
-        arcade.play_sound(self.background_sound, loop=True, volume=0.5)
-
         self.particles = []
         self.particle()
 
-        self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
-                                     (255, 241, 210),
-                                     font_size=23.5 * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
-                                     anchor_y='top')
-        if self.w == 3840:
-            self.text_main = arcade.Text('Wyvern: The Path to the Crown of Heaven', self.w // 2, self.h * 0.8,
-                                     (255, 241, 210),
-                                     font_size=screen_extension4k * (self.w / 1366) , font_name="Comic Sans MS pixel rus eng", anchor_x='center',
-                                     anchor_y='top')
+        font_size = int(24 * SCALE)
+        if WIDTH == 3840:
+            font_size = 48
 
-        if self.w != 1921:
-            self.window.set_mouse_visible(False)
+        self.text_main = arcade.Text(
+            'Wyvern: The Path to the Crown of Heaven',
+            self.w // 2,
+            self.h * 0.8,
+            (255, 241, 210),
+            font_size=font_size,
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x='center',
+            anchor_y='top'
+        )
 
-        self.cursor.center_x = 0
-        self.cursor.center_y = 0
-        # self.cursor_w = self.cursor.width
-        # self.cursor_h = self.cursor.height
-        # self.cursor_scale = 1.2
-        self.cursors_list = arcade.SpriteList()
-        self.cursors_list.append(self.cursor)
+        cursor(self)
+
+        self.particle_list = arcade.shape_list.ShapeElementList()
+
+    def start_game(self):
+        game_view = GameWindow(self)
+        self.window.show_view(game_view)
+
+    def on_hide_view(self):
+        if hasattr(self, 'sound') and self.sound:
+            try:
+                self.sound.pause()
+            except:
+                pass
 
     def setup(self):
         pass
@@ -78,29 +80,25 @@ class Start_menu(arcade.View):
             self.particles.append({
                 'x': random.uniform(0, self.w),
                 'y': random.uniform(0, self.h),
-                'size': random.uniform(2, 8),
-                'speed': random.uniform(8.5, 14.5),
+                'size': random.uniform(2, 8) * SCALE,
+                'speed': random.uniform(10.5, 16.5),
                 'color': random.choice([
-                    (255, 192, 203, random.randint(0, 120)),  # Розовый (лепестки сакуры)
-                    (255, 182, 193, random.randint(0, 200)),  # Светло-розовый
-                    (255, 160, 122, random.randint(100, 200)),  # Светло-коралловый
-                    # (255, 218, 185, random.randint(60, 200)),  # Персиковый
-                    (255,183,197, random.randint(10, 130)),
-                    (255, 183, 197, random.randint(0, 160)),
+                    (255, 192, 203, random.randint(0, 100)),
+                    (255, 182, 193, random.randint(0, 120)),
+                    (255, 160, 122, random.randint(120, 200)),
+                    (255, 183, 197, random.randint(0, 100)),
                     (240, 230, 140, random.randint(60, 200))
                 ]),
-                'side_speed': random.uniform(-6, 6),
+                'side_speed': random.uniform(-8, 8),
                 'rotation': random.uniform(0, 360),
-                'rot_speed': random.uniform(-10, 10)
-            }
-            )
+                'rot_speed': random.uniform(-16, 16)
+            })
 
     def on_resize(self, width, height):
         super().on_resize(width, height)
-        self.update_button_positions()
         self.w = width
         self.h = height
-
+        self.update_button_positions()
         self.text_main.x = self.w // 2
         self.text_main.y = self.h * 0.8
 
@@ -120,21 +118,23 @@ class Start_menu(arcade.View):
     def on_draw(self):
         self.clear()
 
-        self.play.draw_hit_box()
-
-        arcade.draw_texture_rect(self.texture,
-                                 arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h))
+        arcade.draw_texture_rect(
+            self.texture,
+            arcade.rect.XYWH(self.w // 2, self.h // 2, self.w, self.h)
+        )
 
         self.text_main.draw()
+
         self.button_list.draw()
+
         for i in self.particles:
-            arcade.draw_rect_filled(arcade.XYWH(i['x'], i['y'], i['size'], i['size']), i['color'], i['rotation'])
+            arcade.draw_rect_filled(
+                arcade.XYWH(i['x'], i['y'], i['size'], i['size']),
+                i['color'],
+                i['rotation']
+            )
 
-#        arcade.draw_texture_rect(self.cursor, arcade.XYWH(self.cursor_x, self.cursor_y,
-#                                                          self.cursor_w * self.cursor_scale,
-#                                                           self.cursor_h * self.cursor_scale))
-
-        if self.w != 1921:
+        if hasattr(self, 'cursors_list'):
             self.cursors_list.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
@@ -148,87 +148,86 @@ class Start_menu(arcade.View):
 
         clicked = clicked_sprites[-1]
         self.pressed_button = clicked
-        if self.w != 3840:
-            clicked.scale = 0.45
 
-            if button == arcade.MOUSE_BUTTON_LEFT:
-                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
-                if clicked_buttons:
-                    clicked_sprite = clicked_buttons[-1]
+        base_scale = 0.5 * SCALE
+        if WIDTH == 3840:
+            base_scale = 1.0
 
-                    if clicked_sprite == self.play:
-                        arcade.schedule(lambda dt: start_game, 1)
+        clicked.scale = base_scale * 0.9
 
-                    if clicked_sprite == self.settings:
-                        arcade.schedule(lambda dt: None, 1)
-                    if clicked_sprite == self.exit_game:
-                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
-        else:
-            clicked.scale = 0.7
+        clicked_sprite = clicked_sprites[-1]
 
-            if button == arcade.MOUSE_BUTTON_LEFT:
-                clicked_buttons = arcade.get_sprites_at_point((x, y), self.button_list)
-                if clicked_buttons:
-                    clicked_sprite = clicked_buttons[-1]
-
-                    if clicked_sprite == self.play:
-                        arcade.schedule(lambda dt: None, 0.15)
-
-                    if clicked_sprite == self.settings:
-                        arcade.schedule(lambda dt: None, 0.15)
-                    if clicked_sprite == self.exit_game:
-                        arcade.schedule(lambda dt: arcade.exit(), 0.15)
+        if clicked_sprite == self.play:
+            self.start_game()
+        elif clicked_sprite == self.settings:
+            settings_view = SettingsView(self)
+            self.window.show_view(settings_view)
+        elif clicked_sprite == self.exit_game:
+            arcade.exit()
 
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
             return
-        if hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w != 3840:
-            self.pressed_button.scale = 0.55
-            self.pressed_button = None
-        elif hasattr(self, 'pressed_button') and self.pressed_button is not None and self.w == 3840:
-            self.pressed_button.scale = 0.8
+
+        if hasattr(self, 'pressed_button') and self.pressed_button is not None:
+            base_scale = 0.5 * SCALE
+            if WIDTH == 3840:
+                base_scale = 1.0
+            self.pressed_button.scale = base_scale
             self.pressed_button = None
 
     def on_mouse_motion(self, x, y, dx, dy):
+        base_scale = 0.5 * SCALE
+        hover_scale = base_scale * 1.1
+
+        if WIDTH == 3840:
+            base_scale = 1.0
+            hover_scale = 1.2
+
         for btn in [self.play, self.settings, self.exit_game]:
-            if self.w != 3840:
-                btn.scale = 0.5
+            btn.scale = base_scale
 
-                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
-                if cheсk:
-                    cheсkin = cheсk[-1]
-                    cheсkin.scale = 0.55
+        check = arcade.get_sprites_at_point((x, y), self.button_list)
+        if check:
+            checkin = check[-1]
+            checkin.scale = hover_scale
 
-            if self.w == 3840:
-                btn.scale = 1
-
-                cheсk = arcade.get_sprites_at_point((x, y), self.button_list)
-                if cheсk:
-                    cheсkin = cheсk[-1]
-                    cheсkin.scale = 1.2
-
-        self.cursor.center_x = x
-        self.cursor.center_y = y
+        if hasattr(self, 'cursor'):
+            self.cursor.center_x = x
+            self.cursor.center_y = y
 
     def update_button_positions(self):
-        center_x = self.width // 2
-        self.play.center_y = int(self.height * 0.6)
-        self.settings.center_y = int(self.height * 0.5)
-        self.exit_game.center_y = int(self.height * 0.4)
+        center_x = self.w // 2
+        button_spacing = 100 * SCALE
 
         self.play.center_x = center_x
+        self.play.center_y = int(self.h * 0.6)
+
         self.settings.center_x = center_x
+        self.settings.center_y = int(self.h * 0.6 - button_spacing)
+
         self.exit_game.center_x = center_x
+        self.exit_game.center_y = int(self.h * 0.6 - button_spacing * 2)
 
-    def start_game(self):
-        game_view = GameWindow()
-        self.window.show_view(game_view)
+    def on_show_view(self):
+        if hasattr(self, 'sound') and self.sound:
+            try:
+                self.sound.delete()
+            except:
+                pass
 
+        settings = load_settings()
+        volume = settings.get("volume", 70) / 100.0
+        sound_enabled = settings.get("sound_enabled", True)
 
-# def main():
-#     game = Start_menu(WIDTH, HEIGHT, TITLE)
-#     arcade.run()
-#
-#
-# if __name__ == "__main__":
-#     main()
+        if sound_enabled:
+            self.sound = arcade.play_sound(
+                self.background_sound,
+                loop=True,
+                volume=volume
+            )
+        else:
+            self.sound = None
+
+        # Обновляем позиции
+        self.on_resize(WIDTH, HEIGHT)
