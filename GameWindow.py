@@ -117,13 +117,14 @@ class GameWindow(arcade.View):
         self.floor_list.draw()
         self.walls_list.draw()
         self.other_list.draw()
-        self.embient_list.draw()
         self.skeleton_list.draw()
+        self.other_2_list.draw()
+        self.player_list.draw()
+        self.embient_list.draw()
 
         if self.what_level(self.map_name) != 1:
             self.draw_enemy_health_bars()
 
-        self.player_list.draw()
         if self.what_level(self.map_name) != 1:
             self.draw_player_health_bar()
 
@@ -252,7 +253,7 @@ class GameWindow(arcade.View):
                 self.level_message_text.text = self.level_message
                 self.show_level_message = True
                 self.level_message_timer = 5.0
-                self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_test2.tmx'
+                self.map_name = 'images/backgrounds/lvl2/dungeon_lvl2_ready.tmx'
                 self.load_map()
                 self.player_list.remove(self.player)
                 self.player = Hero(self.map_name)
@@ -262,6 +263,10 @@ class GameWindow(arcade.View):
                 self.physics_engine = arcade.PhysicsEngineSimple(
                     self.player, (self.walls_list, self.other_list)
                 )
+
+        heal_colision = arcade.check_for_collision_with_list(self.player, self.heal_list)
+        if heal_colision:
+            self.player.health = 100
 
         skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
 
@@ -484,6 +489,11 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.next_list = tile_map.sprite_lists['next']
+        else:
+            self.other_2_list = tile_map.sprite_lists['other+']
+            self.heal_list = tile_map.sprite_lists['heal']
+
+        self.skeleton_list.clear()
 
         if 'skelets' in tile_map.sprite_lists:
             spawn_tiles = tile_map.sprite_lists['skelets']

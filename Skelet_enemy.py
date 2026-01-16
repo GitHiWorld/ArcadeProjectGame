@@ -84,10 +84,10 @@ class Skelet(arcade.Sprite):
         self.texture = self.idle_textures_right[0]
 
         self.walk_delay = 0.1
-        self.idle_delay = 0.2
-        self.atc_1_delay = 0.2
+        self.idle_delay = 0.16
+        self.atc_1_delay = 0.14
         self.atc_2_delay = 0.1
-        self.hurt_delay = 0.12
+        self.hurt_delay = 0.1
         self.dead_delay = 0.18
 
         self.atc_range = 50

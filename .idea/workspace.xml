@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="small work moment" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="сделал слой чтобы спавнить скелетов, чуть чуть починил карту">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_test2.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_test2.tmx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="be6de8e0baa44d5bb1ed8072ab0199c5da66a16c" />
+        <entry key="$PROJECT_DIR$" value="b4ea578c6a36ed5cced554adfdab27da1d2741a3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,12 +35,12 @@
     &quot;assignee&quot;: &quot;GitHiWorld&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/GitHiWorld/ArcadeProjectGame.git",
-    "accountId": "b10784f0-31da-485d-a5ff-6e60b6c34a20"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/GitHiWorld/ArcadeProjectGame.git&quot;,
+    &quot;accountId&quot;: &quot;0715f342-62e3-48b1-96af-17f34e07ecaa&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -517,7 +521,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768496301695</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="сделал слой чтобы спавнить скелетов, чуть чуть починил карту">
+      <option name="closed" value="true" />
+      <created>1768575204464</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1768575204464</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -544,7 +556,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="фикс камеры для анимаций, кадров анимаций не 4 а 5, в main добавлен выбор view (откуда мы начнем)" />
     <MESSAGE value="работает и атака и рывок" />
     <MESSAGE value="работает вторая атака, добавлено чередование между первой и второй" />
     <MESSAGE value="небольшая калибровка значений, рывок на SPACE, кд атаки меньше, дальность рывка 600 -&gt; 900" />
@@ -569,6 +580,7 @@
     <MESSAGE value="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке" />
     <MESSAGE value="Падпись в начале" />
     <MESSAGE value="small work moment" />
-    <option name="LAST_COMMIT_MESSAGE" value="small work moment" />
+    <MESSAGE value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
+    <option name="LAST_COMMIT_MESSAGE" value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
   </component>
 </project>
