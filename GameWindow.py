@@ -247,7 +247,7 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.update_subtitles(delta_time)
-            if next_collison and not self.show_subtitles:
+            if next_collison and not self.show_subtitles or 0 == 0:
                 self.level_message = "Уничтожь всех стражей тьмы"
                 self.level_message_text.text = self.level_message
                 self.show_level_message = True
@@ -257,13 +257,10 @@ class GameWindow(arcade.View):
                 self.player_list.remove(self.player)
                 self.player = Hero(self.map_name)
                 self.player_list.append(self.player)
-                self.skelet_1 = Skelet()
-                self.skeleton_list.append(self.skelet_1)
                 map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
                 self.player.center_y = map_height_pixels // 2
-                self.skelet_1.center_y = random.uniform(
-                    (map_height_pixels // 2) - 100 * SCALE,
-                    (map_height_pixels // 2) + 100 * SCALE
+                self.physics_engine = arcade.PhysicsEngineSimple(
+                    self.player, (self.walls_list, self.other_list)
                 )
 
         skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
@@ -487,6 +484,14 @@ class GameWindow(arcade.View):
 
         if self.what_level(self.map_name) == 1:
             self.next_list = tile_map.sprite_lists['next']
+
+        if 'skelets' in tile_map.sprite_lists:
+            spawn_tiles = tile_map.sprite_lists['skelets']
+            for tile in spawn_tiles:
+                skeleton = Skelet()
+                skeleton.center_x = tile.center_x
+                skeleton.center_y = tile.center_y
+                self.skeleton_list.append(skeleton)
 
         self.embient_list = tile_map.sprite_lists['embient']
         self.other_list = tile_map.sprite_lists['other']

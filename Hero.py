@@ -17,7 +17,7 @@ class Hero(arcade.Sprite):
             self.speed = 300
         else:
             self.speed = 1800
-        self.dodge_speed = 652
+        self.dodge_speed = 713
         self.health = 100
 
         self.is_dodging = False
