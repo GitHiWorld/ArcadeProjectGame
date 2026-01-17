@@ -2,7 +2,7 @@ import arcade
 import math
 import time
 import random
-from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings
+from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings, FaceDirection
 from PauseView import PauseView
 from Hero import Hero
 from Skelet_enemy import Skelet
@@ -424,15 +424,19 @@ class GameWindow(arcade.View):
 
             if self.player.state in ['atc_1', 'atc_2'] and self.player.current_texture_index in [2, 3]:
                 attack_range = 70 * SCALE  # Расстояние атаки
-                attack_width = 70 * SCALE  # Ширина зоны атаки
+                attack_width = 128 * SCALE  # Ширина зоны атаки
 
-                if self.player.attack_direction == 1:
-                    attack_right = self.player.center_x - 80 * SCALE
-                    attack_left = attack_right - attack_range
-
+                if hasattr(self.player, 'attack_direction'):
+                    attack_direction = self.player.attack_direction
                 else:
-                    attack_left = self.player.center_x + 80 * SCALE
-                    attack_right = attack_left + attack_range
+                    attack_direction = self.player.attack_direction
+
+                if attack_direction == FaceDirection.LEFT:  # Атака влево
+                    attack_left = self.player.center_x - attack_range
+                    attack_right = self.player.center_x
+                else:  # Атака вправо
+                    attack_left = self.player.center_x
+                    attack_right = self.player.center_x + attack_range
 
                 attack_bottom = self.player.center_y - attack_width / 2
                 attack_top = self.player.center_y + attack_width / 2
