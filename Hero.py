@@ -20,6 +20,8 @@ class Hero(arcade.Sprite):
         self.dodge_speed = 713
         self.health = 100
 
+        self.kills = 0
+
         self.is_dodging = False
         self.dodge_timer = 0
         self.dodge_duration = 0.3
@@ -123,7 +125,7 @@ class Hero(arcade.Sprite):
         self.state = 'idle'
         self.is_walking = False
 
-        self.attack_cooldown = 0.5
+        self.attack_cooldown = 1.0
         self.attack_timer = 0
         self.can_attack = True
         self.attack = 'atc_1'
@@ -357,8 +359,6 @@ class Hero(arcade.Sprite):
             self.current_texture_index = 0
             self.animation_timer = 0
 
-
-
             return True
         else:
             return False
@@ -378,6 +378,3 @@ class Hero(arcade.Sprite):
         self.face_direction = FaceDirection.RIGHT if attacker_x >= self.center_x else FaceDirection.LEFT
 
         return True
-
-
-

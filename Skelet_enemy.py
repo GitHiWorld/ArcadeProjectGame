@@ -21,7 +21,6 @@ class Skelet(arcade.Sprite):
         self.atc_range = 50 * screen_ratio
         self.vision_range = 500 * screen_ratio
 
-
         idle_path = 'images/pers/enemy/skelet/Skeleton_Warrior/Idle.png'
         IDLE_COLUMNS = 7
         sprite_sheet_idle = arcade.SpriteSheet(idle_path)
@@ -97,6 +96,8 @@ class Skelet(arcade.Sprite):
         self.center_y = HEIGHT * 1.8
 
         self.is_dead = False
+        self.last_attack_time = 0
+        self.last_damage_time = 0
 
     def update_animation(self, delta_time, player_x):
         self.animation_timer += delta_time
@@ -135,7 +136,6 @@ class Skelet(arcade.Sprite):
         elif self.state == 'hurt':
             if self.animation_timer >= self.hurt_delay:
                 self.animation_timer = 0
-                # self.current_texture_index = (self.current_texture_index + 1) % len(self.hurt_texture_right)
                 if self.current_texture_index == len(self.hurt_texture_right) - 1:
                     self.state = 'idle'
                     self.current_texture_index = 0
@@ -150,16 +150,14 @@ class Skelet(arcade.Sprite):
             if self.animation_timer >= self.dead_delay:
                 self.animation_timer = 0
 
-                if self.current_texture_index == len(self.dead_texture_right) - 1:
-                    self.is_dead = True
-                    self.current_texture_index = 0
-                else:
-                    self.current_texture_index = (self.current_texture_index + 1)
-
+                if self.current_texture_index < len(self.dead_texture_right) - 1:
+                    self.current_texture_index += 1
                     if player_x >= self.center_x:
                         self.texture = self.dead_texture_right[self.current_texture_index]
                     else:
                         self.texture = self.dead_texture_left[self.current_texture_index]
+                else:
+                    self.is_dead = True
 
     def update(self, delta_time, player_x, player_y):
         if self.state != 'hurt' and self.state != 'dead':
@@ -193,17 +191,30 @@ class Skelet(arcade.Sprite):
                 self.state = 'idle'
 
     def take_damage(self, amount, player_x):
-        if self.state == 'hurt':
+        if self.state == 'dead' or self.is_dead:
             return False
+
+        current_time = time.time()
+        if current_time - self.last_damage_time < 0.1:
+            return False
+
+        self.last_damage_time = current_time
 
         self.health -= amount
         if self.health <= 0:
             self.state = 'dead'
+            self.health = 0
+            self.is_dead = False
+            self.current_texture_index = 0
+            self.animation_timer = 0
+            if player_x >= self.center_x:
+                self.texture = self.dead_texture_right[0]
+            else:
+                self.texture = self.dead_texture_left[0]
+            return True
         else:
             self.state = 'hurt'
-        self.current_texture_index = 0
-        self.animation_timer = 0
-
-        self.face_direction = FaceDirection.RIGHT if player_x >= self.center_x else FaceDirection.LEFT
-        return True
-
+            self.current_texture_index = 0
+            self.animation_timer = 0
+            self.face_direction = FaceDirection.RIGHT if player_x >= self.center_x else FaceDirection.LEFT
+            return True

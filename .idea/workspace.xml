@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="сделал слой чтобы спавнить скелетов, чуть чуть починил карту">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_test2.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_test2.tmx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hero.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoseView.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoseView.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Skelet_enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Skelet_enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/game_settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +67,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "be6de8e0",
+    "git-widget-placeholder": "1f7c0892",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }

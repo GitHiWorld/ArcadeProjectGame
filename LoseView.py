@@ -319,6 +319,8 @@ class LoseView(arcade.View):
         if player not in self.game_window.player_list:
             self.game_window.player_list.append(player)
 
+        self.game_window.attack_hit_skeletons.clear()
+
         # Возвращаемся в игровое окно
         self.window.show_view(self.game_window)
 
