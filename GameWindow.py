@@ -30,10 +30,10 @@ class GameWindow(arcade.View):
         self.player = Hero(self.map_name)
         self.player_list.append(self.player)
 
-        self.game_time = 0.0
-        self.fixed_game_time = 0.0
         self.start_time = time.time()
         self.level_start_time = time.time()
+        self.game_time = 0.0
+        self.fixed_game_time = 0.0
 
         self.level_message = ""
         self.level_message_timer = 0
@@ -145,7 +145,7 @@ class GameWindow(arcade.View):
         if hasattr(self, 'other_2_list'):
             self.other_2_list.draw()
         self.player_list.draw()
-        self.embient_list.draw()
+        # self.embient_list.draw()
 
         if self.what_level(self.map_name) != 1:
             self.draw_enemy_health_bars()
@@ -390,7 +390,7 @@ class GameWindow(arcade.View):
 
             if hasattr(self, 'next_list'):
                 next_collison = arcade.check_for_collision_with_list(self.player, self.next_list)
-                if next_collison and not self.show_subtitles:
+                if next_collison and not self.show_subtitles or 0 == 0:
                     self.level_message = "Уничтожь всех стражей тьмы"
                     self.level_message_text.text = self.level_message
                     self.show_level_message = True
@@ -423,13 +423,29 @@ class GameWindow(arcade.View):
                         heal.remove_from_sprite_lists()
 
             if self.player.state in ['atc_1', 'atc_2'] and self.player.current_texture_index in [2, 3]:
-                skeleton_hit_list = arcade.check_for_collision_with_list(self.player, self.skeleton_list)
+                attack_range = 70 * SCALE  # Расстояние атаки
+                attack_width = 70 * SCALE  # Ширина зоны атаки
 
-                for skeleton in skeleton_hit_list:
-                    if id(skeleton) not in self.attack_hit_skeletons:
-                        damage = random.randint(15, 25)
-                        if skeleton.take_damage(damage, self.player.center_x):
-                            self.attack_hit_skeletons.add(id(skeleton))
+                if self.player.attack_direction == 1:
+                    attack_right = self.player.center_x - 80 * SCALE
+                    attack_left = attack_right - attack_range
+
+                else:
+                    attack_left = self.player.center_x + 80 * SCALE
+                    attack_right = attack_left + attack_range
+
+                attack_bottom = self.player.center_y - attack_width / 2
+                attack_top = self.player.center_y + attack_width / 2
+
+
+                for skeleton in self.skeleton_list:
+                    if (attack_left <= skeleton.center_x <= attack_right and
+                            attack_bottom <= skeleton.center_y <= attack_top):
+
+                        if id(skeleton) not in self.attack_hit_skeletons:
+                            damage = random.randint(15, 25)
+                            if skeleton.take_damage(damage, self.player.center_x):
+                                self.attack_hit_skeletons.add(id(skeleton))
             else:
                 self.attack_hit_skeletons.clear()
 
@@ -629,10 +645,16 @@ class GameWindow(arcade.View):
             except:
                 pass
 
-        self.start_time = time.time()
-        self.level_start_time = time.time()
-        self.game_time = 0.0
-        self.fixed_game_time = 0.0
+        # self.start_time = time.time()
+        # self.level_start_time = time.time()
+        # self.game_time = 0.0
+        # self.fixed_game_time = 0.0
+
+        if not hasattr(self, 'start_time'):
+            self.start_time = time.time()
+            self.level_start_time = time.time()
+            self.game_time = 0.0
+            self.fixed_game_time = 0.0
 
         settings = load_settings()
         volume = settings.get("volume", 70) / 100.0
