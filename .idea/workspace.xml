@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="УРА атака работает прям как надо">
-      <change afterPath="$PROJECT_DIR$/Boss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hero.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoseView.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoseView.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="06bfc8cc81e23040d181645cfe23478eee978fa9" />
+        <entry key="$PROJECT_DIR$" value="afd8c76647757b8e0d0cd9e5754373fd5ae8deac" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,24 +55,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.GameWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Hero.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Skelet_enemy.executor&quot;: &quot;Run&quot;,
-    &quot;Python.StartMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;74435b8f&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/PythonProjectGametool&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.GameWindow.executor": "Run",
+    "Python.Hero.executor": "Run",
+    "Python.Skelet_enemy.executor": "Run",
+    "Python.StartMenu.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.tests 2.executor": "Run",
+    "Python.tests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "0d97da3f",
+    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool" />
@@ -192,10 +196,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.tests 2" />
         <item itemvalue="Python.StartMenu" />
         <item itemvalue="Python.Skelet_enemy" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.Hero" />
       </list>
     </recent_temporary>
@@ -536,7 +540,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768653873576</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="сделал слой чтобы спавнить скелетов, чуть чуть починил карту">
+      <option name="closed" value="true" />
+      <created>1768752680890</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1768752680890</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -586,8 +598,8 @@
     <MESSAGE value="игрок умирает вроде нормально, пофикшен баг когда персонаж летит в рывке" />
     <MESSAGE value="Падпись в начале" />
     <MESSAGE value="small work moment" />
-    <MESSAGE value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
     <MESSAGE value="коллибровка" />
-    <option name="LAST_COMMIT_MESSAGE" value="коллибровка" />
+    <MESSAGE value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
+    <option name="LAST_COMMIT_MESSAGE" value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
   </component>
 </project>

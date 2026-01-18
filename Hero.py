@@ -21,6 +21,7 @@ class Hero(arcade.Sprite):
         self.health = 100
 
         self.kills = 0
+        self.deaths = 0
 
         self.is_dodging = False
         self.dodge_timer = 0
@@ -370,6 +371,7 @@ class Hero(arcade.Sprite):
         self.health -= amount
         if self.health <= 0:
             self.state = 'dead'
+            self.deaths += 1
         else:
             self.state = 'hurt'
         self.current_texture_index = 0

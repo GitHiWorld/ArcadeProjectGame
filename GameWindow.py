@@ -105,7 +105,7 @@ class GameWindow(arcade.View):
         )
 
         self.stats_text = arcade.Text(
-            "Убийств: 0 | Время: 00:00",
+            "Убийств: 0 | Смертей: 0",
             WIDTH - 320 * SCALE,
             HEIGHT - 140 * SCALE,
             arcade.color.WHITE,
@@ -177,12 +177,6 @@ class GameWindow(arcade.View):
         self.cursors_list.draw()
 
     def draw_player_stats(self):
-        self.game_time = time.time() - self.start_time
-
-        minutes = int(self.game_time // 60)
-        seconds = int(self.game_time % 60)
-        time_str = f"{minutes:02d}:{seconds:02d}"
-
         arcade.draw_lbwh_rectangle_filled(
             self.w - 330 * SCALE,
             self.h - 155 * SCALE,
@@ -200,7 +194,7 @@ class GameWindow(arcade.View):
             border_width=2
         )
 
-        self.stats_text.text = f"Убийств: {self.player.kills} | Время: {time_str}"
+        self.stats_text.text = f"Убийств: {self.player.kills} | Смертей: {self.player.deaths}"
         self.stats_text.draw()
 
     def draw_results_window(self):
@@ -209,7 +203,7 @@ class GameWindow(arcade.View):
         time_str = f"{minutes:02d}:{seconds:02d}"
 
         window_width = 500 * SCALE
-        window_height = 250 * SCALE
+        window_height = 300 * SCALE
         x = self.w // 2
         y = self.h // 2
 
@@ -251,7 +245,18 @@ class GameWindow(arcade.View):
         arcade.draw_text(
             f"Уничтожено врагов: {self.player.kills}",
             x,
-            y + 20,
+            y + 40,
+            arcade.color.WHITE,
+            font_size=text_font_size,
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x="center",
+            anchor_y="center"
+        )
+
+        arcade.draw_text(
+            f"Смертей: {self.player.deaths}",
+            x,
+            y,
             arcade.color.WHITE,
             font_size=text_font_size,
             font_name="Comic Sans MS pixel rus eng",
@@ -262,7 +267,7 @@ class GameWindow(arcade.View):
         arcade.draw_text(
             f"Время прохождения: {time_str}",
             x,
-            y - 20,
+            y - 40,
             arcade.color.WHITE,
             font_size=text_font_size,
             font_name="Comic Sans MS pixel rus eng",
@@ -400,9 +405,11 @@ class GameWindow(arcade.View):
                     self.load_map()
 
                     old_kills = self.player.kills
+                    old_deaths = self.player.deaths
                     self.player_list.remove(self.player)
                     self.player = Hero(self.map_name)
                     self.player.kills = old_kills
+                    self.player.deaths = old_deaths
                     self.player_list.append(self.player)
 
                     map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
@@ -648,11 +655,6 @@ class GameWindow(arcade.View):
                 self.sound_map1.delete()
             except:
                 pass
-
-        # self.start_time = time.time()
-        # self.level_start_time = time.time()
-        # self.game_time = 0.0
-        # self.fixed_game_time = 0.0
 
         if not hasattr(self, 'start_time'):
             self.start_time = time.time()
