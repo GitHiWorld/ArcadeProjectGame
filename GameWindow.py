@@ -15,6 +15,10 @@ class GameWindow(arcade.View):
         super().__init__()
         self.main_menu = menu_view
 
+        settings = load_settings()
+        self.volume = settings.get("volume", 70) / 100.0
+        self.sound_enabled = settings.get("sound_enabled", True)
+
         self.map_1_sound = arcade.load_sound('sounds/map_1_sound.mp3', streaming=True)
         self.current_sound = None
         self.current_sound_instance = None

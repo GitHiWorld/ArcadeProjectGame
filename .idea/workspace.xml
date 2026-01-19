@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="коллибровка + звук">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="звук чуть чуть не работает (((">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/game_settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PauseView.py" beforeDir="false" afterPath="$PROJECT_DIR$/PauseView.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SettingsView.py" beforeDir="false" afterPath="$PROJECT_DIR$/SettingsView.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +66,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "e993c02a",
+    "git-widget-placeholder": "5df9f1dc",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
@@ -585,7 +586,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768834507861</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="звук чуть чуть не работает (((">
+      <option name="closed" value="true" />
+      <created>1768835754948</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1768835754950</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -612,7 +621,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="скелетик двигается но почему то дергается" />
     <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
     <MESSAGE value="скелетик ходит, атакует в радиусе 50px" />
     <MESSAGE value="Начальная карта" />
@@ -637,6 +645,7 @@
     <MESSAGE value="файл requirements.txt" />
     <MESSAGE value="..." />
     <MESSAGE value="коллибровка + звук" />
-    <option name="LAST_COMMIT_MESSAGE" value="коллибровка + звук" />
+    <MESSAGE value="звук чуть чуть не работает (((" />
+    <option name="LAST_COMMIT_MESSAGE" value="звук чуть чуть не работает (((" />
   </component>
 </project>

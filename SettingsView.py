@@ -11,9 +11,18 @@ class SettingsView(arcade.View):
         self.w = WIDTH
         self.h = HEIGHT
 
-        self.settings = load_settings()
-        self.volume = self.settings["volume"]
-        self.sound_enabled = self.settings["sound_enabled"]
+        # self.settings = load_settings()
+        # self.volume = self.settings["volume"]
+        # self.sound_enabled = self.settings["sound_enabled"]
+
+        if hasattr(menu_view, 'game_view'):
+            self.game_view = menu_view.game_view
+            self.volume = menu_view.volume
+            self.sound_enabled = menu_view.sound_enabled
+        else:
+            self.settings = load_settings()
+            self.volume = self.settings["volume"]
+            self.sound_enabled = self.settings["sound_enabled"]
 
         self.create_ui_elements()
 
@@ -312,6 +321,11 @@ class SettingsView(arcade.View):
             self.settings["sound_enabled"] = self.sound_enabled
 
             if save_settings(self.settings):
+                if hasattr(self.menu_view, 'game_view'):
+                    self.menu_view.game_view.volume = self.volume / 100.0
+                    self.menu_view.game_view.sound_enabled = self.sound_enabled
+                    self.menu_view.game_view.change_background_music()
+
                 self.window.show_view(self.menu_view)
             return
 
