@@ -8,23 +8,24 @@ from constants import FaceDirection, SCALE
 
 
 class Boss(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, speed_multiplier=0.8):
         super().__init__()
 
-        self.base_speed = 250
-        self.speed = self.base_speed * SCALE
-        self.health = 1000
+        self.base_speed = 180
+        self.speed = self.base_speed * SCALE * speed_multiplier
+        self.health = 500
+        self.max_health = 500
 
         self.scale = 1.8 * SCALE
 
         self.atc_range = 80 * SCALE
-        self.vision_range = 700 * SCALE
+        self.vision_range = 5000 * SCALE
 
         self.last_damage_time = 0
         self.is_dead = False
 
-        self.center_x = 0
-        self.center_y = 0
+        self.is_enraged = False
+        self.is_using_special_attack = False
 
         idle_path = 'images/pers/enemy/skelet/Skeleton_Archer/Idle.png'
         IDLE_COLUMNS = 7
@@ -35,7 +36,6 @@ class Boss(arcade.Sprite):
             count=IDLE_COLUMNS
         )
         self.idle_textures_left = [tex.flip_horizontally() for tex in self.idle_textures_right]
-
 
         walk_path = 'images/pers/enemy/skelet/Skeleton_Archer/Walk.png'
         WALK_COLUMNS = 8
@@ -68,7 +68,7 @@ class Boss(arcade.Sprite):
         self.dead_textures_left = [tex.flip_horizontally() for tex in self.dead_textures_right]
 
         attack_1_path = 'images/pers/enemy/skelet/Skeleton_Archer/Attack_1.png'
-        ATTACK_1_COLUMNS = 5  # Укажи правильное количество колонок
+        ATTACK_1_COLUMNS = 5
         sprite_sheet_attack_1 = arcade.SpriteSheet(attack_1_path)
         self.attack_1_textures_right = sprite_sheet_attack_1.get_texture_grid(
             size=(128, 128),
@@ -105,12 +105,72 @@ class Boss(arcade.Sprite):
         self.face_direction = FaceDirection.RIGHT
 
         self.idle_delay = 0.15
-        self.walk_delay = 0.1
+        self.walk_delay = 0.12
         self.attack_1_delay = 0.12
         self.attack_2_delay = 0.12
         self.shoot_1_delay = 0.15
-        self.hurt_delay = 0.1
+        self.hurt_delay = 0.12
         self.dead_delay = 0.2
+
+    def draw_health_bar(self, camera_x, camera_y):
+        if self.is_dead or self.health <= 0:
+            return
+
+        hp_ratio = max(0, self.health) / self.max_health
+
+        screen_x = self.center_x - camera_x + WIDTH // 2
+        screen_y = self.center_y - camera_y + HEIGHT // 2 + 100 * SCALE
+
+        bar_width = 140 * SCALE
+        bar_height = 20 * SCALE
+
+        left = screen_x - bar_width // 2
+        bottom = screen_y - bar_height // 2
+
+        arcade.draw_lbwh_rectangle_filled(
+            left,
+            bottom,
+            bar_width,
+            bar_height,
+            (50, 50, 50, 255)
+        )
+
+        fill_width = bar_width * hp_ratio
+        fill_color = (
+            (0, 255, 0, 255) if hp_ratio > 0.6 else
+            (255, 255, 0, 255) if hp_ratio > 0.3 else
+            (255, 0, 0, 255)
+        )
+
+        arcade.draw_lbwh_rectangle_filled(
+            left,
+            bottom,
+            fill_width,
+            bar_height,
+            fill_color
+        )
+
+        arcade.draw_lbwh_rectangle_outline(
+            left,
+            bottom,
+            bar_width,
+            bar_height,
+            (255, 255, 0, 255),
+            int(3 * SCALE)
+        )
+
+        percent_text = f"{int(hp_ratio * 100)}%"
+        arcade.draw_text(
+            percent_text,
+            screen_x,
+            screen_y,
+            (255, 255, 255, 255),
+            font_size=int(14 * SCALE),
+            font_name="Comic Sans MS pixel rus eng",
+            anchor_x="center",
+            anchor_y="center",
+            bold=True
+        )
 
     def update_animation(self, delta_time, player_x):
         self.animation_timer += delta_time
@@ -183,7 +243,7 @@ class Boss(arcade.Sprite):
             if self.animation_timer >= self.attack_2_delay:
                 self.animation_timer = 0
                 if self.current_texture_index == len(self.attack_2_textures_right) - 1:
-                    self.state = 'idle'  # Возвращаемся в состояние покоя после атаки
+                    self.state = 'idle'
                     self.current_texture_index = 0
                 else:
                     self.current_texture_index = (self.current_texture_index + 1)
@@ -210,6 +270,10 @@ class Boss(arcade.Sprite):
                         self.face_direction = FaceDirection.LEFT
 
     def update(self, delta_time, player_x, player_y):
+        if self.health < self.max_health * 0.3 and not self.is_enraged:
+            self.is_enraged = True
+            self.speed *= 1.7
+
         if self.state != 'hurt' and self.state != 'dead':
             dx = player_x - self.center_x
             dy = player_y - self.center_y
@@ -223,20 +287,8 @@ class Boss(arcade.Sprite):
                     self.current_texture_index = 0
                     self.animation_timer = 0
             elif distance <= self.vision_range:
-                if distance > 0:
-                    dx_normalized = dx / distance
-                    dy_normalized = dy / distance
-                else:
-                    dx_normalized = 0
-                    dy_normalized = 0
-
-                self.center_x += dx_normalized * self.speed * delta_time
-                self.center_y += dy_normalized * self.speed * delta_time
-
-                if dx_normalized > 0.1:
-                    self.face_direction = FaceDirection.RIGHT
-                elif dx_normalized < -0.1:
-                    self.face_direction = FaceDirection.LEFT
+                speed_multiplier = 1.5 if self.is_enraged else 1.0
+                self.move_towards_player(delta_time, player_x, player_y, speed_multiplier=speed_multiplier)
 
                 if self.state not in ['shot_1', 'attack_1', 'attack_2'] and random.random() < 0.01:
                     self.state = 'shot_1'
@@ -246,6 +298,28 @@ class Boss(arcade.Sprite):
                     self.state = 'walk'
             else:
                 self.state = 'idle'
+
+    def move_towards_player(self, delta_time, player_x, player_y, speed_multiplier=1.0):
+        dx = player_x - self.center_x
+        dy = player_y - self.center_y
+        distance = math.sqrt(dx * dx + dy * dy)
+
+        if distance > 0:
+            dx_normalized = dx / distance
+            dy_normalized = dy / distance
+        else:
+            dx_normalized = 0
+            dy_normalized = 0
+
+        speed = min(self.speed * speed_multiplier, 400 * SCALE)
+
+        self.center_x += dx_normalized * speed * delta_time
+        self.center_y += dy_normalized * speed * delta_time
+
+        if dx_normalized > 0.1:
+            self.face_direction = FaceDirection.RIGHT
+        elif dx_normalized < -0.1:
+            self.face_direction = FaceDirection.LEFT
 
     def take_damage(self, amount, player_x):
         if self.state == 'dead' or self.is_dead:
@@ -258,6 +332,11 @@ class Boss(arcade.Sprite):
         self.last_damage_time = current_time
 
         self.health -= amount
+
+        if self.health < self.max_health * 0.3 and not self.is_enraged:
+            self.is_enraged = True
+            self.speed *= 1.7
+
         if self.health <= 0:
             self.state = 'dead'
             self.health = 0
@@ -272,8 +351,9 @@ class Boss(arcade.Sprite):
                 self.face_direction = FaceDirection.LEFT
             return True
         else:
-            self.state = 'hurt'
-            self.current_texture_index = 0
-            self.animation_timer = 0
-            self.face_direction = FaceDirection.RIGHT if player_x >= self.center_x else FaceDirection.LEFT
+            if random.random() < 0.3:
+                self.state = 'hurt'
+                self.current_texture_index = 0
+                self.animation_timer = 0
+                self.face_direction = FaceDirection.RIGHT if player_x >= self.center_x else FaceDirection.LEFT
             return True

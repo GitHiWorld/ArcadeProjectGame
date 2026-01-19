@@ -6,6 +6,7 @@ from constants import WIDTH, HEIGHT, cursor, SCALE, load_settings, FaceDirection
 from PauseView import PauseView
 from Hero import Hero
 from Skelet_enemy import Skelet
+from Boss import Boss
 from LoseView import LoseView
 
 
@@ -53,6 +54,11 @@ class GameWindow(arcade.View):
 
         self.enemy_list = arcade.SpriteList()
         self.skeleton_list = arcade.SpriteList()
+        self.boss_list = arcade.SpriteList()
+        self.boss_spawned = False
+        self.boss_defeated = False
+        self.skeletons_cleared = False
+        self.heal_spawned = False
 
         cursor(self)
 
@@ -121,6 +127,7 @@ class GameWindow(arcade.View):
         self.results_timer = 0
 
         self.attack_hit_skeletons = set()
+        self.attack_hit_boss = set()
 
         if self.subtitles:
             self.full_text = self.subtitles[0]
@@ -142,14 +149,21 @@ class GameWindow(arcade.View):
         self.walls_list.draw()
         self.other_list.draw()
         self.skeleton_list.draw()
+        self.boss_list.draw()
         if hasattr(self, 'other_2_list'):
             self.other_2_list.draw()
+        if hasattr(self, 'heal_list'):
+            self.heal_list.draw()
         self.player_list.draw()
-        # self.embient_list.draw()
 
         if self.what_level(self.map_name) != 1:
             self.draw_enemy_health_bars()
             self.draw_player_health_bar()
+
+            if self.boss_spawned and len(self.boss_list) > 0 and not self.boss_defeated:
+                camera_x = self.world_camera.position[0]
+                camera_y = self.world_camera.position[1]
+                self.boss_list[0].draw_health_bar(camera_x, camera_y)
 
         self.gui_camera.use()
         if self.what_level(self.map_name) != 1:
@@ -191,7 +205,7 @@ class GameWindow(arcade.View):
             320 * SCALE,
             40,
             arcade.color.GOLD,
-            border_width=2
+            2
         )
 
         self.stats_text.text = f"Убийств: {self.player.kills} | Смертей: {self.player.deaths}"
@@ -224,7 +238,7 @@ class GameWindow(arcade.View):
             window_width,
             window_height,
             (100, 100, 120, 255),
-            border_width=3 * SCALE
+            3 * SCALE
         )
 
         title_font_size = int(32 * SCALE)
@@ -341,6 +355,7 @@ class GameWindow(arcade.View):
             mouse_world_x = camera_x - (self.w // 2) + x
             self.player.try_attack(mouse_world_x)
             self.attack_hit_skeletons.clear()
+            self.attack_hit_boss.clear()
 
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
@@ -395,7 +410,7 @@ class GameWindow(arcade.View):
 
             if hasattr(self, 'next_list'):
                 next_collison = arcade.check_for_collision_with_list(self.player, self.next_list)
-                if next_collison and not self.show_subtitles or 0 == 0:
+                if next_collison and not self.show_subtitles :
                     self.level_message = "Уничтожь всех стражей тьмы"
                     self.level_message_text.text = self.level_message
                     self.show_level_message = True
@@ -420,34 +435,45 @@ class GameWindow(arcade.View):
 
                     self.results_shown = False
                     self.attack_hit_skeletons.clear()
+                    self.attack_hit_boss.clear()
+                    self.skeletons_cleared = False
+                    self.heal_spawned = False
 
         elif self.what_level(self.map_name) == 2:
-            if hasattr(self, 'heal_list'):
-                heal_colision = arcade.check_for_collision_with_list(self.player, self.heal_list)
-                if heal_colision:
-                    self.player.health = min(100, self.player.health + 30)
-                    for heal in heal_colision:
+            if len(self.skeleton_list) == 0 and not self.skeletons_cleared and not self.heal_spawned:
+                self.skeletons_cleared = True
+                self.spawn_healing_potion()
+                self.heal_spawned = True
+
+            if hasattr(self, 'heal_list') and self.heal_spawned:
+                heal_collision = arcade.check_for_collision_with_list(self.player, self.heal_list)
+                if heal_collision:
+                    self.player.health = min(100, self.player.health + 50)
+                    for heal in heal_collision:
                         heal.remove_from_sprite_lists()
+                    self.level_message = "Вы восстановили здоровье!"
+                    self.level_message_text.text = self.level_message
+                    self.show_level_message = True
+                    self.level_message_timer = 3.0
 
             if self.player.state in ['atc_1', 'atc_2'] and self.player.current_texture_index in [2, 3]:
-                attack_range = 70 * SCALE  # Расстояние атаки
-                attack_width = 128 * SCALE  # Ширина зоны атаки
+                attack_range = 70 * SCALE
+                attack_width = 128 * SCALE
 
                 if hasattr(self.player, 'attack_direction'):
                     attack_direction = self.player.attack_direction
                 else:
                     attack_direction = self.player.attack_direction
 
-                if attack_direction == FaceDirection.LEFT:  # Атака влево
+                if attack_direction == FaceDirection.LEFT:
                     attack_left = self.player.center_x - attack_range
                     attack_right = self.player.center_x
-                else:  # Атака вправо
+                else:
                     attack_left = self.player.center_x
                     attack_right = self.player.center_x + attack_range
 
                 attack_bottom = self.player.center_y - attack_width / 2
                 attack_top = self.player.center_y + attack_width / 2
-
 
                 for skeleton in self.skeleton_list:
                     if (attack_left <= skeleton.center_x <= attack_right and
@@ -457,11 +483,81 @@ class GameWindow(arcade.View):
                             damage = random.randint(15, 25)
                             if skeleton.take_damage(damage, self.player.center_x):
                                 self.attack_hit_skeletons.add(id(skeleton))
+
+                for boss in self.boss_list:
+                    if (attack_left <= boss.center_x <= attack_right and
+                            attack_bottom <= boss.center_y <= attack_top):
+                        if id(boss) not in self.attack_hit_boss:
+                            damage = random.randint(20, 30)
+                            if boss.take_damage(damage, self.player.center_x):
+                                self.attack_hit_boss.add(id(boss))
             else:
                 self.attack_hit_skeletons.clear()
+                self.attack_hit_boss.clear()
+
+            if len(self.skeleton_list) == 0 and not self.boss_spawned and not self.boss_defeated:
+                self.spawn_boss()
+
+            if self.boss_spawned and len(self.boss_list) > 0:
+                boss = self.boss_list[0]
+
+                old_x = boss.center_x
+                old_y = boss.center_y
+
+                boss.update(delta_time, self.player.center_x, self.player.center_y)
+                boss.update_animation(delta_time, self.player.center_x)
+
+                wall_collisions = arcade.check_for_collision_with_list(boss, self.walls_list)
+                other_collisions = arcade.check_for_collision_with_list(boss, self.other_list)
+
+                if wall_collisions or other_collisions:
+                    boss.center_x = old_x
+                    boss.center_y = old_y
+
+                if boss.state in ['attack_1', 'attack_2'] and boss.current_texture_index in [2, 3]:
+                    current_time = time.time()
+                    if not hasattr(boss, 'last_attack_time'):
+                        boss.last_attack_time = 0
+
+                    if current_time - boss.last_attack_time >= 0.8:
+                        distance = math.sqrt((boss.center_x - self.player.center_x) ** 2 +
+                                             (boss.center_y - self.player.center_y) ** 2)
+
+                        if distance <= boss.atc_range:
+                            damage = 50
+                            if boss.is_using_special_attack:
+                                damage = 75
+
+                            self.player.take_damage(damage, boss.center_x)
+                            boss.last_attack_time = current_time
+
+                if boss.is_dead and not self.boss_defeated:
+                    self.boss_defeated = True
+                    self.player.kills += 1
+                    boss.remove_from_sprite_lists()
+
+                    if not self.results_shown:
+                        self.fixed_game_time = self.game_time
+                        self.show_results = True
+                        self.results_timer = 10.0
+                        self.results_shown = True
+
 
             dead_skeletons = []
             for skeleton in self.skeleton_list:
+                skeleton_old_x = skeleton.center_x
+                skeleton_old_y = skeleton.center_y
+
+                skeleton.update(delta_time, self.player.center_x, self.player.center_y)
+                skeleton.update_animation(delta_time, self.player.center_x)
+
+                skeleton_wall_collisions = arcade.check_for_collision_with_list(skeleton, self.walls_list)
+                skeleton_other_collisions = arcade.check_for_collision_with_list(skeleton, self.other_list)
+
+                if skeleton_wall_collisions or skeleton_other_collisions:
+                    skeleton.center_x = skeleton_old_x
+                    skeleton.center_y = skeleton_old_y
+
                 if skeleton.is_dead:
                     dead_skeletons.append(skeleton)
                 elif skeleton.state == 'atc_1' and skeleton.current_texture_index in [2, 3]:
@@ -470,14 +566,21 @@ class GameWindow(arcade.View):
                         skeleton.last_attack_time = 0
 
                     if current_time - skeleton.last_attack_time >= 1.0:
-                        self.player.take_damage(random.randint(5, 15), skeleton.center_x)
-                        skeleton.last_attack_time = current_time
+                        distance = math.sqrt((skeleton.center_x - self.player.center_x) ** 2 +
+                                             (skeleton.center_y - self.player.center_y) ** 2)
+
+                        if distance <= skeleton.atc_range:
+                            self.player.take_damage(random.randint(5, 15), skeleton.center_x)
+                            skeleton.last_attack_time = current_time
 
             for skeleton in dead_skeletons:
                 skeleton.remove_from_sprite_lists()
                 self.player.kills += 1
 
-            if len(self.skeleton_list) == 0 and not self.results_shown and self.what_level(self.map_name) == 2:
+            if (len(self.skeleton_list) == 0 and
+                    self.boss_defeated and
+                    not self.results_shown and
+                    self.what_level(self.map_name) == 2):
                 self.fixed_game_time = self.game_time
                 self.show_results = True
                 self.results_timer = 10.0
@@ -505,6 +608,42 @@ class GameWindow(arcade.View):
             0.03
         )
 
+    def spawn_healing_potion(self):
+        healing_potion = arcade.SpriteCircle(10 * SCALE, arcade.color.GREEN)
+        healing_potion.scale = 2 * SCALE
+
+        healing_potion.center_x = self.player.center_x + 100 * SCALE
+        healing_potion.center_y = self.player.center_y
+
+        if not hasattr(self, 'heal_list'):
+            self.heal_list = arcade.SpriteList()
+
+        self.heal_list.append(healing_potion)
+
+        self.level_message = "Появилось зелье лечения!"
+        self.level_message_text.text = self.level_message
+        self.show_level_message = True
+        self.level_message_timer = 3.0
+
+    def spawn_boss(self):
+        self.boss_spawned = True
+
+        boss = Boss(speed_multiplier=0.8)
+
+        map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
+        map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
+
+        boss.center_x = map_width_pixels // 2
+        boss.center_y = map_height_pixels // 2 + 100 * SCALE
+
+        boss.speed = 180 * SCALE
+
+        self.boss_list.append(boss)
+        self.level_message = "ПОЯВИЛСЯ БОСС! УНИЧТОЖЬТЕ ЕГО!"
+        self.level_message_text.text = self.level_message
+        self.show_level_message = True
+        self.level_message_timer = 5.0
+
     def draw_player_health(self):
         hp_ratio = max(0, self.player.health) / 100.0
 
@@ -514,30 +653,30 @@ class GameWindow(arcade.View):
         bar_height = 40 * SCALE
 
         arcade.draw_lbwh_rectangle_outline(
-            left=x,
-            bottom=y,
-            width=bar_width,
-            height=bar_height,
-            color=arcade.color.WHITE,
-            border_width=5
+            x,
+            y,
+            bar_width,
+            bar_height,
+            arcade.color.WHITE,
+            5
         )
 
         arcade.draw_lbwh_rectangle_filled(
-            left=x + 5,
-            bottom=y + 5,
-            width=bar_width - 10,
-            height=bar_height - 10,
-            color=arcade.color.BLACK
+            x + 5,
+            y + 5,
+            bar_width - 10,
+            bar_height - 10,
+            arcade.color.BLACK
         )
 
         fill_width = (bar_width - 10) * hp_ratio
         fill_color = arcade.color.GREEN if hp_ratio > 0.5 else arcade.color.ORANGE if hp_ratio > 0.25 else arcade.color.RED
         arcade.draw_lbwh_rectangle_filled(
-            left=x + 5,
-            bottom=y + 5,
-            width=fill_width,
-            height=bar_height - 10,
-            color=fill_color
+            x + 5,
+            y + 5,
+            fill_width,
+            bar_height - 10,
+            fill_color
         )
 
         arcade.draw_text(
@@ -561,20 +700,20 @@ class GameWindow(arcade.View):
             bar_height = 14 * SCALE
 
             arcade.draw_lbwh_rectangle_outline(
-                left=left,
-                bottom=bottom,
-                width=bar_width,
-                height=bar_height,
-                color=arcade.color.WHITE_SMOKE,
-                border_width=int(2 * SCALE)
+                left,
+                bottom,
+                bar_width,
+                bar_height,
+                arcade.color.WHITE_SMOKE,
+                int(2 * SCALE)
             )
 
             arcade.draw_lbwh_rectangle_filled(
-                left=left + 2 * SCALE,
-                bottom=bottom + 2 * SCALE,
-                width=bar_width - 4 * SCALE,
-                height=bar_height - 4 * SCALE,
-                color=arcade.color.DARK_GRAY
+                left + 2 * SCALE,
+                bottom + 2 * SCALE,
+                bar_width - 4 * SCALE,
+                bar_height - 4 * SCALE,
+                arcade.color.DARK_GRAY
             )
 
             fill_width = (bar_width - 4 * SCALE) * hp_ratio
@@ -584,11 +723,11 @@ class GameWindow(arcade.View):
                 arcade.color.RED
             )
             arcade.draw_lbwh_rectangle_filled(
-                left=left + 2 * SCALE,
-                bottom=bottom + 2 * SCALE,
-                width=fill_width,
-                height=bar_height - 4 * SCALE,
-                color=fill_color
+                left + 2 * SCALE,
+                bottom + 2 * SCALE,
+                fill_width,
+                bar_height - 4 * SCALE,
+                fill_color
             )
 
     def draw_enemy_health_bars(self):
@@ -602,20 +741,20 @@ class GameWindow(arcade.View):
                 bar_height = 14 * SCALE
 
                 arcade.draw_lbwh_rectangle_outline(
-                    left=left,
-                    bottom=bottom,
-                    width=bar_width,
-                    height=bar_height,
-                    color=arcade.color.WHITE_SMOKE,
-                    border_width=int(2 * SCALE)
+                    left,
+                    bottom,
+                    bar_width,
+                    bar_height,
+                    arcade.color.WHITE_SMOKE,
+                    int(2 * SCALE)
                 )
 
                 arcade.draw_lbwh_rectangle_filled(
-                    left=left + 2 * SCALE,
-                    bottom=bottom + 2 * SCALE,
-                    width=bar_width - 4 * SCALE,
-                    height=bar_height - 4 * SCALE,
-                    color=arcade.color.DARK_GRAY
+                    left + 2 * SCALE,
+                    bottom + 2 * SCALE,
+                    bar_width - 4 * SCALE,
+                    bar_height - 4 * SCALE,
+                    arcade.color.DARK_GRAY
                 )
 
                 fill_width = (bar_width - 4 * SCALE) * hp_ratio
@@ -625,11 +764,65 @@ class GameWindow(arcade.View):
                     arcade.color.RED
                 )
                 arcade.draw_lbwh_rectangle_filled(
-                    left=left + 2 * SCALE,
-                    bottom=bottom + 2 * SCALE,
-                    width=fill_width,
-                    height=bar_height - 4 * SCALE,
-                    color=fill_color
+                    left + 2 * SCALE,
+                    bottom + 2 * SCALE,
+                    fill_width,
+                    bar_height - 4 * SCALE,
+                    fill_color
+                )
+
+        for boss in self.boss_list:
+            if not boss.is_dead and boss.health > 0:
+                hp_ratio = max(0, boss.health) / boss.max_health
+
+                left = boss.center_x - 70 * SCALE
+                bottom = boss.center_y + 100 * SCALE
+                bar_width = 140 * SCALE
+                bar_height = 20 * SCALE
+
+                arcade.draw_lbwh_rectangle_outline(
+                    left,
+                    bottom,
+                    bar_width,
+                    bar_height,
+                    (255, 255, 0, 255),
+                    int(3 * SCALE)
+                )
+
+                arcade.draw_lbwh_rectangle_filled(
+                    left + 3 * SCALE,
+                    bottom + 3 * SCALE,
+                    bar_width - 6 * SCALE,
+                    bar_height - 6 * SCALE,
+                    (50, 50, 50, 255)
+                )
+
+                fill_width = (bar_width - 6 * SCALE) * hp_ratio
+                fill_color = (
+                    (0, 255, 0, 255) if hp_ratio > 0.6 else
+                    (255, 255, 0, 255) if hp_ratio > 0.3 else
+                    (255, 0, 0, 255)
+                )
+
+                arcade.draw_lbwh_rectangle_filled(
+                    left + 3 * SCALE,
+                    bottom + 3 * SCALE,
+                    fill_width,
+                    bar_height - 6 * SCALE,
+                    fill_color
+                )
+
+                percent_text = f"{int(hp_ratio * 100)}%"
+                arcade.draw_text(
+                    percent_text,
+                    boss.center_x,
+                    bottom + bar_height // 2,
+                    (255, 255, 255, 255),
+                    font_size=int(14 * SCALE),
+                    font_name="Comic Sans MS pixel rus eng",
+                    anchor_x="center",
+                    anchor_y="center",
+                    bold=True
                 )
 
     def on_hide_view(self):
@@ -703,10 +896,16 @@ class GameWindow(arcade.View):
         else:
             if 'other+' in tile_map.sprite_lists:
                 self.other_2_list = tile_map.sprite_lists['other+']
-            if 'heal' in tile_map.sprite_lists:
-                self.heal_list = tile_map.sprite_lists['heal']
 
         self.skeleton_list.clear()
+        self.boss_list.clear()
+        self.boss_spawned = False
+        self.boss_defeated = False
+        self.skeletons_cleared = False
+        self.heal_spawned = False
+
+        if hasattr(self, 'heal_list'):
+            self.heal_list.clear()
 
         if 'skelets' in tile_map.sprite_lists:
             spawn_tiles = tile_map.sprite_lists['skelets']

@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="файл requirements.txt">
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Boss.py" beforeDir="false" afterPath="$PROJECT_DIR$/Boss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/game_settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,24 +53,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.GameWindow.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Hero.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Skelet_enemy.executor&quot;: &quot;Run&quot;,
-    &quot;Python.StartMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests 2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;07a96fbb&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/PythonProjectGametool&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.GameWindow.executor": "Run",
+    "Python.Hero.executor": "Run",
+    "Python.Skelet_enemy.executor": "Run",
+    "Python.StartMenu.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.tests 2.executor": "Run",
+    "Python.tests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "cc2759cb",
+    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\PythonProjectGametool" />
@@ -567,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768759259999</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="...">
+      <option name="closed" value="true" />
+      <created>1768805992415</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1768805992415</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -594,7 +605,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="бесполезный 4" />
     <MESSAGE value="промежуточный коммит, добавлены иконки врагов + скелет стоит не рыпается)" />
     <MESSAGE value="скелетик двигается но почему то дергается" />
     <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
@@ -619,6 +629,7 @@
     <MESSAGE value="сделал слой чтобы спавнить скелетов, чуть чуть починил карту" />
     <MESSAGE value="статистика: Смерти, убийства, время" />
     <MESSAGE value="файл requirements.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="файл requirements.txt" />
+    <MESSAGE value="..." />
+    <option name="LAST_COMMIT_MESSAGE" value="..." />
   </component>
 </project>
