@@ -13,8 +13,8 @@ class Boss(arcade.Sprite):
 
         self.base_speed = 180
         self.speed = self.base_speed * SCALE * speed_multiplier
-        self.health = 500
-        self.max_health = 500
+        self.health = 1000
+        self.max_health = 1000
 
         self.scale = 1.8 * SCALE
 

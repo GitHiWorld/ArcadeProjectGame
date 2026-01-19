@@ -18,6 +18,11 @@ class GameWindow(arcade.View):
         self.map_1_sound = arcade.load_sound('sounds/map_1_sound.mp3', streaming=True)
         self.sound_map1 = None
         self.sound_pos = 0
+        self.current_sound = None
+        self.current_sound_instance = None
+
+        self.map_2_sound = arcade.load_sound('sounds/map_2/map_2.mp3', streaming=True)
+        self.boss_sound = arcade.load_sound('sounds/map_2/boss.mp3', streaming=True)
 
         self.w = WIDTH
         self.h = HEIGHT
@@ -59,6 +64,7 @@ class GameWindow(arcade.View):
         self.boss_defeated = False
         self.skeletons_cleared = False
         self.heal_spawned = False
+        self.heal_spawned_2 = False
 
         cursor(self)
 
@@ -150,6 +156,8 @@ class GameWindow(arcade.View):
         self.other_list.draw()
         self.skeleton_list.draw()
         self.boss_list.draw()
+        if self.what_level(self.map_name) == 1:
+            self.other_list.draw()
         if hasattr(self, 'other_2_list'):
             self.other_2_list.draw()
         if hasattr(self, 'heal_list'):
@@ -376,7 +384,36 @@ class GameWindow(arcade.View):
         if key in self.keys_pressed:
             self.keys_pressed.remove(key)
 
+    def change_background_music(self, sound_to_play=None):
+        if self.current_sound_instance:
+            try:
+                self.current_sound_instance.stop()
+                self.current_sound_instance.delete()
+            except:
+                pass
+            self.current_sound_instance = None
+
+        if sound_to_play is None:
+            if self.what_level(self.map_name) == 1:
+                self.current_sound = self.map_1_sound
+            elif self.what_level(self.map_name) == 2:
+                if self.boss_spawned and not self.boss_defeated:
+                    self.current_sound = self.boss_sound
+                else:
+                    self.current_sound = self.map_2_sound
+        else:
+            self.current_sound = sound_to_play
+
+        if self.sound_enabled and self.current_sound:
+            self.current_sound_instance = arcade.play_sound(
+                self.current_sound,
+                volume=self.volume,
+                loop=True
+            )
+
     def on_update(self, delta_time):
+        self.skeleton_list = arcade.SpriteList()
+
         if not self.show_results:
             self.game_time = time.time() - self.start_time
 
@@ -410,7 +447,7 @@ class GameWindow(arcade.View):
 
             if hasattr(self, 'next_list'):
                 next_collison = arcade.check_for_collision_with_list(self.player, self.next_list)
-                if next_collison and not self.show_subtitles :
+                if next_collison and not self.show_subtitles or 0 == 0:
                     self.level_message = "Уничтожь всех стражей тьмы"
                     self.level_message_text.text = self.level_message
                     self.show_level_message = True
@@ -438,6 +475,8 @@ class GameWindow(arcade.View):
                     self.attack_hit_boss.clear()
                     self.skeletons_cleared = False
                     self.heal_spawned = False
+
+                    self.change_background_music()
 
         elif self.what_level(self.map_name) == 2:
             if len(self.skeleton_list) == 0 and not self.skeletons_cleared and not self.heal_spawned:
@@ -485,8 +524,14 @@ class GameWindow(arcade.View):
                                 self.attack_hit_skeletons.add(id(skeleton))
 
                 for boss in self.boss_list:
-                    if (attack_left <= boss.center_x <= attack_right and
-                            attack_bottom <= boss.center_y <= attack_top):
+                    boss_left = boss.center_x - boss.width / 2
+                    boss_right = boss.center_x + boss.width / 2
+                    boss_bottom = boss.center_y - boss.height / 2
+                    boss_top = boss.center_y + boss.height / 2
+
+                    if (attack_left <= boss_right and attack_right >= boss_left and
+                            attack_bottom <= boss_top and attack_top >= boss_bottom):
+
                         if id(boss) not in self.attack_hit_boss:
                             damage = random.randint(20, 30)
                             if boss.take_damage(damage, self.player.center_x):
@@ -524,9 +569,9 @@ class GameWindow(arcade.View):
                                              (boss.center_y - self.player.center_y) ** 2)
 
                         if distance <= boss.atc_range:
-                            damage = 50
+                            damage = random.randint(20, 30)
                             if boss.is_using_special_attack:
-                                damage = 75
+                                damage = random.randint(45, 50)
 
                             self.player.take_damage(damage, boss.center_x)
                             boss.last_attack_time = current_time
@@ -586,6 +631,11 @@ class GameWindow(arcade.View):
                 self.results_timer = 10.0
                 self.results_shown = True
 
+        if self.boss_spawned and not self.heal_spawned_2:
+            if self.boss_list[0].health <= self.boss_list[0].max_health // 3:
+                self.heal_spawned_2 = True
+                self.spawn_healing_potion()
+
         if self.player.center_x - self.w // 2 <= 0:
             target_x = self.w // 2
         elif self.player.center_x + self.w // 2 >= map_width_pixels:
@@ -633,8 +683,9 @@ class GameWindow(arcade.View):
         map_width_pixels = self.tile_map.width * self.tile_map.tile_width * (2.5 * SCALE)
         map_height_pixels = self.tile_map.height * self.tile_map.tile_height * (2.5 * SCALE)
 
-        boss.center_x = map_width_pixels // 2
-        boss.center_y = map_height_pixels // 2 + 100 * SCALE
+        for i in self.boss_tile_list:
+            boss.center_x = i.center_x
+            boss.center_y = i.center_y
 
         boss.speed = 180 * SCALE
 
@@ -643,6 +694,8 @@ class GameWindow(arcade.View):
         self.level_message_text.text = self.level_message
         self.show_level_message = True
         self.level_message_timer = 5.0
+
+        self.change_background_music()
 
     def draw_player_health(self):
         hp_ratio = max(0, self.player.health) / 100.0
@@ -826,16 +879,23 @@ class GameWindow(arcade.View):
                 )
 
     def on_hide_view(self):
-        if self.sound_map1:
+        # if self.sound_map1:
+        #     try:
+        #         self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
+        #     except:
+        #         self.sound_pos = 0
+        #
+        #     try:
+        #         self.sound_map1.pause()
+        #     except:
+        #         pass
+        if self.current_sound_instance:
             try:
-                self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
-            except:
-                self.sound_pos = 0
-
-            try:
-                self.sound_map1.pause()
+                self.current_sound_instance.stop()
+                self.current_sound_instance.delete()
             except:
                 pass
+            self.current_sound_instance = None
 
         if hasattr(self, 'cursors_list'):
             self.cursors_list.clear()
@@ -856,23 +916,39 @@ class GameWindow(arcade.View):
             self.fixed_game_time = 0.0
 
         settings = load_settings()
-        volume = settings.get("volume", 70) / 100.0
-        sound_enabled = settings.get("sound_enabled", True)
+        self.volume = settings.get("volume", 70) / 100.0
+        volume = self.volume
+        self.sound_enabled = settings.get("sound_enabled", True)
+        sound_enabled = self.sound_enabled
 
-        if sound_enabled:
-            self.sound_map1 = arcade.play_sound(
-                self.map_1_sound,
-                volume=volume,
-                loop=True
-            )
-
-            if hasattr(self, 'sound_pos') and self.sound_pos > 0:
-                try:
-                    self.sound_map1.seek(self.sound_pos)
-                except:
-                    pass
-        else:
-            self.sound_map1 = None
+        # if sound_enabled:
+        #     if self.what_level(self.map_name) == 1:
+        #         self.sound_map1 = arcade.play_sound(
+        #             self.map_1_sound,
+        #             volume=volume,
+        #             loop=True
+        #         )
+        #     elif self.what_level(self.map_name) == 2 and not self.boss_spawned:
+        #         self.sound_map1 = arcade.play_sound(
+        #             self.map_2_sound,
+        #             volume=volume,
+        #             loop=True
+        #         )
+        #     else:
+        #         self.sound_map1 = arcade.play_sound(
+        #             self.boss_sound,
+        #             volume=volume,
+        #             loop=True
+        #         )
+        #
+        #     if hasattr(self, 'sound_pos') and self.sound_pos > 0:
+        #         try:
+        #             self.sound_map1.seek(self.sound_pos)
+        #         except:
+        #             pass
+        # else:
+        #     self.sound_map1 = None
+        self.change_background_music()
 
         self.keys_pressed = set()
 
@@ -896,6 +972,8 @@ class GameWindow(arcade.View):
         else:
             if 'other+' in tile_map.sprite_lists:
                 self.other_2_list = tile_map.sprite_lists['other+']
+            if 'boss' in tile_map.sprite_lists:
+                self.boss_tile_list = tile_map.sprite_lists['boss']
 
         self.skeleton_list.clear()
         self.boss_list.clear()
