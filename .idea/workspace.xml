@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="...">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonProjectGametool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0c653048-538d-4f7d-b351-787cf8246c37" name="Changes" comment="коллибровка + звук">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Boss.py" beforeDir="false" afterPath="$PROJECT_DIR$/Boss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game_settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/game_settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_ready.tmx" beforeDir="false" afterPath="$PROJECT_DIR$/images/backgrounds/lvl2/dungeon_lvl2_ready.tmx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sounds/map_2/4.mp3" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +65,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "b2b2be81",
+    "git-widget-placeholder": "e993c02a",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/PythonProjectGametool",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie"
   }
@@ -583,7 +577,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768805992415</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="коллибровка + звук">
+      <option name="closed" value="true" />
+      <created>1768834507861</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1768834507861</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -610,7 +612,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="промежуточный коммит, добавлены иконки врагов + скелет стоит не рыпается)" />
     <MESSAGE value="скелетик двигается но почему то дергается" />
     <MESSAGE value="скелетик идет и даже не дрожит, когда подходит - останавливается (боится)" />
     <MESSAGE value="скелетик ходит, атакует в радиусе 50px" />
@@ -635,6 +636,7 @@
     <MESSAGE value="статистика: Смерти, убийства, время" />
     <MESSAGE value="файл requirements.txt" />
     <MESSAGE value="..." />
-    <option name="LAST_COMMIT_MESSAGE" value="..." />
+    <MESSAGE value="коллибровка + звук" />
+    <option name="LAST_COMMIT_MESSAGE" value="коллибровка + звук" />
   </component>
 </project>

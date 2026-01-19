@@ -16,8 +16,6 @@ class GameWindow(arcade.View):
         self.main_menu = menu_view
 
         self.map_1_sound = arcade.load_sound('sounds/map_1_sound.mp3', streaming=True)
-        self.sound_map1 = None
-        self.sound_pos = 0
         self.current_sound = None
         self.current_sound_instance = None
 
@@ -385,31 +383,63 @@ class GameWindow(arcade.View):
             self.keys_pressed.remove(key)
 
     def change_background_music(self, sound_to_play=None):
+        """Изменяет фоновую музыку"""
+        print(f"DEBUG: change_background_music called. sound_to_play={sound_to_play}")
+        print(f"DEBUG: sound_enabled={self.sound_enabled}, volume={self.volume}")
+
+        # Определяем какой звук должен играть
+        target_sound = None
+
+        if sound_to_play is None:
+            if self.what_level(self.map_name) == 1:
+                target_sound = self.map_1_sound
+                print(f"DEBUG: level 1, target_sound=map_1_sound")
+            elif self.what_level(self.map_name) == 2:
+                if self.boss_spawned and not self.boss_defeated:
+                    target_sound = self.boss_sound
+                    print(f"DEBUG: level 2 boss, target_sound=boss_sound")
+                else:
+                    target_sound = self.map_2_sound
+                    print(f"DEBUG: level 2 normal, target_sound=map_2_sound")
+        else:
+            target_sound = sound_to_play
+            print(f"DEBUG: explicit sound passed")
+
+        # Если уже играет нужный звук - ничего не делаем
+        if self.current_sound == target_sound and self.current_sound_instance:
+            print(f"DEBUG: Already playing {target_sound}. Skipping.")
+            return
+
+        # Останавливаем текущую музыку
         if self.current_sound_instance:
+            print(f"DEBUG: Stopping current sound")
             try:
                 self.current_sound_instance.stop()
+            except:
+                pass
+            try:
                 self.current_sound_instance.delete()
             except:
                 pass
             self.current_sound_instance = None
 
-        if sound_to_play is None:
-            if self.what_level(self.map_name) == 1:
-                self.current_sound = self.map_1_sound
-            elif self.what_level(self.map_name) == 2:
-                if self.boss_spawned and not self.boss_defeated:
-                    self.current_sound = self.boss_sound
-                else:
-                    self.current_sound = self.map_2_sound
-        else:
-            self.current_sound = sound_to_play
+        # Запоминаем текущий звук
+        self.current_sound = target_sound
 
+        # Воспроизводим новую музыку, если звук включен
         if self.sound_enabled and self.current_sound:
-            self.current_sound_instance = arcade.play_sound(
-                self.current_sound,
-                volume=self.volume,
-                loop=True
-            )
+            print(f"DEBUG: Playing {self.current_sound} with volume={self.volume}, loop=True")
+            try:
+                self.current_sound_instance = arcade.play_sound(
+                    self.current_sound,
+                    volume=self.volume,
+                    loop=True
+                )
+                print(f"DEBUG: Sound started successfully")
+            except Exception as e:
+                print(f"DEBUG: Error playing sound: {e}")
+        else:
+            print(f"DEBUG: Sound not enabled or no sound to play")
 
     def on_update(self, delta_time):
         self.skeleton_list = arcade.SpriteList()
@@ -476,7 +506,7 @@ class GameWindow(arcade.View):
                     self.skeletons_cleared = False
                     self.heal_spawned = False
 
-                    self.change_background_music()
+                    self.change_background_music(self.map_2_sound)
 
         elif self.what_level(self.map_name) == 2:
             if len(self.skeleton_list) == 0 and not self.skeletons_cleared and not self.heal_spawned:
@@ -695,7 +725,7 @@ class GameWindow(arcade.View):
         self.show_level_message = True
         self.level_message_timer = 5.0
 
-        self.change_background_music()
+        self.change_background_music(self.boss_sound)
 
     def draw_player_health(self):
         hp_ratio = max(0, self.player.health) / 100.0
@@ -879,16 +909,6 @@ class GameWindow(arcade.View):
                 )
 
     def on_hide_view(self):
-        # if self.sound_map1:
-        #     try:
-        #         self.sound_pos = self.map_1_sound.get_stream_position(self.sound_map1)
-        #     except:
-        #         self.sound_pos = 0
-        #
-        #     try:
-        #         self.sound_map1.pause()
-        #     except:
-        #         pass
         if self.current_sound_instance:
             try:
                 self.current_sound_instance.stop()
@@ -917,37 +937,8 @@ class GameWindow(arcade.View):
 
         settings = load_settings()
         self.volume = settings.get("volume", 70) / 100.0
-        volume = self.volume
         self.sound_enabled = settings.get("sound_enabled", True)
-        sound_enabled = self.sound_enabled
 
-        # if sound_enabled:
-        #     if self.what_level(self.map_name) == 1:
-        #         self.sound_map1 = arcade.play_sound(
-        #             self.map_1_sound,
-        #             volume=volume,
-        #             loop=True
-        #         )
-        #     elif self.what_level(self.map_name) == 2 and not self.boss_spawned:
-        #         self.sound_map1 = arcade.play_sound(
-        #             self.map_2_sound,
-        #             volume=volume,
-        #             loop=True
-        #         )
-        #     else:
-        #         self.sound_map1 = arcade.play_sound(
-        #             self.boss_sound,
-        #             volume=volume,
-        #             loop=True
-        #         )
-        #
-        #     if hasattr(self, 'sound_pos') and self.sound_pos > 0:
-        #         try:
-        #             self.sound_map1.seek(self.sound_pos)
-        #         except:
-        #             pass
-        # else:
-        #     self.sound_map1 = None
         self.change_background_music()
 
         self.keys_pressed = set()
