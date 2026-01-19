@@ -6,7 +6,7 @@ from constants import TITLE
 def main():
     window = arcade.Window(fullscreen=True, title=TITLE)
     view = Start_menu()
-    view = GameWindow(1)
+    # view = GameWindow(1)
     window.show_view(view)
     arcade.run()
 

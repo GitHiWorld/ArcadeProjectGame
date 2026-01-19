@@ -16,7 +16,6 @@ class Start_menu(arcade.View):
         self.pressed_button = None
         self.sound = None
 
-        # Используем глобальные размеры
         self.w = WIDTH
         self.h = HEIGHT
 
@@ -229,5 +228,4 @@ class Start_menu(arcade.View):
         else:
             self.sound = None
 
-        # Обновляем позиции
         self.on_resize(WIDTH, HEIGHT)

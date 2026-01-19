@@ -85,7 +85,9 @@ class PauseView(arcade.View):
         elif clicked == self.exit_game:
             arcade.exit()
         elif clicked == self.main_menu:
-            self.window.show_view(self.menu_view)
+            from StartMenu import Start_menu
+            menu_view = Start_menu()
+            self.window.show_view(menu_view)
 
     def on_mouse_release(self, x, y, button, modifiers):
         if button != arcade.MOUSE_BUTTON_LEFT:
