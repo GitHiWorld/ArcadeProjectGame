@@ -1,5 +1,5 @@
 {
   "volume": 70,
-  "sound_enabled": true,
+  "sound_enabled": false,
   "sensitivity": 50
 }
