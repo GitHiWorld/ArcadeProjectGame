@@ -24,6 +24,9 @@ class PauseView(arcade.View):
         self.exit_game = arcade.Sprite('images/sprites/exit.png', scale=button_scale)
         self.main_menu = arcade.Sprite('images/sprites/main_menu.png', scale=main_menu_scale)
 
+        self.volume = game_view.volume if hasattr(game_view, 'volume') else 0.7
+        self.sound_enabled = game_view.sound_enabled if hasattr(game_view, 'sound_enabled') else True
+
         self.update_button_positions()
 
         self.button_list = arcade.SpriteList()
@@ -46,6 +49,10 @@ class PauseView(arcade.View):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
+            settings = self.game_view.load_settings()
+            self.game_view.volume = settings.get("volume", 70) / 100.0
+            self.game_view.sound_enabled = settings.get("sound_enabled", True)
+            self.game_view.change_background_music()
             self.window.show_view(self.game_view)
 
     def on_show_view(self):
@@ -78,8 +85,13 @@ class PauseView(arcade.View):
         self.pressed_button = clicked
 
         if clicked == self.play:
+            settings = self.game_view.load_settings()
+            self.game_view.volume = settings.get("volume", 70) / 100.0
+            self.game_view.sound_enabled = settings.get("sound_enabled", True)
+            self.game_view.change_background_music()
             self.window.show_view(self.game_view)
         elif clicked == self.settings:
+            ettings_view = SettingsView(self)
             settings_view = SettingsView(self)
             self.window.show_view(settings_view)
         elif clicked == self.exit_game:
