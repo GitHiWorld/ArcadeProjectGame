@@ -156,8 +156,7 @@ class GameWindow(arcade.View):
         self.other_list.draw()
         self.skeleton_list.draw()
         self.boss_list.draw()
-        if self.what_level(self.map_name) == 1:
-            self.other_list.draw()
+        self.other_list.draw()
         if hasattr(self, 'other_2_list'):
             self.other_2_list.draw()
         if hasattr(self, 'heal_list'):
